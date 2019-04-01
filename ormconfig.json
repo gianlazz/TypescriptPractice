@@ -3,12 +3,12 @@
     "host": "localhost",
     "port": 5432,
     "username": "test",
-    "password": "test",
+    "password": "Password123",
     "database": "test",
     "synchronize": true,
     "logging": true,
     "entities": [
-       "src/entity/**/*.ts"
+       "src/entity/**/*.js"
     ],
     "migrations": [
        "src/migration/**/*.ts"

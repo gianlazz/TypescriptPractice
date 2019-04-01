@@ -21,6 +21,10 @@
     - Authentication with okta service
     - Express based REST with postgresql dal for CRUD
 
+### Debugging Resources:
+- https://stackoverflow.com/questions/50361948/syntaxerror-unexpected-token-import-typeorm-entity
+   - ormconfig.json entities should be .js because they'll be used post build.
+
 ## TypeORM Setup:
 
 ---
@@ -58,29 +62,29 @@ mkdir migration
 Add the following example to the ormconfig.json. Logging has been changed to true.
 ```Json
 {
-   "type": "postgres",
-   "host": "localhost",
-   "port": 5432,
-   "username": "test",
-   "password": "test",
-   "database": "test",
-   "synchronize": true,
-   "logging": true,
-   "entities": [
-      "src/entity/**/*.ts"
-   ],
-   "migrations": [
-      "src/migration/**/*.ts"
-   ],
-   "subscribers": [
-      "src/subscriber/**/*.ts"
-   ],
-   "cli": {
-      "entitiesDir": "src/entity",
-      "migrationsDir": "src/migration",
-      "subscribersDir": "src/subscriber"
-   }
-}
+    "type": "postgres",
+    "host": "localhost",
+    "port": 5432,
+    "username": "test",
+    "password": "Password123",
+    "database": "test",
+    "synchronize": true,
+    "logging": true,
+    "entities": [
+       "src/entity/**/*.ts"
+    ],
+    "migrations": [
+       "src/migration/**/*.ts"
+    ],
+    "subscribers": [
+       "src/subscriber/**/*.ts"
+    ],
+    "cli": {
+       "entitiesDir": "src/entity",
+       "migrationsDir": "src/migration",
+       "subscribersDir": "src/subscriber"
+    }
+ }
 ```
 Adding entities based on the first learning resource tutorial for Guitar CRUD:
 ```
@@ -193,3 +197,4 @@ server started at http://localhost:8080
   line: '328',
   routine: 'auth_failed' }
 ```
+The error above is because you need to create the user: test with password: Password123. Then you have to create the database.
