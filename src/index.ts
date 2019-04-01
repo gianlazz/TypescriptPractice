@@ -2,6 +2,9 @@ import dotenv from "dotenv";
 import express from "express";
 import path from "path";
 const app = express();
+
+// Configure Express to parse incoming JSON data
+app.use( express.json() );
 import * as sessionAuth from "./middleware/sessionAuth";
 import * as routes from "./routes";
 
