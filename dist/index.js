@@ -15,10 +15,11 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 require("reflect-metadata");
 const app = express_1.default();
-// Configure Express to parse incoming JSON data
-app.use(express_1.default.json());
+const typeorm_1 = require("typeorm");
 const sessionAuth = __importStar(require("./middleware/sessionAuth"));
 const routes = __importStar(require("./routes"));
+// Configure Express to parse incoming JSON data
+app.use(express_1.default.json());
 // initialize configuration
 dotenv_1.default.config();
 // port is now available to the Node.js runtime
@@ -33,6 +34,17 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 sessionAuth.register(app);
 // Configure routes
 routes.register(app);
+// Create connection to database with TypeORM ormconfig.json
+typeorm_1.createConnection()
+    .then((connection) => {
+    // Here you can start working with your entities
+    // tslint:disable-next-line:no-console
+    console.log("Connected to database with TypeORM.");
+})
+    .catch((error) => {
+    // tslint:disable-next-line:no-console
+    console.log(error);
+});
 // start the Express server
 app.listen(port, () => {
     // tslint:disable-next-line:no-console

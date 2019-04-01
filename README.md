@@ -135,3 +135,61 @@ CREATE TABLE IF NOT EXISTS guitars (
     , color varchar(50) NULL
 );
  ```
+
+ Create the database connection in src/index.ts
+ ```Typescript
+import "reflect-metadata";
+import {createConnection} from "typeorm";
+
+// Create connection to database with TypeORM ormconfig.json
+createConnection()
+    .then((connection) => {
+        // Here you can start working with your entities
+        // tslint:disable-next-line:no-console
+        console.log("Connected to database with TypeORM.");
+    })
+    .catch((error) => {
+        // tslint:disable-next-line:no-console
+        console.log(error);
+    });
+```
+
+Running `npm run dev` should return the following results:
+```
+✨  Built in 381ms.
+
+dist/public/js/main.js.map    768.41 KB     68ms
+dist/public/js/main.js        285.48 KB    273ms
+
+> ts_practice@1.0.0 start /Users/gian.lazzarini/Development/TS_Practice
+> node .
+
+server started at http://localhost:8080
+{ error: password authentication failed for user "test"
+    at Connection.parseE (/Users/gian.lazzarini/Development/TS_Practice/node_modules/pg/lib/connection.js:601:11)
+    at Connection.parseMessage (/Users/gian.lazzarini/Development/TS_Practice/node_modules/pg/lib/connection.js:398:19)
+    at Socket.<anonymous> (/Users/gian.lazzarini/Development/TS_Practice/node_modules/pg/lib/connection.js:120:22)
+    at Socket.emit (events.js:189:13)
+    at addChunk (_stream_readable.js:284:12)
+    at readableAddChunk (_stream_readable.js:265:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead [as onread] (internal/stream_base_commons.js:94:17)
+  name: 'error',
+  length: 100,
+  severity: 'FATAL',
+  code: '28P01',
+  detail: undefined,
+  hint: undefined,
+  position: undefined,
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'auth.c',
+  line: '328',
+  routine: 'auth_failed' }
+```

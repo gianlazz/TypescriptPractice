@@ -3,11 +3,12 @@ import express from "express";
 import path from "path";
 import "reflect-metadata";
 const app = express();
+import { createConnection } from "typeorm";
+import * as sessionAuth from "./middleware/sessionAuth";
+import * as routes from "./routes";
 
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
-import * as sessionAuth from "./middleware/sessionAuth";
-import * as routes from "./routes";
 
 // initialize configuration
 dotenv.config();
@@ -28,6 +29,18 @@ sessionAuth.register( app );
 
 // Configure routes
 routes.register( app );
+
+// Create connection to database with TypeORM ormconfig.json
+createConnection()
+    .then((connection) => {
+        // Here you can start working with your entities
+        // tslint:disable-next-line:no-console
+        console.log("Connected to database with TypeORM.");
+    })
+    .catch((error) => {
+        // tslint:disable-next-line:no-console
+        console.log(error);
+    });
 
 // start the Express server
 app.listen( port, () => {

@@ -1,24 +1,24 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
 export class Guitar {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column()
-    userId: string;
+    public userId: string;
 
     @Column()
-    brand: string;
+    public brand: string;
 
     @Column()
-    model: number;
+    public model: number;
 
     @Column({ nullable: true })
-    year: number;
+    public year: number;
 
     @Column({ nullable: true })
-    color: string;
-    
+    public color: string;
+
 }
