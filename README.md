@@ -7,6 +7,7 @@
     - Express
     - EJS
     - TypeORM
+    - VueJS
 - Postgres
 - Docker?
    - Docker Compose?
@@ -59,7 +60,12 @@ cd src
 mkdir entity
 mkdir migration
 ```
-Add the following example to the ormconfig.json. Logging has been changed to true.
+Add the following example to the ormconfig.json.
+Things to note about this config:
+- Logging is set to true to log executed sql
+- The host is pointing to an install of Postgres on your host maching
+- The entities, migrations and subscribers point to the ts compiled js in dis/
+- Synchronise is set to true so entity changes get executed against the db instantly **Do not use with production!** 
 ```Json
 {
     "type": "postgres",
@@ -71,13 +77,13 @@ Add the following example to the ormconfig.json. Logging has been changed to tru
     "synchronize": true,
     "logging": true,
     "entities": [
-       "src/entity/**/*.ts"
+       "dist/entity/**/*.js"
     ],
     "migrations": [
-       "src/migration/**/*.ts"
+       "dist/migration/**/*.js"
     ],
     "subscribers": [
-       "src/subscriber/**/*.ts"
+       "dist/subscriber/**/*.js"
     ],
     "cli": {
        "entitiesDir": "src/entity",
