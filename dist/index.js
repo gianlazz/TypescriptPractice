@@ -14,6 +14,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const app = express_1.default();
+// Configure Express to parse incoming JSON data
+app.use(express_1.default.json());
 const sessionAuth = __importStar(require("./middleware/sessionAuth"));
 const routes = __importStar(require("./routes"));
 // initialize configuration
@@ -24,6 +26,8 @@ const port = process.env.SERVER_PORT;
 // Configure Express to use EJS
 app.set("views", path_1.default.join(__dirname, "views"));
 app.set("view engine", "ejs");
+// Configure Express to serve static files in the public folder
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 // Configure session auth
 sessionAuth.register(app);
 // Configure routes
