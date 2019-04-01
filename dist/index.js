@@ -13,6 +13,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
+require("reflect-metadata");
 const app = express_1.default();
 // Configure Express to parse incoming JSON data
 app.use(express_1.default.json());

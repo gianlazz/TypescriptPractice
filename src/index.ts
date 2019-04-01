@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import path from "path";
+import "reflect-metadata";
 const app = express();
 
 // Configure Express to parse incoming JSON data
