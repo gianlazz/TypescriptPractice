@@ -104,7 +104,8 @@ export const register = ( app: express.Application ) => {
             const userId = req.userContext.userinfo.sub;
             console.log(userId);
             console.log("Add");
-            console.log(req.body);
+            console.log("req.body: " + req.body);
+            console.log("req.json: " + req.json);
 
             // const id = await db.one( `
             //     INSERT INTO guitars( user_id, brand, model, year, color )
@@ -113,8 +114,18 @@ export const register = ( app: express.Application ) => {
             //     { userId, ...req.body  } );
 
             const id = 0;
-            const response = res.json() as object;
+            const response = req.body;
             const newGuitar = new Guitar();
+            newGuitar.userId = userId;
+            newGuitar.year = response.year;
+            newGuitar.brand = response.brand;
+            newGuitar.model = response.model;
+            newGuitar.color = response.color;
+            console.log("newGuitar Id: " + newGuitar.id);
+            Guitar.create(newGuitar);
+            newGuitar.save();
+            console.log("newGuitar Id after saving: " + newGuitar.id);
+
             return res.json( { id } );
         } catch ( err ) {
             // tslint:disable-next-line:no-console

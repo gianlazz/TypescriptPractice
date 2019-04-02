@@ -25,6 +25,7 @@
 ### Debugging Resources:
 - https://stackoverflow.com/questions/50361948/syntaxerror-unexpected-token-import-typeorm-entity
    - ormconfig.json entities should be .js because they'll be used post build.
+- https://stackoverflow.com/questions/49990513/tslint-says-calls-to-console-log-are-not-allowed-how-do-i-allow-this
 
 ## TypeORM Setup:
 
