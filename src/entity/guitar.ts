@@ -13,7 +13,7 @@ export class Guitar extends BaseEntity {
     public brand: string;
 
     @Column({ nullable: false })
-    public model: number;
+    public model: string;
 
     @Column({ nullable: true })
     public year: number;

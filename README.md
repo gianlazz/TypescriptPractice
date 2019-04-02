@@ -104,28 +104,28 @@ And paste in the following:
 ## TypeORM Entity
 - Remember that all primitive types are nullable in javascript so the nullablility must be specified in the entity definition unlike entity framework for C# where int is not nullable but string is. ***This needs to be fact chacked with the TypeORM documentation.***
 ```Typescript
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Guitar {
+export class Guitar extends BaseEntity {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
-    @Column()
-    userId: string;
+    @Column({ nullable: false })
+    public userId: string;
 
-    @Column()
-    brand: string;
+    @Column({ nullable: false })
+    public brand: string;
 
-    @Column()
-    model: number;
-
-    @Column({ nullable: true })
-    year: number;
+    @Column({ nullable: false })
+    public model: string;
 
     @Column({ nullable: true })
-    color: string;
+    public year: number;
+
+    @Column({ nullable: true })
+    public color: string;
 
 }
 ```
