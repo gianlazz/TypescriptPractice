@@ -39,7 +39,8 @@ export const register = ( app: express.Application ) => {
             // return res.json( guitars );
 
             // const allGuitars = Guitar.find();
-            const allGuitars = Guitar.find({userId});
+            const allGuitars = await Guitar.find({userId});
+            console.log(allGuitars);
             return res.json( allGuitars );
         } catch ( err ) {
             // tslint:disable-next-line:no-console
