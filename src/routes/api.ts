@@ -23,8 +23,8 @@ export const register = ( app: express.Application ) => {
     app.get( `/api/guitars/all`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
             const userId = req.userContext.userinfo.sub;
-            // tslint:disable-next-line:no-console
-            console.error(userId);
+            console.log(userId);
+            console.log("All");
 
             // const guitars = await db.any( `
             //     SELECT
@@ -51,8 +51,8 @@ export const register = ( app: express.Application ) => {
     app.get( `/api/guitars/total`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
             const userId = req.userContext.userinfo.sub;
-            // tslint:disable-next-line:no-console
-            console.error(userId);
+            console.log(userId);
+            console.log("Total");
 
             // const total = await db.one( `
             // SELECT  count(*) AS total
@@ -75,8 +75,8 @@ export const register = ( app: express.Application ) => {
     app.get( `/api/guitars/find/:search`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
             const userId = req.userContext.userinfo.sub;
-            // tslint:disable-next-line:no-console
-            console.error(userId);
+            console.log(userId);
+            console.log("Search");
 
             // const guitars = await db.any( `
             //     SELECT
@@ -102,8 +102,9 @@ export const register = ( app: express.Application ) => {
     app.post( `/api/guitars/add`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
             const userId = req.userContext.userinfo.sub;
-            // tslint:disable-next-line:no-console
-            console.error(userId);
+            console.log(userId);
+            console.log("Add");
+            console.log(req.body);
 
             // const id = await db.one( `
             //     INSERT INTO guitars( user_id, brand, model, year, color )
@@ -125,8 +126,8 @@ export const register = ( app: express.Application ) => {
     app.post( `/api/guitars/update`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
             const userId = req.userContext.userinfo.sub;
-            // tslint:disable-next-line:no-console
-            console.error(userId);
+            console.log(userId);
+            console.log("Update");
 
             // const id = await db.one( `
             //     UPDATE guitars
@@ -153,8 +154,8 @@ export const register = ( app: express.Application ) => {
     app.delete( `/api/guitars/remove/:id`, oidc.ensureAuthenticated(), async ( req: any, res ) => {
         try {
             const userId = req.userContext.userinfo.sub;
-            // tslint:disable-next-line:no-console
-            console.error(userId);
+            console.log(userId);
+            console.log("Remove");
 
             // const id = await db.result( `
             //     DELETE
