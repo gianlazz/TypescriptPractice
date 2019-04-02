@@ -1,18 +1,18 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Guitar {
+export class Guitar extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     public id: number;
 
-    @Column()
+    @Column({ nullable: false })
     public userId: string;
 
-    @Column()
+    @Column({ nullable: false })
     public brand: string;
 
-    @Column()
+    @Column({ nullable: false })
     public model: number;
 
     @Column({ nullable: true })
