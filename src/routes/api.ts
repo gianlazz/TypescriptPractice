@@ -168,6 +168,7 @@ export const register = ( app: express.Application ) => {
             const userId = req.userContext.userinfo.sub;
             console.log(userId);
             console.log("Remove");
+            console.log("Remove: " + req.params.id);
 
             // const id = await db.result( `
             //     DELETE
@@ -176,6 +177,9 @@ export const register = ( app: express.Application ) => {
             //     AND     id = $[id]`,
             //     { userId, id: req.params.id  }, ( r ) => r.rowCount );
 
+            // await Guitar.remove({ id: req.params.id });
+            // const guitar = await Guitar.find(req.params.id);
+            await Guitar.delete(req.params.id);
             const id = 0;
             return res.json( { id } );
         } catch ( err ) {
