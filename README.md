@@ -100,8 +100,8 @@ code guitar.ts
 ```
 And paste in the following:
 
-TypeORM Entity
---- 
+## TypeORM Entity
+- Remember that all primitive types are nullable in javascript so the nullablility must be specified in the entity definition unlike entity framework for C# where int is not nullable but string is. ***This needs to be fact chacked with the TypeORM documentation.***
 ```Typescript
 import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
@@ -129,7 +129,7 @@ export class Guitar {
 }
 ```
 
- Equivalent SQL
+ Roughly Equivalent SQL
  ---
  ```SQL
 -- Drops guitars table
@@ -164,43 +164,6 @@ createConnection()
     });
 ```
 
-Running `npm run dev` should return the following results:
-```
-✨  Built in 381ms.
+Now you need to create the user: test with password: Password123. Then you have to create the database.
 
-dist/public/js/main.js.map    768.41 KB     68ms
-dist/public/js/main.js        285.48 KB    273ms
-
-> ts_practice@1.0.0 start /Users/gian.lazzarini/Development/TS_Practice
-> node .
-
-server started at http://localhost:8080
-{ error: password authentication failed for user "test"
-    at Connection.parseE (/Users/gian.lazzarini/Development/TS_Practice/node_modules/pg/lib/connection.js:601:11)
-    at Connection.parseMessage (/Users/gian.lazzarini/Development/TS_Practice/node_modules/pg/lib/connection.js:398:19)
-    at Socket.<anonymous> (/Users/gian.lazzarini/Development/TS_Practice/node_modules/pg/lib/connection.js:120:22)
-    at Socket.emit (events.js:189:13)
-    at addChunk (_stream_readable.js:284:12)
-    at readableAddChunk (_stream_readable.js:265:11)
-    at Socket.Readable.push (_stream_readable.js:220:10)
-    at TCP.onStreamRead [as onread] (internal/stream_base_commons.js:94:17)
-  name: 'error',
-  length: 100,
-  severity: 'FATAL',
-  code: '28P01',
-  detail: undefined,
-  hint: undefined,
-  position: undefined,
-  internalPosition: undefined,
-  internalQuery: undefined,
-  where: undefined,
-  schema: undefined,
-  table: undefined,
-  column: undefined,
-  dataType: undefined,
-  constraint: undefined,
-  file: 'auth.c',
-  line: '328',
-  routine: 'auth_failed' }
-```
-The error above is because you need to create the user: test with password: Password123. Then you have to create the database.
+You should then be able to run `npm run dev`and see the generated sql logged out ending with `Connected to database with TypeORM.`
