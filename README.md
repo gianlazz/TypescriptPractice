@@ -22,10 +22,11 @@
     - Authentication with okta service
     - Express based REST with postgresql dal for CRUD
 
-### Debugging Resources:
+#### Debugging Resources:
 - https://stackoverflow.com/questions/50361948/syntaxerror-unexpected-token-import-typeorm-entity
    - ormconfig.json entities should be .js because they'll be used post build.
 - https://stackoverflow.com/questions/49990513/tslint-says-calls-to-console-log-are-not-allowed-how-do-i-allow-this
+- https://stackoverflow.com/questions/34703398/launching-chrome-and-debugging-from-within-visual-studio-code
 
 ## TypeORM Setup:
 
