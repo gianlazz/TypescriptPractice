@@ -9,7 +9,8 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/dist/index.js",
-            "preLaunchTask": "npm: build"
+            "preLaunchTask": "npm: build",
+            "smartStep": true
         },
         {
             "type": "chrome",
