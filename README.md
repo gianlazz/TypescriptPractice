@@ -169,3 +169,19 @@ createConnection()
 Now you need to create the user: test with password: Password123. Then you have to create the database.
 
 You should then be able to run `npm run dev`and see the generated sql logged out ending with `Connected to database with TypeORM.`
+
+**Typeorm Migrations:**
+
+[Typeorm Migration Generation Youtube Video](https://youtu.be/JfIvPDPUFo4?list=PLN3n1USn4xlmlo0GtSjIeWGXe_Ndo9sYd&t=328)
+
+To generate a migration from changes to you entity run the following:
+```
+npx ts-node ./node_modules/.bin/typeorm migrations:generate -n NameOfExampleMigration
+```
+
+[Typeorm Applying Migration Youtube Video](https://youtu.be/JfIvPDPUFo4?list=PLN3n1USn4xlmlo0GtSjIeWGXe_Ndo9sYd&t=454)
+
+To apply migrations to your database run the following:
+```
+npx ts-node ./node_modules/.bin/typeorm migrations:run
+```
