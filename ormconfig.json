@@ -5,7 +5,7 @@
     "username": "test",
     "password": "Password123",
     "database": "test",
-    "synchronize": true,
+    "synchronize": false,
     "logging": true,
     "entities": [
        "dist/entity/**/*.js"

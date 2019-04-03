@@ -170,18 +170,36 @@ Now you need to create the user: test with password: Password123. Then you have 
 
 You should then be able to run `npm run dev`and see the generated sql logged out ending with `Connected to database with TypeORM.`
 
+**Typeorm Cli:**
+To see the list of Typeorm Cli commands run:
+```
+typeorm
+```
+For example, to drop all tables from the database you can run:
+```
+typeorm schema:drop
+```
+
 **Typeorm Migrations:**
 
 [Typeorm Migration Generation Youtube Video](https://youtu.be/JfIvPDPUFo4?list=PLN3n1USn4xlmlo0GtSjIeWGXe_Ndo9sYd&t=328)
 
-To generate a migration from changes to you entity run the following:
+To generate a migration from changes to you entity run the following if you've installed typeorm globally:
 ```
-npx ts-node ./node_modules/.bin/typeorm migrations:generate -n NameOfExampleMigration
+typeorm migration:generate -n NameOfExampleMigration
+```
+Or run it from a local install:
+```
+npx ts-node ./node_modules/.bin/typeorm migration:generate -n NameOfExampleMigration
 ```
 
 [Typeorm Applying Migration Youtube Video](https://youtu.be/JfIvPDPUFo4?list=PLN3n1USn4xlmlo0GtSjIeWGXe_Ndo9sYd&t=454)
 
-To apply migrations to your database run the following:
+To apply migrations to your database run the following if you've installed typeorm globally:
 ```
-npx ts-node ./node_modules/.bin/typeorm migrations:run
+typeorm migration:run
+```
+Or run it from a local install:
+```
+npx ts-node ./node_modules/.bin/typeorm migration:run
 ```
