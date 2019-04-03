@@ -1,8 +1,8 @@
 import * as express from "express";
 import pgPromise from "pg-promise";
+import { Guitar } from "../dal/entity/guitar";
 // Figure out why the suggested import path doesn't work
 // import { Guitar } from "src/entity/guitar";
-import { Guitar } from "../entity/guitar";
 
 export const register = ( app: express.Application ) => {
     // Authorization

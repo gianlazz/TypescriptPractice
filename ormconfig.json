@@ -8,17 +8,17 @@
     "synchronize": false,
     "logging": true,
     "entities": [
-       "dist/entity/**/*.js"
+       "dist/dal/entity/**/*.js"
     ],
     "migrations": [
-       "dist/migration/**/*.js"
+       "dist/dal/migration/**/*.js"
     ],
     "subscribers": [
-       "dist/subscriber/**/*.js"
+       "dist/dal/subscriber/**/*.js"
     ],
     "cli": {
-       "entitiesDir": "src/entity",
-       "migrationsDir": "src/migration",
-       "subscribersDir": "src/subscriber"
+       "entitiesDir": "src/dal/entity",
+       "migrationsDir": "src/dal/migration",
+       "subscribersDir": "src/dal/subscriber"
     }
  }
