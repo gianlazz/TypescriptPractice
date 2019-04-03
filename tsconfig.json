@@ -8,13 +8,13 @@
         "sourceMap": true,
         "outDir": "dist",
         "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "baseUrl": ".",
-        "paths": {
-            "*": [
-                "node_modules/*"
-            ]
-        }
+        "experimentalDecorators": true
+        // "baseUrl": ".",
+        // "paths": {
+        //     "*": [
+        //         "node_modules/*",
+        //     ]
+        // }
     },
     "include": [
         "src/**/*",

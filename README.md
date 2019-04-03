@@ -21,6 +21,7 @@
     - Contains useful modules for assisting ts dev
     - Authentication with okta service
     - Express based REST with postgresql dal for CRUD
+- https://github.com/benawad/node-ts-graphql-boilerplate/tree/7_gql2ts
 
 #### Debugging Resources:
 - https://stackoverflow.com/questions/50361948/syntaxerror-unexpected-token-import-typeorm-entity
