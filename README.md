@@ -28,6 +28,7 @@
 - https://stackoverflow.com/questions/49990513/tslint-says-calls-to-console-log-are-not-allowed-how-do-i-allow-this
 - https://stackoverflow.com/questions/34703398/launching-chrome-and-debugging-from-within-visual-studio-code
 - https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_smart-stepping
+- https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_restarting-debug-sessions-automatically-when-source-is-edited
 
 ## TypeORM Setup:
 
