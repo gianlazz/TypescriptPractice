@@ -18,7 +18,7 @@ dotenv.config();
 const port = process.env.SERVER_PORT;
 
 // Configure Express to use EJS
-app.set( "views", path.join( __dirname, "views" ) );
+app.set( "views", path.join( __dirname, "../views" ) );
 app.set( "view engine", "ejs" );
 
 // Configure Express to serve static files in the public folder

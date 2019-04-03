@@ -17,9 +17,9 @@
         }
     },
     "include": [
-        "src/**/*"
+        "src/**/*",
     ],
     "exclude": [
-        "src/public"
+        "src/web/public"
     ]
 }
