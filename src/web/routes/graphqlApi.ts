@@ -11,6 +11,20 @@ export const register = ( app: express.Application ) => {
         type Query {
             hello: String
         }
+
+        type Guitar {
+            id: Int!
+            userId: String!
+            brand: String!
+            model: String!
+            year: Int
+            color: String
+        }
+
+        type Mutation {
+            createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar!
+            deleteGuitar(id: Int!): Boolean
+        }
     `);
 
     const rootValue = {
