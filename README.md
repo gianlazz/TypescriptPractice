@@ -252,3 +252,12 @@ app.listen(graphqlPort);
 console.log(`Running a GraphQL API server at http://localhost:${ graphqlPort }/graphql`);
 //#endregion
 ```
+
+Run with `npm run dev` then enter http://localhost:4000/graphql into this page: https://www.graphqlbin.com/v2/new
+
+Enter and run the following in the graphql client:
+```
+query {
+  hello
+}
+```

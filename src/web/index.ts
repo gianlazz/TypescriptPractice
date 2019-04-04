@@ -1,9 +1,5 @@
-import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import graphqlHTTP from "express-graphql";
-import { buildASTSchema } from "graphql";
-import gql from "graphql-tag";
 import path from "path";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
@@ -14,27 +10,6 @@ const app = express();
 
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
-
-//#region GraphQL
-// Use cors for graphql
-app.use(cors());
-
-const schema = buildASTSchema(gql`
-    type Query {
-        hello: String
-    }
-`);
-
-const rootValue = {
-    hello: () => "hello world"
-};
-
-app.use("/graphql", graphqlHTTP({ schema, rootValue}));
-
-const graphqlPort = 4000;
-app.listen(graphqlPort);
-console.log(`Running a GraphQL API server at http://localhost:${ graphqlPort }/graphql`);
-//#endregion
 
 // initialize configuration
 dotenv.config();
@@ -54,6 +29,7 @@ app.use( express.static( path.join( __dirname, "public" ) ) );
 sessionAuth.register( app );
 
 // Configure routes
+// Registers the /routes/index.ts which registers subsequent express .ts files
 routes.register( app );
 
 // Create connection to database with TypeORM ormconfig.json
