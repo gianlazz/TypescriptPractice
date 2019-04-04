@@ -31,6 +31,11 @@
 - https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_smart-stepping
 - https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_restarting-debug-sessions-automatically-when-source-is-edited
 
+#### TypeScript Language Features:
+- https://www.typescriptlang.org/docs/handbook/compiler-options.html
+- https://stackoverflow.com/questions/32906097/preprocessor-defines-in-typescript
+- https://github.com/Microsoft/TypeScript/issues/4691#issuecomment-298653700
+
 ## TypeORM Setup:
 
 ---
