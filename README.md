@@ -211,3 +211,44 @@ Or run it from a local install:
 ```
 npx ts-node ./node_modules/.bin/typeorm migration:run
 ```
+
+## GraphQL Setup:
+
+---
+https://developer.okta.com/blog/2018/09/27/build-a-simple-api-service-with-express-and-graphql
+
+Install the following packages:
+```
+npm install express-graphql @types/express-graphql graphql @types/graphql graphql-tag cors @types/cors
+```
+
+After that I added the following to the root index.ts
+```Typescript
+import graphqlHTTP from "express-graphql";
+import { buildASTSchema } from "graphql";
+import gql from "graphql-tag";
+import path from "path";
+```
+
+```Typescript
+//#region GraphQL
+// Use cors for graphql
+app.use(cors());
+
+const schema = buildASTSchema(gql`
+    type Query {
+        hello: String
+    }
+`);
+
+const rootValue = {
+    hello: () => "hello world"
+};
+
+app.use("/graphql", graphqlHTTP({ schema, rootValue}));
+
+const graphqlPort = 4000;
+app.listen(graphqlPort);
+console.log(`Running a GraphQL API server at http://localhost:${ graphqlPort }/graphql`);
+//#endregion
+```
