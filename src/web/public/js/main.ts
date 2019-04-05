@@ -109,6 +109,33 @@ new Vue( {
                     // tslint:disable-next-line:no-console
                     console.log( err );
                 } );
+
+            axios({
+                url: `http://localhost:8080/graphql`,
+                method: 'post',
+                data: {
+                    query: `
+                        query {
+                            guitars{
+                                id
+                                userId
+                                year
+                                brand
+                                model
+                                color
+                            }
+                        }
+                    `
+                }
+            })
+            .then((result) => {
+                this.isLoading = false;
+                this.guitars = result.data.guitars;
+                console.log("Graphql guitars query results:" + JSON.stringify(result.data));
+            })
+            .catch( (err) => {
+                console.log(err);
+            } );
         }
     },
     mounted() {
