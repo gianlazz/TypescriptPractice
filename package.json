@@ -17,12 +17,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "alias": {
-    "vue": "./node_modules/vue/dist/vue.common.js"
+    "vue": "./node_modules/vue/dist/vue.common.js",
+    "apollo-boost": "./node_modules/apollo-boost/lib/bundle.umd.js",
+    "graphql-tag": "./node_modules/graphql-tag/lib/graphql-tag.umd.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@okta/oidc-middleware": "^1.0.2",
+    "apollo-boost": "^0.3.1",
     "axios": "^0.18.0",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",

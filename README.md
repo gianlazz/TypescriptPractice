@@ -30,6 +30,7 @@
 - https://stackoverflow.com/questions/34703398/launching-chrome-and-debugging-from-within-visual-studio-code
 - https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_smart-stepping
 - https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_restarting-debug-sessions-automatically-when-source-is-edited
+- https://parceljs.org/module_resolution.html
 
 #### TypeScript Language Features:
 - https://www.typescriptlang.org/docs/handbook/compiler-options.html
@@ -261,3 +262,62 @@ query {
   hello
 }
 ```
+
+**GraphQL Client Setup:**
+
+With Axios:
+```Typescript
+addGuitar() {
+            const guitar = {
+                brand: this.brand,
+                color: this.color,
+                model: this.model,
+                year: this.year
+            };
+           
+            axios({
+                url: `http://localhost:8080/graphql`,
+                method: 'post',
+                data: {
+                    query: `
+                        mutation{
+                            createGuitar(
+                              userId: "1"
+                              brand: "${ guitar.brand }"
+                              model: "${ guitar.model }"
+                              year: ${ guitar.year }
+                              color: "${ guitar.color }"
+                            ){
+                              id
+                              userId
+                              brand
+                              model
+                              year
+                              color
+                            }
+                          }
+                    `
+                }
+            }).then((result) => {
+                this.$refs.year.focus();
+                this.brand = "";
+                this.color = "";
+                this.model = "";
+                this.year = "";
+                this.loadGuitars();
+            })
+            .catch( ( err: any ) => {
+                // tslint:disable-next-line:no-console
+                console.log( err );
+            });
+        }
+```
+
+Apollo-client:
+
+Installling the preset package
+```
+npm install apollo-boost graphql-tag graphql --save
+```
+
+

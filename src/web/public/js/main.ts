@@ -1,6 +1,11 @@
 import axios from "axios";
 import * as M from "materialize-css";
 import Vue from "vue";
+import ApolloClient from "apollo-boost";
+import gql from "graphql-tag";
+
+// Links to GraphQL API at /graphql
+const client = new ApolloClient();
 
 // tslint:disable-next-line no-unused-expression
 new Vue( {
@@ -114,25 +119,17 @@ new Vue( {
                 this.loadGuitars();
                 console.log(result.data);
             });
-            // axios({
-            //     url: 'https://1jzxrj179.lp.gql.zone/graphql',
-            //     method: 'post',
-            //     data: {
-            //       query: `
-            //         query PostsForAuthor {
-            //           author(id: 1) {
-            //             firstName
-            //               posts {
-            //                 title
-            //                 votes
-            //               }
-            //             }
-            //           }
-            //         `
-            //     }
-            //   }).then((result) => {
-            //     console.log(result.data)
-            //   });
+
+            // client.query({
+            //     query: gql`
+            //         mutation {
+            //             deleteGuitar(id: ${ id })
+            //         }
+            //     `,
+            // }).then((result) => {
+            //     this.loadGuitars();
+            //     console.log(result.data);
+            // }).catch(error => console.error(error));
         },
         loadGuitars() {
             // axios
