@@ -33,20 +33,56 @@ new Vue( {
                 model: this.model,
                 year: this.year
             };
-            axios
-                .post( "/api/guitars/add", guitar )
-                .then( () => {
-                    this.$refs.year.focus();
-                    this.brand = "";
-                    this.color = "";
-                    this.model = "";
-                    this.year = "";
-                    this.loadGuitars();
-                } )
-                .catch( ( err: any ) => {
-                    // tslint:disable-next-line:no-console
-                    console.log( err );
-                } );
+            // axios
+            //     .post( "/api/guitars/add", guitar )
+            //     .then( () => {
+            //         this.$refs.year.focus();
+            //         this.brand = "";
+            //         this.color = "";
+            //         this.model = "";
+            //         this.year = "";
+            //         this.loadGuitars();
+            //     } )
+            //     .catch( ( err: any ) => {
+            //         // tslint:disable-next-line:no-console
+            //         console.log( err );
+            //     } );
+            
+            axios({
+                url: `http://localhost:8080/graphql`,
+                method: 'post',
+                data: {
+                    query: `
+                        mutation{
+                            createGuitar(
+                              userId: "1"
+                              brand: "${ guitar.brand }"
+                              model: "${ guitar.model }"
+                              year: ${ guitar.year }
+                              color: "${ guitar.color }"
+                            ){
+                              id
+                              userId
+                              brand
+                              model
+                              year
+                              color
+                            }
+                          }
+                    `
+                }
+            }).then((result) => {
+                this.$refs.year.focus();
+                this.brand = "";
+                this.color = "";
+                this.model = "";
+                this.year = "";
+                this.loadGuitars();
+            })
+            .catch( ( err: any ) => {
+                // tslint:disable-next-line:no-console
+                console.log( err );
+            });
         },
         confirmDeleteGuitar( id: string ) {
             const guitar = this.guitars.find( ( g ) => g.id === id );
@@ -57,13 +93,13 @@ new Vue( {
             modal.open();
         },
         deleteGuitar( id: string ) {
-            axios
-                .delete( `/api/guitars/remove/${ id }` )
-                .then( this.loadGuitars )
-                .catch( ( err: any ) => {
-                    // tslint:disable-next-line:no-console
-                    console.log( err );
-                } );
+            // axios
+            //     .delete( `/api/guitars/remove/${ id }` )
+            //     .then( this.loadGuitars )
+            //     .catch( ( err: any ) => {
+            //         // tslint:disable-next-line:no-console
+            //         console.log( err );
+            //     } );
             axios({
                 url: `http://localhost:8080/graphql`,
                 method: 'post',
