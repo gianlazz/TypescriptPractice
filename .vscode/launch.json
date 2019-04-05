@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}/dist/web/index.js",
-            "preLaunchTask": "npm: build",
+            "preLaunchTask": "npm: dev",
             "smartStep": true
         },
         {
