@@ -99,16 +99,17 @@ new Vue( {
             //   });
         },
         loadGuitars() {
-            axios
-                .get( "/api/guitars/all" )
-                .then( ( res: any ) => {
-                    this.isLoading = false;
-                    this.guitars = res.data;
-                } )
-                .catch( ( err: any ) => {
-                    // tslint:disable-next-line:no-console
-                    console.log( err );
-                } );
+            // axios
+            //     .get( "/api/guitars/all" )
+            //     .then( ( res: any ) => {
+            //         this.isLoading = false;
+            //         this.guitars = res.data;
+            //         console.log(JSON.stringify(res.data));
+            //     } )
+            //     .catch( ( err: any ) => {
+            //         // tslint:disable-next-line:no-console
+            //         console.log( err );
+            //     } );
 
             axios({
                 url: `http://localhost:8080/graphql`,
@@ -130,8 +131,8 @@ new Vue( {
             })
             .then((result) => {
                 this.isLoading = false;
-                this.guitars = result.data.guitars;
-                console.log("Graphql guitars query results:" + JSON.stringify(result.data));
+                this.guitars = result.data.data.guitars;
+                console.log("Graphql guitars query results:" + JSON.stringify(result.data.data.guitars));
             })
             .catch( (err) => {
                 console.log(err);
