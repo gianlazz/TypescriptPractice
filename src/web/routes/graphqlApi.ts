@@ -58,38 +58,6 @@ export const register = ( app: express.Application ) => {
         hello: () => "hello world"
     };
 
-    // const schema = buildASTSchema(gql`
-    //     type Guitar {
-    //         id: Int
-    //         userId: String
-    //         brand: String
-    //         model: String
-    //         year: Int
-    //         color: String
-    //     }
-
-    //     type Query {
-    //         guitars: [Guitar]
-    //         hello: String
-    //     }
-    // `);
-
-    // // const rootValue = {
-    // //     Query: {
-    // //         hello: () => "hello world"
-    // //     }
-    // // };
-
-    // const rootValue = {
-    //     guitars: async () => {
-    //         //  const guitars = await Guitar.find({ userId });
-    //         const guitars = await Guitar.find();
-    //         console.log(guitars);
-    //         return guitars;
-    //     },
-    //     hello: () => "hello world"
-    // };
-
     app.use("/graphql", graphqlHTTP({ schema, rootValue}));
 
     const graphqlPort = 4000;
