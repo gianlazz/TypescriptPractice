@@ -34,9 +34,8 @@ export const register = ( app: express.Application ) => {
 
     const rootValue = {
         createGuitar: async (guitar: Guitar) => {
-            Guitar.create(guitar);
-            await guitar.save();
-            // return { ...guitar };
+            guitar = await Guitar.create(guitar);
+            guitar.save();
             return guitar;
         },
         deleteGuitar: async (id: number) => {
