@@ -64,6 +64,39 @@ new Vue( {
                     // tslint:disable-next-line:no-console
                     console.log( err );
                 } );
+            axios({
+                url: `http://localhost:8080/graphql`,
+                method: 'post',
+                data: {
+                    query: `
+                        mutation {
+                            deleteGuitar(id: ${ id })
+                        }
+                    `
+                }
+            }).then((result) => {
+                this.loadGuitars();
+                console.log(result.data);
+            });
+            // axios({
+            //     url: 'https://1jzxrj179.lp.gql.zone/graphql',
+            //     method: 'post',
+            //     data: {
+            //       query: `
+            //         query PostsForAuthor {
+            //           author(id: 1) {
+            //             firstName
+            //               posts {
+            //                 title
+            //                 votes
+            //               }
+            //             }
+            //           }
+            //         `
+            //     }
+            //   }).then((result) => {
+            //     console.log(result.data)
+            //   });
         },
         loadGuitars() {
             axios
