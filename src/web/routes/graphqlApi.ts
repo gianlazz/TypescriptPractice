@@ -11,6 +11,57 @@ export const register = ( app: express.Application ) => {
 
     app.use(cors());
 
+    // const schema = buildASTSchema(gql`
+    //     type Guitar {
+    //         id: Int
+    //         userId: String
+    //         brand: String
+    //         model: String
+    //         year: Int
+    //         color: String
+    //     }
+
+    //     type Query {
+    //         guitars: [Guitar]
+    //         hello: String
+    //     }
+
+    //     type Mutation {
+    //         createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
+    //         deleteGuitar(id: Int!): Boolean
+    //     }
+    // `);
+
+    // const rootValue = {
+    //     Mutation: {
+    //         createGuitar: async (guitar: Guitar) => {
+    //             Guitar.create(guitar);
+    //             await guitar.save();
+    //             // return { ...guitar };
+    //             return guitar;
+    //         },
+    //         deleteGuitar: async (id: number) => {
+    //             try {
+    //                 Guitar.delete(id);
+    //                 return true;
+    //             } catch (error) {
+    //                 console.log(error);
+    //                 return false;
+    //             }
+    //         }
+    //     },
+    //     Query: {
+    //         // guitars: async (userId: string) => {
+    //         guitars: async () => {
+    //             //  const guitars = await Guitar.find({ userId });
+    //             const guitars = await Guitar.find();
+    //             console.log(guitars);
+    //             return guitars;
+    //         },
+    //         hello: () => "hello world"
+    //     }
+    // };
+
     const schema = buildASTSchema(gql`
         type Guitar {
             id: Int
@@ -25,41 +76,22 @@ export const register = ( app: express.Application ) => {
             guitars: [Guitar]
             hello: String
         }
-
-        type Mutation {
-            createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
-            deleteGuitar(id: Int!): Boolean
-        }
     `);
 
+    // const rootValue = {
+    //     Query: {
+    //         hello: () => "hello world"
+    //     }
+    // };
+
     const rootValue = {
-        Mutation: {
-            createGuitar: async (guitar: Guitar) => {
-                Guitar.create(guitar);
-                await guitar.save();
-                // return { ...guitar };
-                return guitar;
-            },
-            deleteGuitar: async (id: number) => {
-                try {
-                    Guitar.delete(id);
-                    return true;
-                } catch (error) {
-                    console.log(error);
-                    return false;
-                }
-            }
+        guitars: async () => {
+            //  const guitars = await Guitar.find({ userId });
+            const guitars = await Guitar.find();
+            console.log(guitars);
+            return guitars;
         },
-        Query: {
-            // guitars: async (userId: string) => {
-            guitars: async () => {
-                //  const guitars = await Guitar.find({ userId });
-                const guitars = await Guitar.find();
-                console.log(guitars);
-                return guitars;
-            },
-            hello: () => "hello world"
-        }
+        hello: () => "hello world"
     };
 
     app.use("/graphql", graphqlHTTP({ schema, rootValue}));
