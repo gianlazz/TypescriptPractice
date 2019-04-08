@@ -337,6 +337,11 @@ Install Angular Material: https://material.angular.io/
 ng add @angular/material
 ```
 
+Generating general purpose Nav component:
+```
+ng generate @angular/material:material-nav --name=main-nav
+```
+
 - [Angular Material Introduction & Setup](https://www.youtube.com/watch?v=u679SQsfRVM)
 
 - [Angular Material Responsive Navigation Tutorial](https://www.youtube.com/watch?v=Q6qhzG7mObU)
