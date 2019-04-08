@@ -13,16 +13,19 @@ import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-  { path: 'guitar', component: GuitarsComponent }
+  { path: 'guitar', component: GuitarsComponent },
+  { path: '', component: HomeComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     MainNavComponent,
-    GuitarsComponent
+    GuitarsComponent,
+    HomeComponent
   ],
   imports: [
     RouterModule.forRoot(
