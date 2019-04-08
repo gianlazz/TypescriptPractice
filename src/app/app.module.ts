@@ -11,6 +11,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { GuitarsComponent } from './guitars/guitars.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatInputModule} from '@angular/material/input';
     MatIconModule,
     MatListModule,
     MatTableModule,
-    MatInputModule
+    MatInputModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

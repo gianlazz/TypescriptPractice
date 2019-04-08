@@ -35,21 +35,31 @@
 <br/>
 <h1>Add a guitar</h1>
 <form class="example-form">
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Year" value="">
-  </mat-form-field>
+  <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Year" value="">
+      </mat-form-field>
+    </mat-grid-tile>
 
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Brand" value="">
-  </mat-form-field>
-
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Model" value="">
-  </mat-form-field>
-
-  <mat-form-field class="example-full-width">
-    <input matInput placeholder="Color" value="">
-  </mat-form-field>
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Brand" value="">
+      </mat-form-field>
+    </mat-grid-tile>
+    
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Model" value="">
+      </mat-form-field>
+    </mat-grid-tile>
+    
+    <mat-grid-tile>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="Color" value="">
+      </mat-form-field>
+    </mat-grid-tile>
+  </mat-grid-list>
 </form>
 
 <button mat-raised-button color="accent">Submit</button>
