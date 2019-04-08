@@ -31,6 +31,7 @@
 - https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_smart-stepping
 - https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_restarting-debug-sessions-automatically-when-source-is-edited
 - https://parceljs.org/module_resolution.html
+- https://stackoverflow.com/questions/36172442/how-to-npm-start-at-a-different-directory
 
 #### TypeScript Language Features:
 - https://www.typescriptlang.org/docs/handbook/compiler-options.html
@@ -320,4 +321,22 @@ Installling the preset package
 npm install apollo-boost graphql-tag graphql --save
 ```
 
+## Angular: 
 
+---
+
+**Organizing Repo With Angular Client & Express Backend:**
+- https://www.google.com/search?q=nodejs+server+and+angular+in+same+repository&oq=nodejs+server+and+angular+in+same+repository&aqs=chrome..69i57.9328j0j7&sourceid=chrome&ie=UTF-8
+- https://stackoverflow.com/questions/46212733/angular-2-and-node-js-project-structure
+- https://medium.com/@stephenfluin/adding-a-node-typescript-backend-to-your-angular-app-29b0e9925ff
+
+**Basic Angular Component Setup:**
+
+Install Angular Material: https://material.angular.io/
+```
+ng add @angular/material
+```
+
+- [Angular Material Introduction & Setup](https://www.youtube.com/watch?v=u679SQsfRVM)
+
+- [Angular Material Responsive Navigation Tutorial](https://www.youtube.com/watch?v=Q6qhzG7mObU)
