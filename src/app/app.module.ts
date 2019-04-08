@@ -12,6 +12,11 @@ import { GuitarsComponent } from './guitars/guitars.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { RouterModule, Routes } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'guitar', component: GuitarsComponent }
+];
 
 @NgModule({
   declarations: [
@@ -20,6 +25,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
     GuitarsComponent
   ],
   imports: [
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true} // for debugging
+      ),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

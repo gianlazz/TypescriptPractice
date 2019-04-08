@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 export interface Guitar {
   id: number;
@@ -26,10 +27,19 @@ export class GuitarsComponent implements OnInit {
   displayedColumns: string[] = ['year', 'brand', 'model', 'color'];
   dataSource = ELEMENT_DATA;
 
-  constructor() { 
-  }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  public gotoGuitars(url) {
+    this.router.navigate(url).then( (e) => {
+      if (e) {
+        console.log("Navigation is successful!");
+      } else {
+        console.log("Navigation has failed!");
+      }
+    });
   }
 
 }
