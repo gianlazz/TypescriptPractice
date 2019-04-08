@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "serve": "concurrently \"ng serve\" \"server/node_modules/.bin/ts-node server/src/web/index.ts\""
+    "serve": "concurrently \"ng serve\" \"npm run --prefix server dev\""
   },
   "private": true,
   "dependencies": {
