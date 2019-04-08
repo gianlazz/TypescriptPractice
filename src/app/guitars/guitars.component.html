@@ -1,3 +1,5 @@
+<h1>Guitar list</h1>
+
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <!--- Note that these columns can be defined in any order.
@@ -30,4 +32,26 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<br/>
+<h1>Add a guitar</h1>
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Year" value="">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Brand" value="">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Model" value="">
+  </mat-form-field>
+
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Color" value="">
+  </mat-form-field>
+</form>
+
+<button mat-raised-button color="accent">Submit</button>
+
 
