@@ -352,3 +352,4 @@ Generating a component & navigating to it:
 ```
 ng g component guitars
 ```
+
