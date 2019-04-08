@@ -8,11 +8,13 @@ import { MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from 
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { GuitarsComponent } from './guitars/guitars.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainNavComponent
+    MainNavComponent,
+    GuitarsComponent
   ],
   imports: [
     BrowserModule,

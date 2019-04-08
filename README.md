@@ -345,3 +345,10 @@ ng generate @angular/material:material-nav --name=main-nav
 - [Angular Material Introduction & Setup](https://www.youtube.com/watch?v=u679SQsfRVM)
 
 - [Angular Material Responsive Navigation Tutorial](https://www.youtube.com/watch?v=Q6qhzG7mObU)
+
+Generating a component & navigating to it:
+- [Angular 4 Tutorial: Routing and Navigation Example](https://www.youtube.com/watch?v=YEashNLYRKY)
+
+```
+ng g component guitars
+```
