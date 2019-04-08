@@ -62,5 +62,6 @@ createConnection()
 // start the Express server
 app.listen( port, () => {
     // tslint:disable-next-line:no-console
-    console.log( `server started at http://localhost:${ port }` );
+    console.log( `Server started at http://localhost:${ port }` );
+    console.log(`Running a GraphQL API server at http://localhost:${ port }/graphql`);
 } );

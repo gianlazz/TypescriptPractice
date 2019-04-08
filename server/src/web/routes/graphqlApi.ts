@@ -55,8 +55,4 @@ export const register = ( app: express.Application ) => {
     };
 
     app.use("/graphql", graphqlHTTP({ schema, rootValue}));
-
-    const graphqlPort = 4000;
-    app.listen(graphqlPort);
-    console.log(`Running a GraphQL API server at http://localhost:${ graphqlPort }/graphql`);
 };
