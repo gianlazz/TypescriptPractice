@@ -1,4 +1,3 @@
-import cors = require("cors");
 import express from "express";
 import graphqlHTTP from "express-graphql";
 import { buildASTSchema } from "graphql";
@@ -8,8 +7,6 @@ import { Guitar } from "../../dal/entity/guitar";
 export const register = ( app: express.Application ) => {
     // Authorization
     const oidc = app.locals.oidc;
-
-    app.use(cors());
 
     const schema = buildASTSchema(gql`
         type Guitar {

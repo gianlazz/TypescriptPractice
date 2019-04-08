@@ -1,3 +1,4 @@
+import cors = require("cors");
 import dotenv from "dotenv";
 import express from "express";
 import path from "path";
@@ -10,6 +11,20 @@ const app = express();
 
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
+
+// Configure Express to allow Cross Origin Scripting so server and client can communicate during dev
+app.use(cors());
+// Manual CORS Headers
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, DELETE");
+    if ("OPTIONS" === req.method) {
+        res.sendStatus(200);
+    } else {
+        console.log(`${req.ip} ${req.method} ${req.url}`);
+    }
+});
 
 // initialize configuration
 dotenv.config();
