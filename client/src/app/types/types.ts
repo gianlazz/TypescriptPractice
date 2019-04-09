@@ -10,3 +10,8 @@ export type Guitar = {
 export type Query = {
     guitars: Guitar[];
 }
+
+export type Mutation = {
+    createGuitar: Guitar;
+    deleteGuitar: boolean;
+}
