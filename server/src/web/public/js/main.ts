@@ -57,7 +57,7 @@ new Vue( {
                 url: `http://localhost:8080/graphql`,
                 method: 'post',
                 data: {
-                    query: `
+                    query: gql`
                         mutation{
                             createGuitar(
                               userId: "1"

@@ -51,6 +51,30 @@ export class GuitarsComponent implements OnInit {
       this.guitars.subscribe(res => console.log(res));
   }
 
+  public addGuitar(guitar: Guitar){
+    console.log('Adding guitar.');
+    this.apollo.mutate<Mutation>({
+      mutation: gql`
+        mutation: {
+          createGuitar(
+            userId: ${guitar.userId}
+            brand: "${guitar.brand}"
+            model: "${guitar.model}"
+            year: ${guitar.year}
+            color: "${guitar.color}"
+            ){
+              id
+              userId
+              brand
+              model
+              year
+              color
+            }
+        }
+      `
+    })
+  }
+
   public deleteGuitar(id: number){
     console.log(`Deleting guitar: ${id}`);
     this.apollo.mutate<Mutation>({
