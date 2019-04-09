@@ -24,7 +24,7 @@ const ELEMENT_DATA: Guitar[] = [
 })
 export class GuitarsComponent implements OnInit {
 
-  displayedColumns: string[] = ['year', 'brand', 'model', 'color'];
+  displayedColumns: string[] = ['year', 'brand', 'model', 'color', 'id'];
   dataSource = ELEMENT_DATA;
 
   constructor(private router: Router) { }

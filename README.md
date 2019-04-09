@@ -353,7 +353,7 @@ Generating a component & navigating to it:
 ng g component guitars
 ```
 
-- [Angular Material Data Table Tutorial]()
+- [Angular Material Data Table Tutorial](https://www.youtube.com/watch?v=ao-nY-9biWs&list=PL55RiY5tL51p2R1L8sxaYlzmWh6yIrX8k&index=2)
 
 ```
 ng generate @angular/material:material-table --name=data-table
