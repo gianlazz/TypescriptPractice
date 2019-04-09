@@ -32,6 +32,7 @@
 - https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_restarting-debug-sessions-automatically-when-source-is-edited
 - https://parceljs.org/module_resolution.html
 - https://stackoverflow.com/questions/36172442/how-to-npm-start-at-a-different-directory
+-https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 
 #### TypeScript Language Features:
 - https://www.typescriptlang.org/docs/handbook/compiler-options.html
