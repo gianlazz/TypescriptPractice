@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as faceapi from 'face-api.js';
 
 @Component({
   selector: 'app-face-recognition',
@@ -9,7 +10,17 @@ export class FaceRecognitionComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await faceapi.loadSsdMobilenetv1Model('/models')
+// accordingly for the other models:
+// await faceapi.loadTinyFaceDetectorModel('/models')
+// await faceapi.loadMtcnnModel('/models')
+// await faceapi.loadFaceLandmarkModel('/models')
+// await faceapi.loadFaceLandmarkTinyModel('/models')
+// await faceapi.loadFaceRecognitionModel('/models')
+// await faceapi.loadFaceExpressionModel('/models')
+
+    console.log(faceapi.nets)
   }
 
 }

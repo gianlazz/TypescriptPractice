@@ -24,7 +24,8 @@ import { FaceRecognitionComponent } from './face-recognition/face-recognition.co
 
 const appRoutes: Routes = [
   { path: 'guitar', component: GuitarsComponent },
-  { path: '', component: HomeComponent }
+  { path: '', component: HomeComponent },
+  { path: 'face', component: FaceRecognitionComponent }
 ];
 
 @NgModule({
