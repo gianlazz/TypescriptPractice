@@ -5,6 +5,7 @@ import { Guitar, Query, Mutation } from '../types/types';
 import gql from 'graphql-tag';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-guitars',
@@ -42,8 +43,14 @@ export class GuitarsComponent implements OnInit {
       this.guitars.subscribe(res => console.log(res));
   }
 
-  public addGuitar(){
+  public addGuitar(form: NgForm){
+    console.log(`Form data: ${form.value}`);
     let guitar = this.guitar;
+    guitar.year = +form.value.year;
+    guitar.brand = form.value.brand;
+    guitar.model = form.value.model;
+    guitar.color = form.value.color;
+
     console.log('Adding guitar.');
     this.apollo.mutate<Mutation>({
       mutation: gql`
@@ -64,6 +71,9 @@ export class GuitarsComponent implements OnInit {
             }
         }
       `
+    }).subscribe(res => {
+      this.getAllGuitars();
+      console.log(res);
     })
   }
 

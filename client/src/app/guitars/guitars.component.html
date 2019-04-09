@@ -37,7 +37,7 @@
 <br/>
 
 <!-- <form class="example-form"> -->
-<form class="example-form" #guitarForm="ngForm" (ngSubmit)="addGuitar()">
+<form class="example-form" #guitarForm="ngForm" (ngSubmit)="addGuitar(guitarForm)">
 <h1>Add a guitar</h1>
   <mat-grid-list cols="2" rowHeight="2:1">
     <mat-grid-tile>
