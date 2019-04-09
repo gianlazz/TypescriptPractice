@@ -26,7 +26,7 @@
   <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>  </th>
       <td mat-cell *matCellDef="let element"> 
-          <button mat-raised-button color="accent" (click)="deleteGuitar(element.id)">Delete Id: {{element.id}}</button> 
+          <button mat-raised-button color="accent" (click)="deleteGuitar(element.id)">Delete Id: {{element.id}} <mat-icon>delete</mat-icon></button> 
       </td>
   </ng-container>
 
@@ -65,9 +65,9 @@
     </mat-grid-tile>
   </mat-grid-list>
   <!-- <input type = "submit" value = "submit" color="accent"> -->
-<button mat-raised-button color="accent" type="submit">Submit</button>
+<button mat-raised-button color="accent" type="submit">Submit <mat-icon>send</mat-icon></button>
 </form>
 
-{{guitarForm.value | json}}
+<!-- {{guitarForm.value | json}} -->
 
 

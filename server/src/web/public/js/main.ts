@@ -148,7 +148,7 @@ new Vue( {
                 url: `http://localhost:8080/graphql`,
                 method: 'post',
                 data: {
-                    query: gql`
+                    query: `
                         query {
                             guitars{
                                 id
