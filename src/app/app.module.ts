@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatPaginatorModule, MatSortModule } from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -14,6 +14,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { DataTableComponent } from './data-table/data-table.component';
 
 const appRoutes: Routes = [
   { path: 'guitar', component: GuitarsComponent },
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
     AppComponent,
     MainNavComponent,
     GuitarsComponent,
-    HomeComponent
+    HomeComponent,
+    DataTableComponent
   ],
   imports: [
     RouterModule.forRoot(
@@ -43,7 +45,9 @@ const appRoutes: Routes = [
     MatListModule,
     MatTableModule,
     MatInputModule,
-    MatGridListModule
+    MatGridListModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
