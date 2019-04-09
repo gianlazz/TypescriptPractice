@@ -20,6 +20,7 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { FaceRecognitionComponent } from './face-recognition/face-recognition.component';
 
 const appRoutes: Routes = [
   { path: 'guitar', component: GuitarsComponent },
@@ -32,7 +33,8 @@ const appRoutes: Routes = [
     MainNavComponent,
     GuitarsComponent,
     HomeComponent,
-    DataTableComponent
+    DataTableComponent,
+    FaceRecognitionComponent
   ],
   imports: [
     RouterModule.forRoot(
