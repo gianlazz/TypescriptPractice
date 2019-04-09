@@ -6,6 +6,8 @@ import gql from 'graphql-tag';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { jsonpCallbackContext } from '@angular/common/http/src/module';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-guitars',
@@ -44,23 +46,18 @@ export class GuitarsComponent implements OnInit {
   }
 
   public addGuitar(form: NgForm){
-    console.log(`Form data: ${form.value}`);
-    let guitar = this.guitar;
-    guitar.year = +form.value.year;
-    guitar.brand = form.value.brand;
-    guitar.model = form.value.model;
-    guitar.color = form.value.color;
-
+    console.log('Form data: ' + JSON.stringify(form.value));
+    let guitar = form.value;
     console.log('Adding guitar.');
     this.apollo.mutate<Mutation>({
       mutation: gql`
-        mutation: {
-          createGuitar(
-            userId: ${guitar.userId}
-            brand: "${guitar.brand}"
-            model: "${guitar.model}"
-            year: ${guitar.year}
-            color: "${guitar.color}"
+        mutation{
+            createGuitar(
+              userId: "1"
+              brand: "${ guitar.brand }"
+              model: "${ guitar.model }"
+              year: ${ guitar.year }
+              color: "${ guitar.color }"
             ){
               id
               userId
@@ -69,7 +66,7 @@ export class GuitarsComponent implements OnInit {
               year
               color
             }
-        }
+          }
       `
     }).subscribe(res => {
       this.getAllGuitars();
