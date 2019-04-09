@@ -1,5 +1,11 @@
 # AngularFrontEnd
 
+# Development Notes
+***For reference only and not necessarlily up to date:***
+
+[DEVLOG.md](DEVLOG.md)
+
+---
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
 
 ## Development server

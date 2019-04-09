@@ -15,6 +15,10 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { DataTableComponent } from './data-table/data-table.component';
+import { ApolloModule, Apollo } from 'apollo-angular';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   { path: 'guitar', component: GuitarsComponent },
@@ -47,9 +51,19 @@ const appRoutes: Routes = [
     MatInputModule,
     MatGridListModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    HttpClientModule,
+    ApolloModule,
+    HttpLinkModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+  constructor(apollo: Apollo, httpLink: HttpLink) {
+    apollo.create({
+      link: httpLink.create({ uri: 'http://localhost:8080/graphql' }),
+      cache: new InMemoryCache()
+    })
+  }
+}

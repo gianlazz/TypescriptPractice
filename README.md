@@ -1,8 +1,10 @@
 # Description
 
 ### Server:
+[Server README.md](server/README.md)
 
 ### Client:
+[Client README.md](client/README.md)
 
 # Quick Start
 1. Install Postgresql on your machine
