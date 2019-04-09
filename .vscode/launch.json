@@ -8,7 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/dist/web/index.js",
+            "program": "${workspaceFolder}server/dist/web/index.js",
             "preLaunchTask": "npm: dev",
             "smartStep": true
         },
