@@ -361,3 +361,8 @@ ng generate @angular/material:material-table --name=data-table
 
 - https://angular.io/guide/router
 
+**Setting up Apollo GraphQL with Angular**
+
+- [GraphQL with Apollo Server 2.0](https://www.youtube.com/watch?v=8D9XnnjFGMs)
+- [Apollo Angular GraphQL Optimistic UI](https://www.youtube.com/watch?v=Wc7bJ2uv694)
+
