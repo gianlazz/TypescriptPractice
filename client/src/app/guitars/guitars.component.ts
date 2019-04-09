@@ -7,13 +7,13 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 
-const ELEMENT_DATA: Guitar[] = [
-  {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
-  {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
-  {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
-  {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
-  {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
-];
+// const ELEMENT_DATA: Guitar[] = [
+//   {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
+//   {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
+//   {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
+//   {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
+//   {id: 1, userId: "", year: 2005, brand: "fender", model: 'model', color: "blue"},
+// ];
 
 @Component({
   selector: 'app-guitars',
@@ -22,9 +22,8 @@ const ELEMENT_DATA: Guitar[] = [
 })
 export class GuitarsComponent implements OnInit {
   displayedColumns: string[] = ['year', 'brand', 'model', 'color', 'id'];
-  dataSource = ELEMENT_DATA;
-
   guitars: Observable<Guitar[]>;
+  // dataSource = ELEMENT_DATA;
 
   constructor(private router: Router, private apollo: Apollo) { }
 
