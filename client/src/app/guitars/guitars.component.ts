@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 export class GuitarsComponent implements OnInit {
   displayedColumns: string[] = ['year', 'brand', 'model', 'color', 'id'];
   guitars: Observable<Guitar[]>;
+  guitar: Guitar;
 
   constructor(private router: Router, private apollo: Apollo) { }
 
@@ -41,7 +42,8 @@ export class GuitarsComponent implements OnInit {
       this.guitars.subscribe(res => console.log(res));
   }
 
-  public addGuitar(guitar: Guitar){
+  public addGuitar(){
+    let guitar = this.guitar;
     console.log('Adding guitar.');
     this.apollo.mutate<Mutation>({
       mutation: gql`

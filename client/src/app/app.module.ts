@@ -19,6 +19,7 @@ import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: 'guitar', component: GuitarsComponent },
@@ -54,7 +55,8 @@ const appRoutes: Routes = [
     MatSortModule,
     HttpClientModule,
     ApolloModule,
-    HttpLinkModule
+    HttpLinkModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

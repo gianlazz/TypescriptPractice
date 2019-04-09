@@ -36,36 +36,38 @@
 
 <br/>
 
-<form class="example-form">
+<!-- <form class="example-form"> -->
+<form class="example-form" #guitarForm="ngForm" (ngSubmit)="addGuitar()">
 <h1>Add a guitar</h1>
   <mat-grid-list cols="2" rowHeight="2:1">
     <mat-grid-tile>
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Year" value="">
+        <input id="year" name="year" [(ngModel)]="year" matInput placeholder="Year" value="">
       </mat-form-field>
     </mat-grid-tile>
 
     <mat-grid-tile>
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Brand" value="">
+        <input id="brand" name="brand" [(ngModel)]="brand" matInput placeholder="Brand" value="">
       </mat-form-field>
     </mat-grid-tile>
     
     <mat-grid-tile>
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Model" value="">
+        <input id="model" name="model" [(ngModel)]="model" matInput placeholder="Model" value="">
       </mat-form-field>
     </mat-grid-tile>
     
     <mat-grid-tile>
       <mat-form-field class="example-full-width">
-        <input matInput placeholder="Color" value="">
+        <input id="color" name="color" [(ngModel)]="color"  matInput placeholder="Color" value="">
       </mat-form-field>
     </mat-grid-tile>
   </mat-grid-list>
-
-<button mat-raised-button color="accent">Submit</button>
+  <!-- <input type = "submit" value = "submit" color="accent"> -->
+<button mat-raised-button color="accent" type="submit">Submit</button>
 </form>
 
+{{guitarForm.value | json}}
 
 
