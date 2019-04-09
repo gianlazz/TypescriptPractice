@@ -13,3 +13,5 @@ mkdir src/app/types
 npx apollo-codegen generate introspect-schema http://localhost:8080/graphql --output .src/types/schema.json
 npx apollo-codegen generate **/*.ts --schema ./src/types/schema.json --target typescript --output .src/types/operation-result-types.ts
 ```
+
+- https://stackoverflow.com/questions/39044156/how-can-i-console-log-the-value-of-a-observable
