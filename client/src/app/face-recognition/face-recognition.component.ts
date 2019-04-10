@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
 
 import { interval } from 'rxjs';
+import { FaceMatcher } from 'face-api.js';
 
 @Component({
   selector: 'app-face-recognition',
@@ -23,14 +24,13 @@ export class FaceRecognitionComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await faceapi.loadSsdMobilenetv1Model('/models')
-    // accordingly for the other models:
-    // await faceapi.loadTinyFaceDetectorModel('/models')
-    // await faceapi.loadMtcnnModel('/models')
-    // await faceapi.loadFaceLandmarkModel('/models')
-    // await faceapi.loadFaceLandmarkTinyModel('/models')
-    // await faceapi.loadFaceRecognitionModel('/models')
-    // await faceapi.loadFaceExpressionModel('/models')
+    await faceapi.loadSsdMobilenetv1Model('/models');
+    // await faceapi.loadTinyFaceDetectorModel('/models');
+    // await faceapi.loadMtcnnModel('/models');
+    // await faceapi.loadFaceLandmarkModel('/models');
+    // await faceapi.loadFaceLandmarkTinyModel('/models');
+    await faceapi.loadFaceRecognitionModel('/models');
+    // await faceapi.loadFaceExpressionModel('/models');
 
     console.log(faceapi.nets)
   }
@@ -52,7 +52,7 @@ export class FaceRecognitionComponent implements OnInit {
     // Subscribe to begin publishing values
     secondsCounter.subscribe(async (n) => {
       // Clear the canvas
-      var context = this.canvas.nativeElement.getContext("2d");
+      let context = this.canvas.nativeElement.getContext("2d");
       context.clearRect(0, 0, 640, 480);
 
       const detections = await faceapi.detectAllFaces('video');
@@ -61,6 +61,28 @@ export class FaceRecognitionComponent implements OnInit {
       // draw them into a canvas
       await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
     });
+  }
+
+  async recognize() {
+    // Create an Observable that will publish a value on an interval
+    const secondsCounter = interval(100);
+
+    // Subscribe to begin publishing values
+    secondsCounter.subscribe(async () => {
+      // Clear the canvas
+      let context = this.canvas.nativeElement.getContext("2d");
+
+      const results = await faceapi.detectAllFaces('video').withFaceLandmarks().withFaceDescriptors();
+
+      // create FaceMatcher with automatically assigned labels
+      // from the detection results for the reference image
+      const faceMatcher = new faceapi.FaceMatcher(results);
+      
+      results.forEach(fd => {
+        const bestMatch = faceMatcher.findBestMatch(fd.descriptor);
+        console.log(bestMatch.toString());
+      })
+    })
   }
 
   capture() {
