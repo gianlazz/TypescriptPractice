@@ -40,6 +40,10 @@ app.set( "view engine", "ejs" );
 // Configure Express to serve static files in the public folder
 app.use( express.static( path.join( __dirname, "public" ) ) );
 
+// Configure Express to serve static files in the models folder for face-api.js
+app.use("/models", express.static( path.join( __dirname, "models" ) ) );
+console.log(path.join( __dirname, "models"));
+
 // Configure session auth
 sessionAuth.register( app );
 

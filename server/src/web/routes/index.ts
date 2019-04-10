@@ -28,6 +28,10 @@ export const register = ( app: express.Application ) => {
         res.render( "guitars", { isAuthenticated: req.isAuthenticated(), user } );
     } );
 
+    // app.get('/models', (req, res) => {
+    //     const fileDirectory = __dir
+    // })
+
     // Register the other express .ts sources of routes
     api.register( app );
     graphqlApi.register( app );
