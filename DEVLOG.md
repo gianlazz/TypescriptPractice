@@ -367,3 +367,5 @@ ng generate @angular/material:material-table --name=data-table
 - [GraphQL with Apollo Server 2.0](https://www.youtube.com/watch?v=8D9XnnjFGMs)
 - [Apollo Angular GraphQL Optimistic UI](https://www.youtube.com/watch?v=Wc7bJ2uv694)
 
+# Details about seperating express server and angular during dev with proxy and how to handle production:
+https://stackoverflow.com/questions/42895585/hooking-up-express-js-with-angular-cli-in-dev-environment 

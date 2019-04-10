@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "serve": "concurrently \"ng serve\" \"npm run --prefix ../server dev\""
+    "serve": "concurrently \"ng serve --proxy-config proxy.config.json\" \"npm run --prefix ../server dev\""
   },
   "private": true,
   "dependencies": {
