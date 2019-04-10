@@ -46,46 +46,26 @@ export class FaceRecognitionComponent implements OnInit {
   }
 
   async process() {
-
     // Create an Observable that will publish a value on an interval
-    const secondsCounter = interval(250);
+    const secondsCounter = interval(100);
+
     // Subscribe to begin publishing values
     secondsCounter.subscribe(async (n) => {
       // Clear the canvas
       var context = this.canvas.nativeElement.getContext("2d");
       context.clearRect(0, 0, 640, 480);
 
-      // const input = document.getElementById('myImg');
-      const input = document.getElementById('video');
-      // const input = document.getElementById('myCanvas');
-      // or simply:
-      // const input = 'myImg';
-
       const detections = await faceapi.detectAllFaces('video');
-      console.log('Face detection results: ' + JSON.stringify(detections));
 
       const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
       // draw them into a canvas
       await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
     });
-
-    // // const input = document.getElementById('myImg');
-    // const input = document.getElementById('video');
-    // // const input = document.getElementById('myCanvas');
-    // // or simply:
-    // // const input = 'myImg';
-
-    // const detections = await faceapi.detectAllFaces('video');
-    // console.log('Face detection results: ' + JSON.stringify(detections));
-
-    // const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
-    // // draw them into a canvas
-    // await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
   }
 
   capture() {
-    var context = this.canvas.nativeElement.getContext("2d")
-                      .drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    var context = this.canvas.nativeElement.getContext("2d");
+    context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
 
     let image = this.canvas.nativeElement.toDataURL("image/png");
     this.captures.push(image);
