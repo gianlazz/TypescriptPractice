@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
 
+import { interval } from 'rxjs';
+
 @Component({
   selector: 'app-face-recognition',
   templateUrl: './face-recognition.component.html',
@@ -39,28 +41,45 @@ export class FaceRecognitionComponent implements OnInit {
         this.video.nativeElement.srcObject = stream;
         // this.video.nativeElement.src = window.URL.createObjectURL(stream);
         this.video.nativeElement.play();
-
-        let video = document.getElementById('video');
-        video.addEventListener('play', () => {
-        //  await process();
-        });
       });
     }
   }
 
   async process() {
-    // const input = document.getElementById('myImg');
-    const input = document.getElementById('video');
-    // const input = document.getElementById('myCanvas');
-    // or simply:
-    // const input = 'myImg';
 
-    const detections = await faceapi.detectAllFaces('video');
-    console.log('Face detection results: ' + JSON.stringify(detections));
+    // Create an Observable that will publish a value on an interval
+    const secondsCounter = interval(1000);
+    // Subscribe to begin publishing values
+    secondsCounter.subscribe(async (n) => {
+      console.log(`It's been ${n} seconds since subscribing!`)
 
-    const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
-    // draw them into a canvas
-    await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
+      // const input = document.getElementById('myImg');
+      const input = document.getElementById('video');
+      // const input = document.getElementById('myCanvas');
+      // or simply:
+      // const input = 'myImg';
+
+      const detections = await faceapi.detectAllFaces('video');
+      console.log('Face detection results: ' + JSON.stringify(detections));
+
+      const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
+      // draw them into a canvas
+      await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
+
+    });
+
+    // // const input = document.getElementById('myImg');
+    // const input = document.getElementById('video');
+    // // const input = document.getElementById('myCanvas');
+    // // or simply:
+    // // const input = 'myImg';
+
+    // const detections = await faceapi.detectAllFaces('video');
+    // console.log('Face detection results: ' + JSON.stringify(detections));
+
+    // const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
+    // // draw them into a canvas
+    // await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
   }
 
   capture() {
