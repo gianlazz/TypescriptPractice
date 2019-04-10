@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
 
 @Component({
@@ -8,7 +8,17 @@ import * as faceapi from 'face-api.js';
 })
 export class FaceRecognitionComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild("video")
+  public video: ElementRef;
+
+  @ViewChild("canvas")
+  public canvas: ElementRef;
+
+  public captures: Array<any>;
+
+  constructor() {
+    this.captures = [];
+  }
 
   async ngOnInit() {
     await faceapi.loadSsdMobilenetv1Model('/models')
@@ -21,6 +31,23 @@ export class FaceRecognitionComponent implements OnInit {
 // await faceapi.loadFaceExpressionModel('/models')
 
     console.log(faceapi.nets)
+  }
+
+  ngAfterViewInit(){
+    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        this.video.nativeElement.srcObject = stream;
+        // this.video.nativeElement.src = window.URL.createObjectURL(stream);
+        this.video.nativeElement.play();
+      });
+    }
+  }
+
+  public capture() {
+    var context = 
+      this.canvas.nativeElement.getContext("2d")
+      .drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    this.captures.push(this.canvas.nativeElement.toDataURL("image/png"));
   }
 
 }

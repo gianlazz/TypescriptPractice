@@ -15,3 +15,5 @@ npx apollo-codegen generate **/*.ts --schema ./src/types/schema.json --target ty
 ```
 
 - https://stackoverflow.com/questions/39044156/how-can-i-console-log-the-value-of-a-observable
+
+- https://x-team.com/blog/webcam-image-capture-angular/
