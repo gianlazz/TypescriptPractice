@@ -3,16 +3,21 @@
 </p>
 
 <div id="app">
-  <div><video #video id="video" width="640" height="480" autoplay></video></div>
+  <div>
+    <video #video id="video" width="640" height="480" autoplay></video>
+    <canvas #canvas id="canvas" width="640" height="480"></canvas>
+  </div>
   <div><button id="snap" (click)="capture()">Snap Photo</button></div>
   <div><button id="snap" (click)="process()">Process Photo</button></div>
-  <canvas #canvas id="canvas" width="640" height="480"></canvas>
+  <!-- <canvas #canvas id="canvas" width="640" height="480"></canvas>
 
   <ul>
       <li *ngFor="let c of captures">
           <img src="{{ c }}" height="50" />
       </li>
-  </ul>
+  </ul> -->
 </div>
+<canvas #canvas id="canvas" width="640" height="480"></canvas>
 
-<canvas #canvas id="canvas2" width="640" height="480"></canvas>
+
+<!-- <canvas #canvas id="canvas2" width="640" height="480"></canvas> -->

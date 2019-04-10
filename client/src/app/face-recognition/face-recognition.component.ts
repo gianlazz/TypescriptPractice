@@ -39,6 +39,11 @@ export class FaceRecognitionComponent implements OnInit {
         this.video.nativeElement.srcObject = stream;
         // this.video.nativeElement.src = window.URL.createObjectURL(stream);
         this.video.nativeElement.play();
+
+        let video = document.getElementById('video');
+        video.addEventListener('play', () => {
+        //  await process();
+        });
       });
     }
   }
@@ -55,9 +60,7 @@ export class FaceRecognitionComponent implements OnInit {
 
     const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
     // draw them into a canvas
-    const canvas = document.getElementById('canvas');
-    // canvas.width = 640;
-    await faceapi.drawDetection('canvas2', detectionsForSize, { withScore: true });
+    await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
   }
 
   capture() {

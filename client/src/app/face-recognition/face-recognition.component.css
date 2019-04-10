@@ -5,13 +5,20 @@ body {
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+    position: relative;
 }
 #video {
     background-color: #000000;
 }
 #canvas {
-    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
+
+/* #canvas {
+    display: none;
+} */
 li {
     display: inline;
     padding: 5px;
