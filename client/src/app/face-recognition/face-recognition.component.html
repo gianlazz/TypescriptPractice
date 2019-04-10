@@ -7,8 +7,14 @@
     <video #video id="video" width="640" height="480" autoplay></video>
     <canvas #canvas id="canvas" width="640" height="480"></canvas>
   </div>
-  <div><button id="snap" (click)="capture()">Snap Photo</button></div>
-  <div><button id="snap" (click)="process()">Process Photo</button></div>
+  <div>
+    <button mat-raised-button color="accent" id="snap" (click)="capture()">
+      Snap Photo
+    </button>
+    <button mat-raised-button color="accent" id="snap" (click)="process()">
+      Process Photo
+    </button>
+  </div>
   <!-- <canvas #canvas id="canvas" width="640" height="480"></canvas>
 
   <ul>
