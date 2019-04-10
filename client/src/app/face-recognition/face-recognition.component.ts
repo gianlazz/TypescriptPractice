@@ -52,6 +52,12 @@ export class FaceRecognitionComponent implements OnInit {
 
     const detections = await faceapi.detectAllFaces('video');
     console.log('Face detection results: ' + JSON.stringify(detections));
+
+    const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
+    // draw them into a canvas
+    const canvas = document.getElementById('canvas');
+    // canvas.width = 640;
+    await faceapi.drawDetection('canvas2', detectionsForSize, { withScore: true });
   }
 
   capture() {
