@@ -42,7 +42,7 @@ app.use( express.static( path.join( __dirname, "public" ) ) );
 
 // Configure Express to serve static files in the models folder for face-api.js
 app.use("/models", express.static( path.join( __dirname, "models" ) ) );
-console.log(path.join( __dirname, "models"));
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Configure session auth
 sessionAuth.register( app );

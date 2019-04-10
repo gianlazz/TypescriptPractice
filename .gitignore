@@ -151,6 +151,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Face-api.js models
+# Face-api.js resources
 models/**/*
-!models/.keep
+images/**/*
+!.keep
