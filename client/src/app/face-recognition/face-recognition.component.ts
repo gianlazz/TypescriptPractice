@@ -48,10 +48,12 @@ export class FaceRecognitionComponent implements OnInit {
   async process() {
 
     // Create an Observable that will publish a value on an interval
-    const secondsCounter = interval(1000);
+    const secondsCounter = interval(250);
     // Subscribe to begin publishing values
     secondsCounter.subscribe(async (n) => {
-      console.log(`It's been ${n} seconds since subscribing!`)
+      // Clear the canvas
+      var context = this.canvas.nativeElement.getContext("2d");
+      context.clearRect(0, 0, 640, 480);
 
       // const input = document.getElementById('myImg');
       const input = document.getElementById('video');
@@ -65,7 +67,6 @@ export class FaceRecognitionComponent implements OnInit {
       const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
       // draw them into a canvas
       await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
-
     });
 
     // // const input = document.getElementById('myImg');
