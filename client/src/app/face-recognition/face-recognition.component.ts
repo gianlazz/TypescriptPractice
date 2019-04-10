@@ -22,13 +22,13 @@ export class FaceRecognitionComponent implements OnInit {
 
   async ngOnInit() {
     await faceapi.loadSsdMobilenetv1Model('/models')
-// accordingly for the other models:
-// await faceapi.loadTinyFaceDetectorModel('/models')
-// await faceapi.loadMtcnnModel('/models')
-// await faceapi.loadFaceLandmarkModel('/models')
-// await faceapi.loadFaceLandmarkTinyModel('/models')
-// await faceapi.loadFaceRecognitionModel('/models')
-// await faceapi.loadFaceExpressionModel('/models')
+    // accordingly for the other models:
+    // await faceapi.loadTinyFaceDetectorModel('/models')
+    // await faceapi.loadMtcnnModel('/models')
+    // await faceapi.loadFaceLandmarkModel('/models')
+    // await faceapi.loadFaceLandmarkTinyModel('/models')
+    // await faceapi.loadFaceRecognitionModel('/models')
+    // await faceapi.loadFaceExpressionModel('/models')
 
     console.log(faceapi.nets)
   }
@@ -43,11 +43,23 @@ export class FaceRecognitionComponent implements OnInit {
     }
   }
 
-  public capture() {
-    var context = 
-      this.canvas.nativeElement.getContext("2d")
-      .drawImage(this.video.nativeElement, 0, 0, 640, 480);
-    this.captures.push(this.canvas.nativeElement.toDataURL("image/png"));
+  async process() {
+    // const input = document.getElementById('myImg');
+    const input = document.getElementById('video');
+    // const input = document.getElementById('myCanvas');
+    // or simply:
+    // const input = 'myImg';
+
+    const detections = await faceapi.detectAllFaces('video');
+    console.log('Face detection results: ' + JSON.stringify(detections));
+  }
+
+  capture() {
+    var context = this.canvas.nativeElement.getContext("2d")
+                      .drawImage(this.video.nativeElement, 0, 0, 640, 480);
+
+    let image = this.canvas.nativeElement.toDataURL("image/png");
+    this.captures.push(image);
   }
 
 }
