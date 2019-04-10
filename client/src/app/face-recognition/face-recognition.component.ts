@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
 
 import { interval } from 'rxjs';
-import { FaceMatcher } from 'face-api.js';
+import { FaceMatcher, LabeledFaceDescriptors } from 'face-api.js';
 
 @Component({
   selector: 'app-face-recognition',
@@ -18,6 +18,9 @@ export class FaceRecognitionComponent implements OnInit {
   public canvas: ElementRef;
 
   public captures: Array<any>;
+
+  public preLabledImages: string[];
+  public labeledDescriptors: LabeledFaceDescriptors[];
 
   constructor() {
     this.captures = [];
@@ -76,6 +79,29 @@ export class FaceRecognitionComponent implements OnInit {
     });
   }
 
+  async generateLabeledDescriptors() {
+    this.preLabledImages.forEach(async imagePath => {
+      const imageName = imagePath.split('/').pop();
+      const imageDescriptor = await faceapi.detectSingleFace(imagePath).withFaceLandmarks().withFaceDescriptor();
+
+      this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+        imageName,
+        [imageDescriptor.descriptor]
+      ));
+    });
+
+    // this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+    //   'obama',
+    //   [descriptorObama1, descriptorObama2]
+    // ));
+    // this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
+    //   'trump',
+    //   [descriptorTrump]
+    // ));
+
+    const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
+  }
+
   async recognize() {
     // Create an Observable that will publish a value on an interval
     const secondsCounter = interval(100);
@@ -93,7 +119,7 @@ export class FaceRecognitionComponent implements OnInit {
       
       results.forEach(fd => {
         const bestMatch = faceMatcher.findBestMatch(fd.descriptor);
-        console.log(JSON.stringify(bestMatch));
+        console.log(JSON.stringify(bestMatch)) ;
       })
     })
   }
