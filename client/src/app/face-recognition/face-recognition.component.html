@@ -7,15 +7,23 @@
     <canvas #canvas id="canvas" width="640" height="480"></canvas>
   </div>
   <div>
-    <button mat-raised-button color="accent" id="snap" (click)="capture()">
-      Snap Photo
-    </button>
-    <button mat-raised-button color="accent" id="snap" (click)="process()">
-      Face Detection
-    </button>
-    <button mat-raised-button color="accent" id="snap" (click)="recognize()">
-      Face Recognition
-    </button>
+    <mat-grid-list cols="3" rowHeight="4:1">
+      <mat-grid-tile>
+        <button mat-raised-button color="accent" id="snap" (click)="capture()">
+          Snap Photo
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-raised-button color="accent" id="snap" (click)="detect()">
+          Face Detection
+        </button>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <button mat-raised-button color="accent" id="snap" (click)="recognize()">
+          Face Recognition
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
   </div>
   <!-- <canvas #canvas id="canvas" width="640" height="480"></canvas>
 

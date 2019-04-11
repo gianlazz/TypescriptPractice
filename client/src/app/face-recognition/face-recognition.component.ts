@@ -61,20 +61,20 @@ export class FaceRecognitionComponent implements OnInit {
     }
   }
 
-  async process() {
+  async detect() {
     // Create an Observable that will publish a value on an interval
-    const secondsCounter = interval(100);
+    const secondsCounter = interval(30);
 
     // Subscribe to begin publishing values
     secondsCounter.subscribe(async (n) => {
+      const detections = await faceapi.detectAllFaces('video');
+      const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
+
       // Clear the canvas
       let context = this.canvas.nativeElement.getContext("2d");
       context.clearRect(0, 0, 640, 480);
 
-      const detections = await faceapi.detectAllFaces('video');
-
-      const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
-      // draw them into a canvas
+      // Draw new results onto a canvas
       await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
     });
   }
