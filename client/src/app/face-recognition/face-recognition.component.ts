@@ -24,15 +24,22 @@ export class FaceRecognitionComponent implements OnInit {
   public labeledDescriptors: LabeledFaceDescriptors[];
 
   public faceDetectionIsOn: boolean;
-  public secondsCounter: Observable<number>;
-  public counterSubscription: Subscription;
+  public detectionCounter: Observable<number>;
+  public detectionCounterSubscription: Subscription;
+
+  public faceRecognitionIsOn: boolean;
+  public recognitionCounter: Observable<number>;
+  public recognitionCounterSubscription: Subscription;
 
   constructor() {
     this.captures = [];
-    this.faceDetectionIsOn = false;
 
+    this.faceDetectionIsOn = false;
     // Create an Observable that will publish a value on an interval
-    this.secondsCounter = interval(30);
+    this.detectionCounter = interval(30);
+
+    this.faceRecognitionIsOn = false;
+    this.recognitionCounter = interval(30);
   }
 
   async ngOnInit() {
@@ -70,13 +77,21 @@ export class FaceRecognitionComponent implements OnInit {
     }
   }
 
+  capture() {
+    var context = this.canvas.nativeElement.getContext("2d");
+    context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
+
+    let image = this.canvas.nativeElement.toDataURL("image/png");
+    this.captures.push(image);
+  }
+
   async detect() {
     // Flip face detection on or off
     this.faceDetectionIsOn = !this.faceDetectionIsOn;
 
     if (this.faceDetectionIsOn) {
       // Subscribe to begin publishing values
-      this.counterSubscription = this.secondsCounter.subscribe(async (n) => {
+      this.detectionCounterSubscription = this.detectionCounter.subscribe(async (n) => {
         const detections = await faceapi.detectAllFaces('video');
         const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
 
@@ -88,11 +103,38 @@ export class FaceRecognitionComponent implements OnInit {
         await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
       });
     } else {
-      this.counterSubscription.unsubscribe();
+      this.detectionCounterSubscription.unsubscribe();
 
       // Clear the canvas
       let context = this.canvas.nativeElement.getContext("2d");
       context.clearRect(0, 0, 640, 480);
+    }
+  }
+
+  async recognize() {
+    // Flip face recognition on or off
+    this.faceRecognitionIsOn = !this.faceRecognitionIsOn;
+
+    if (this.faceRecognitionIsOn) {
+      // Subscribe to begin publishing values
+      this.recognitionCounter.subscribe(async () => {
+      // Clear the canvas
+      let context = this.canvas.nativeElement.getContext("2d");
+
+      const results = await faceapi.detectAllFaces('video').withFaceLandmarks().withFaceDescriptors();
+
+      // create FaceMatcher with automatically assigned labels
+      // from the detection results for the reference image
+      const faceMatcher = new faceapi.FaceMatcher(results);
+      
+      results.forEach(fd => {
+        const bestMatch = faceMatcher.findBestMatch(fd.descriptor);
+        console.log(JSON.stringify(bestMatch)) ;
+      });
+
+      });
+    } else {
+      this.recognitionCounterSubscription.unsubscribe();
     }
   }
 
@@ -117,36 +159,6 @@ export class FaceRecognitionComponent implements OnInit {
     // ));
 
     const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
-  }
-
-  async recognize() {
-    // Create an Observable that will publish a value on an interval
-    const secondsCounter = interval(100);
-
-    // Subscribe to begin publishing values
-    secondsCounter.subscribe(async () => {
-      // Clear the canvas
-      let context = this.canvas.nativeElement.getContext("2d");
-
-      const results = await faceapi.detectAllFaces('video').withFaceLandmarks().withFaceDescriptors();
-
-      // create FaceMatcher with automatically assigned labels
-      // from the detection results for the reference image
-      const faceMatcher = new faceapi.FaceMatcher(results);
-      
-      results.forEach(fd => {
-        const bestMatch = faceMatcher.findBestMatch(fd.descriptor);
-        console.log(JSON.stringify(bestMatch)) ;
-      })
-    })
-  }
-
-  capture() {
-    var context = this.canvas.nativeElement.getContext("2d");
-    context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
-
-    let image = this.canvas.nativeElement.toDataURL("image/png");
-    this.captures.push(image);
   }
 
 }
