@@ -9,4 +9,8 @@ export class VisionCoordinator {
         this._euclideanDistance = euclideanDistance;
         this.samenessThreshold = 0.5;
     }
+
+    public processFrame() {
+
+    }
 }
