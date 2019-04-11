@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
 
-import { interval } from 'rxjs';
+import { interval, Observable, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { FaceMatcher, LabeledFaceDescriptors } from 'face-api.js';
 
 @Component({
@@ -22,8 +23,16 @@ export class FaceRecognitionComponent implements OnInit {
   public preLabledImages: string[];
   public labeledDescriptors: LabeledFaceDescriptors[];
 
+  public faceDetectionIsOn: boolean;
+  public secondsCounter: Observable<number>;
+  public counterSubscription: Subscription;
+
   constructor() {
     this.captures = [];
+    this.faceDetectionIsOn = false;
+
+    // Create an Observable that will publish a value on an interval
+    this.secondsCounter = interval(30);
   }
 
   async ngOnInit() {
@@ -62,21 +71,29 @@ export class FaceRecognitionComponent implements OnInit {
   }
 
   async detect() {
-    // Create an Observable that will publish a value on an interval
-    const secondsCounter = interval(30);
+    // Flip face detection on or off
+    this.faceDetectionIsOn = !this.faceDetectionIsOn;
 
-    // Subscribe to begin publishing values
-    secondsCounter.subscribe(async (n) => {
-      const detections = await faceapi.detectAllFaces('video');
-      const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
+    if (this.faceDetectionIsOn) {
+      // Subscribe to begin publishing values
+      this.counterSubscription = this.secondsCounter.subscribe(async (n) => {
+        const detections = await faceapi.detectAllFaces('video');
+        const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
+
+        // Clear the canvas
+        let context = this.canvas.nativeElement.getContext("2d");
+        context.clearRect(0, 0, 640, 480);
+
+        // Draw new results onto a canvas
+        await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
+      });
+    } else {
+      this.counterSubscription.unsubscribe();
 
       // Clear the canvas
       let context = this.canvas.nativeElement.getContext("2d");
       context.clearRect(0, 0, 640, 480);
-
-      // Draw new results onto a canvas
-      await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
-    });
+    }
   }
 
   async generateLabeledDescriptors() {
