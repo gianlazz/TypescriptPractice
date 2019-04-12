@@ -34,6 +34,7 @@ export class FaceRecognitionComponent implements OnInit {
 
   constructor() {
     this.captures = [];
+    this.labeledDescriptors = [];
 
     this.faceDetectionIsOn = false;
     // Create an Observable that will publish a value on an interval
@@ -122,6 +123,8 @@ export class FaceRecognitionComponent implements OnInit {
     if (results){
       const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [results.descriptor])
       console.log(JSON.stringify(labeledDescriptor));
+      this.labeledDescriptors.push(labeledDescriptor);
+      console.log('Added to array of labeled descriptors');
       
       // create FaceMatcher with automatically assigned labels
       // from the detection results for the reference image
@@ -146,9 +149,9 @@ export class FaceRecognitionComponent implements OnInit {
         console.log(JSON.stringify(bestMatch)) ;
       });
 
-      // // Clear the canvas
-      // let context = this.canvas.nativeElement.getContext("2d");
-      // context.clearRect(0, 0, 640, 480);
+      // Clear the canvas
+      let context = this.canvas.nativeElement.getContext("2d");
+      context.clearRect(0, 0, 640, 480);
 
       // // Draw new results onto a canvas
       // await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
@@ -156,11 +159,11 @@ export class FaceRecognitionComponent implements OnInit {
 
       });
     } else {
-      // this.recognitionCounterSubscription.unsubscribe();
+      this.recognitionCounterSubscription.unsubscribe();
 
-      // // Clear the canvas
-      // let context = this.canvas.nativeElement.getContext("2d");
-      // context.clearRect(0, 0, 640, 480);
+      // Clear the canvas
+      let context = this.canvas.nativeElement.getContext("2d");
+      context.clearRect(0, 0, 640, 480);
     }
   }
 
@@ -174,15 +177,6 @@ export class FaceRecognitionComponent implements OnInit {
         [imageDescriptor.descriptor]
       ));
     });
-
-    // this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-    //   'obama',
-    //   [descriptorObama1, descriptorObama2]
-    // ));
-    // this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-    //   'trump',
-    //   [descriptorTrump]
-    // ));
 
     const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
   }
