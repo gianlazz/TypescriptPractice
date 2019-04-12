@@ -21,6 +21,7 @@
             "smartStep": true,
             "skipFiles": [
                 "${workspaceFolder}client/node_modules/**/*.js",
+                "${workspaceFolder}/dist/**/*.js",
                 "<node_internals>/**/*.js"
             ]
         },
@@ -29,10 +30,11 @@
             "request": "attach",
             "name": "Attach to Chrome",
             "port": 9222,
-            "webRoot": "${workspaceFolder}",
+            "webRoot": "${workspaceFolder}/client",
             "smartStep": true,
             "skipFiles": [
                 "${workspaceFolder}client/node_modules/**/*.js",
+                "${workspaceFolder}/dist/**/*.js",
                 "<node_internals>/**/*.js"
             ]
         }
