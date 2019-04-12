@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
-
+import { NgForm } from '@angular/forms';
 import { interval, Observable, Subscription } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { FaceMatcher, LabeledFaceDescriptors } from 'face-api.js';
 
 @Component({
@@ -22,7 +21,8 @@ export class FaceRecognitionComponent implements OnInit {
 
   public preLabledImages: string[];
   public labeledDescriptors: LabeledFaceDescriptors[];
-
+  public faceMatcher: faceapi.FaceMatcher;
+  
   public faceDetectionIsOn: boolean;
   public detectionCounter: Observable<number>;
   public detectionCounterSubscription: Subscription;
@@ -111,6 +111,19 @@ export class FaceRecognitionComponent implements OnInit {
     }
   }
 
+  async savePerson(form: NgForm) {
+    console.log('Form data: ' + JSON.stringify(form.value));
+
+    const results = await faceapi.detectSingleFace('video').withFaceLandmarks().withFaceDescriptor();
+    const name = form.value.name;
+    const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [results.descriptor])
+    console.log(JSON.stringify(labeledDescriptor));
+
+    // create FaceMatcher with automatically assigned labels
+    // from the detection results for the reference image
+    this.faceMatcher = new faceapi.FaceMatcher(labeledDescriptor)
+  }
+
   async recognize() {
     // Flip face recognition on or off
     this.faceRecognitionIsOn = !this.faceRecognitionIsOn;
@@ -118,23 +131,29 @@ export class FaceRecognitionComponent implements OnInit {
     if (this.faceRecognitionIsOn) {
       // Subscribe to begin publishing values
       this.recognitionCounter.subscribe(async () => {
-      // Clear the canvas
-      let context = this.canvas.nativeElement.getContext("2d");
-
       const results = await faceapi.detectAllFaces('video').withFaceLandmarks().withFaceDescriptors();
-
-      // create FaceMatcher with automatically assigned labels
-      // from the detection results for the reference image
-      const faceMatcher = new faceapi.FaceMatcher(results);
+      const detectionsForSize = await faceapi.resizeResults(results, { width: 640, height: 480 });
       
-      results.forEach(fd => {
-        const bestMatch = faceMatcher.findBestMatch(fd.descriptor);
+      results.forEach(faceDescriptor => {
+        const bestMatch = this.faceMatcher.findBestMatch(faceDescriptor.descriptor);
         console.log(JSON.stringify(bestMatch)) ;
       });
 
+      // // Clear the canvas
+      // let context = this.canvas.nativeElement.getContext("2d");
+      // context.clearRect(0, 0, 640, 480);
+
+      // // Draw new results onto a canvas
+      // await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
+      // await faceapi.drawDetection('canvas', results)
+
       });
     } else {
-      this.recognitionCounterSubscription.unsubscribe();
+      // this.recognitionCounterSubscription.unsubscribe();
+
+      // // Clear the canvas
+      // let context = this.canvas.nativeElement.getContext("2d");
+      // context.clearRect(0, 0, 640, 480);
     }
   }
 

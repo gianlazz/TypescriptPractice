@@ -7,22 +7,30 @@
     <canvas #canvas id="canvas" width="640" height="480"></canvas>
   </div>
   <div>
-    <mat-grid-list cols="3" rowHeight="4:1">
-      <mat-grid-tile>
-        <button mat-raised-button color="accent" id="snap" (click)="capture()">
-          Snap Photo
-        </button>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <button mat-raised-button color="accent" id="snap" (click)="detect()">
-          Face Detection
-        </button>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <button mat-raised-button color="accent" id="snap" (click)="recognize()">
-          Face Recognition
-        </button>
-      </mat-grid-tile>
+    <form class="example-form" #personCaptureForm="ngForm" (ngSubmit)="savePerson(personCaptureForm)">
+      <mat-grid-list cols="1" rowHeight="8:1">
+        <mat-grid-tile>
+          <mat-form-field class="example-full-width">
+              <input id="name" name="name" [(ngModel)]="name"  matInput placeholder="Persons Name" value="">
+          </mat-form-field>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <button mat-raised-button color="accent" type="submit">
+          Save Person
+      </button>
+    </form>
+
+    <mat-grid-list cols="2" rowHeight="8:1">
+        <mat-grid-tile>
+          <button mat-raised-button color="accent" id="snap" (click)="detect()">
+            Face Detection
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-raised-button color="accent" id="snap" (click)="recognize()">
+            Face Recognition
+          </button>
+        </mat-grid-tile>
     </mat-grid-list>
   </div>
   <!-- <canvas #canvas id="canvas" width="640" height="480"></canvas>
