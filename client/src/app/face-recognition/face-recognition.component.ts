@@ -148,7 +148,7 @@ export class FaceRecognitionComponent implements OnInit {
     if (this.faceRecognitionIsOn) {
       // Subscribe to begin publishing values
       this.recognitionCounterSubscription = this.recognitionCounter.subscribe(async () => {
-      const results = await faceapi.detectAllFaces('video').withFaceLandmarks().withFaceDescriptors();
+      const results = await faceapi.detectAllFaces('video', new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
       const detectionsForSize = await faceapi.resizeResults(results, { width: 640, height: 480 });
       let boxesWithText: faceapi.BoxWithText[] = [];
       
