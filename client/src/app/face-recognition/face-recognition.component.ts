@@ -96,13 +96,20 @@ export class FaceRecognitionComponent implements OnInit {
       this.detectionCounterSubscription = this.detectionCounter.subscribe(async (n) => {
         const detections = await faceapi.detectAllFaces('video');
         const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
+        const boxesWithText: faceapi.BoxWithText[] = [];
+
+        detectionsForSize.forEach(x => {
+          boxesWithText.push(new faceapi.BoxWithText(
+            x.box, "unknown"
+          ));
+        })
 
         // Clear the canvas
         let context = this.canvas.nativeElement.getContext("2d");
         context.clearRect(0, 0, 640, 480);
 
         // Draw new results onto a canvas
-        await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
+        await faceapi.drawDetection('canvas', boxesWithText, { withScore: true });
       });
     } else {
       this.detectionCounterSubscription.unsubscribe();
@@ -140,22 +147,23 @@ export class FaceRecognitionComponent implements OnInit {
 
     if (this.faceRecognitionIsOn) {
       // Subscribe to begin publishing values
-      this.recognitionCounter.subscribe(async () => {
+      this.recognitionCounterSubscription = this.recognitionCounter.subscribe(async () => {
       const results = await faceapi.detectAllFaces('video').withFaceLandmarks().withFaceDescriptors();
-      const detectionsForSize = await faceapi.resizeResults(results, { width: 640, height: 480 });
       
-      results.forEach(faceDescriptor => {
-        const bestMatch = this.faceMatcher.findBestMatch(faceDescriptor.descriptor);
+      results.forEach(result => {
+        const bestMatch = this.faceMatcher.findBestMatch(result.descriptor);
         console.log(JSON.stringify(bestMatch)) ;
       });
+
+      const detectionsForSize = await faceapi.resizeResults(results, { width: 640, height: 480 });
 
       // Clear the canvas
       let context = this.canvas.nativeElement.getContext("2d");
       context.clearRect(0, 0, 640, 480);
 
-      // // Draw new results onto a canvas
-      // await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
-      // await faceapi.drawDetection('canvas', results)
+      // Draw new results onto a canvas
+      await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
+      await faceapi.drawDetection('canvas', results);
 
       });
     } else {
