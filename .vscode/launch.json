@@ -16,7 +16,14 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome",
-            "url": "http://localhost:8080",
+            "url": "http://localhost:4200",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Attach to Chrome",
+            "port": 9222,
             "webRoot": "${workspaceFolder}"
         }
     ],
@@ -24,6 +31,10 @@
         {
           "name": "Full-stack",
           "configurations": ["Launch Program", "Launch Chrome"]
+        },
+        {
+            "name": "Angular",
+            "configurations": ["Launch Chrome", "Attach to Chrome"]
         }
-      ]
+    ]
 }
