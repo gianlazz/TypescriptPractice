@@ -20,10 +20,10 @@
             "webRoot": "${workspaceFolder}/client",
             "smartStep": true,
             "skipFiles": [
-                "${workspaceFolder}client/node_modules/**/*.js",
+                "${workspaceFolder}/client/node_modules/**/*.js",
                 "${workspaceFolder}/dist/**/*.js",
                 "<node_internals>/**/*.js"
-            ]
+            ],
         },
         {
             "type": "chrome",
@@ -33,7 +33,7 @@
             "webRoot": "${workspaceFolder}/client",
             "smartStep": true,
             "skipFiles": [
-                "${workspaceFolder}client/node_modules/**/*.js",
+                "${workspaceFolder}/client/node_modules/**/*.js",
                 "${workspaceFolder}/dist/**/*.js",
                 "<node_internals>/**/*.js"
             ]
