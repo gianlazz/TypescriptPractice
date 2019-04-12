@@ -3,6 +3,7 @@ import * as faceapi from 'face-api.js';
 import { NgForm } from '@angular/forms';
 import { interval, Observable, Subscription } from 'rxjs';
 import { FaceMatcher, LabeledFaceDescriptors } from 'face-api.js';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-face-recognition',
@@ -116,12 +117,18 @@ export class FaceRecognitionComponent implements OnInit {
 
     const results = await faceapi.detectSingleFace('video').withFaceLandmarks().withFaceDescriptor();
     const name = form.value.name;
-    const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [results.descriptor])
-    console.log(JSON.stringify(labeledDescriptor));
+    console.log(JSON.stringify(results));
 
-    // create FaceMatcher with automatically assigned labels
-    // from the detection results for the reference image
-    this.faceMatcher = new faceapi.FaceMatcher(labeledDescriptor)
+    if (results){
+      const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [results.descriptor])
+      console.log(JSON.stringify(labeledDescriptor));
+      
+      // create FaceMatcher with automatically assigned labels
+      // from the detection results for the reference image
+      this.faceMatcher = new faceapi.FaceMatcher(labeledDescriptor)
+    } else {
+      alert('Nobody detected.');
+    }
   }
 
   async recognize() {
