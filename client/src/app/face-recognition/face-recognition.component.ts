@@ -87,6 +87,27 @@ export class FaceRecognitionComponent implements OnInit {
     this.captures.push(image);
   }
 
+  async savePerson(form: NgForm) {
+    console.log('Form data: ' + JSON.stringify(form.value));
+
+    const results = await faceapi.detectSingleFace('video').withFaceLandmarks().withFaceDescriptor();
+    const name = form.value.name;
+    console.log(JSON.stringify(results));
+
+    if (results){
+      const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [results.descriptor])
+      console.log(JSON.stringify(labeledDescriptor));
+      this.labeledDescriptors.push(labeledDescriptor);
+      console.log('Added to array of labeled descriptors');
+      
+      // create FaceMatcher with automatically assigned labels
+      // from the detection results for the reference image
+      this.faceMatcher = new faceapi.FaceMatcher(labeledDescriptor)
+    } else {
+      alert('Nobody detected.');
+    }
+  }
+
   async detect() {
     // Flip face detection on or off
     this.faceDetectionIsOn = !this.faceDetectionIsOn;
@@ -120,27 +141,6 @@ export class FaceRecognitionComponent implements OnInit {
     }
   }
 
-  async savePerson(form: NgForm) {
-    console.log('Form data: ' + JSON.stringify(form.value));
-
-    const results = await faceapi.detectSingleFace('video').withFaceLandmarks().withFaceDescriptor();
-    const name = form.value.name;
-    console.log(JSON.stringify(results));
-
-    if (results){
-      const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [results.descriptor])
-      console.log(JSON.stringify(labeledDescriptor));
-      this.labeledDescriptors.push(labeledDescriptor);
-      console.log('Added to array of labeled descriptors');
-      
-      // create FaceMatcher with automatically assigned labels
-      // from the detection results for the reference image
-      this.faceMatcher = new faceapi.FaceMatcher(labeledDescriptor)
-    } else {
-      alert('Nobody detected.');
-    }
-  }
-
   async recognize() {
     // Flip face recognition on or off
     this.faceRecognitionIsOn = !this.faceRecognitionIsOn;
@@ -149,22 +149,23 @@ export class FaceRecognitionComponent implements OnInit {
       // Subscribe to begin publishing values
       this.recognitionCounterSubscription = this.recognitionCounter.subscribe(async () => {
       const results = await faceapi.detectAllFaces('video').withFaceLandmarks().withFaceDescriptors();
-      
-      results.forEach(result => {
-        const bestMatch = this.faceMatcher.findBestMatch(result.descriptor);
-        console.log(JSON.stringify(bestMatch)) ;
-      });
-
       const detectionsForSize = await faceapi.resizeResults(results, { width: 640, height: 480 });
+      const boxesWithText: faceapi.BoxWithText[] = [];
+      
+      detectionsForSize.forEach(async result => {
+        const bestMatch = await this.faceMatcher.findBestMatch(result.descriptor);
+
+        boxesWithText.push(new faceapi.BoxWithText(
+          result.detection.box, `${bestMatch.label} ${bestMatch.distance}`
+        ));
+      });
 
       // Clear the canvas
       let context = this.canvas.nativeElement.getContext("2d");
       context.clearRect(0, 0, 640, 480);
 
       // Draw new results onto a canvas
-      await faceapi.drawDetection('canvas', detectionsForSize, { withScore: true });
-      await faceapi.drawDetection('canvas', results);
-
+      await faceapi.drawDetection('canvas', boxesWithText, { withScore: true });
       });
     } else {
       this.recognitionCounterSubscription.unsubscribe();
