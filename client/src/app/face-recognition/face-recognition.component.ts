@@ -150,22 +150,31 @@ export class FaceRecognitionComponent implements OnInit {
       this.recognitionCounterSubscription = this.recognitionCounter.subscribe(async () => {
       const results = await faceapi.detectAllFaces('video').withFaceLandmarks().withFaceDescriptors();
       const detectionsForSize = await faceapi.resizeResults(results, { width: 640, height: 480 });
-      const boxesWithText: faceapi.BoxWithText[] = [];
+      let boxesWithText: faceapi.BoxWithText[] = [];
       
       detectionsForSize.forEach(async result => {
         const bestMatch = await this.faceMatcher.findBestMatch(result.descriptor);
-
+        console.log(bestMatch.label)
         boxesWithText.push(new faceapi.BoxWithText(
           result.detection.box, `${bestMatch.label} ${bestMatch.distance}`
         ));
+        console.log("boxes with text: " + boxesWithText.length);
+
+        // Clear the canvas
+        let context = this.canvas.nativeElement.getContext("2d");
+        context.clearRect(0, 0, 640, 480);
+
+        // Draw new results onto a canvas
+        await faceapi.drawDetection('canvas', boxesWithText);
       });
+      console.log("boxes with text: " + boxesWithText.length);
+      
+      // // Clear the canvas
+      // let context = this.canvas.nativeElement.getContext("2d");
+      // context.clearRect(0, 0, 640, 480);
 
-      // Clear the canvas
-      let context = this.canvas.nativeElement.getContext("2d");
-      context.clearRect(0, 0, 640, 480);
-
-      // Draw new results onto a canvas
-      await faceapi.drawDetection('canvas', boxesWithText, { withScore: true });
+      // // Draw new results onto a canvas
+      // await faceapi.drawDetection('canvas', boxesWithText);
       });
     } else {
       this.recognitionCounterSubscription.unsubscribe();
