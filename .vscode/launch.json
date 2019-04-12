@@ -17,20 +17,30 @@
             "request": "launch",
             "name": "Launch Chrome",
             "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/client"
+            "webRoot": "${workspaceFolder}/client",
+            "smartStep": true,
+            "skipFiles": [
+                "${workspaceFolder}client/node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ]
         },
         {
             "type": "chrome",
             "request": "attach",
             "name": "Attach to Chrome",
             "port": 9222,
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}",
+            "smartStep": true,
+            "skipFiles": [
+                "${workspaceFolder}client/node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ]
         }
     ],
     "compounds": [
         {
           "name": "Full-stack",
-          "configurations": ["Launch Program", "Launch Chrome"]
+          "configurations": ["Launch Program", "Launch Chrome", "Attach to Chrome"]
         },
         {
             "name": "Angular",
