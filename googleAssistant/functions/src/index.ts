@@ -16,8 +16,8 @@ app.intent('Hello Lazztech', async (conv) => {
     conv.close(new BasicCard({
         title: 'Lazztech Assistant',
         image: new Image({
-            url: '',
-            alt: ''
+            url: 'http://lazz.tech/images/workspace.png',
+            alt: 'Lazztech workspace'
         }),
         buttons: new Button({
             title: 'lazz.tech',
@@ -28,5 +28,3 @@ app.intent('Hello Lazztech', async (conv) => {
 
 // Export the Cloud Functions
 export const fulfillment = functions.https.onRequest(app);
-
-
