@@ -41,8 +41,12 @@ Dev Notes ***Subjects in descending chronological order***
 
 ## Angular And Express
 ---
-Details about seperating express server and angular during dev with proxy and how to handle production:
-https://stackoverflow.com/questions/42895585/hooking-up-express-js-with-angular-cli-in-dev-environment 
+- [Stackoverflow about seperating express server and angular during dev with proxy and how to handle production](https://stackoverflow.com/questions/42895585/hooking-up-express-js-with-angular-cli-in-dev-environment)
+
+- [Deploy Angular 6 app with Express (Youtube)](https://www.youtube.com/watch?v=sTbQphoYbK0)
+
+- [🐉 A tool for managing JavaScript projects with multiple packages.](https://github.com/lerna/lerna)
+    - [The highs and lows of using Lerna to manage your JavaScript projects](https://hackernoon.com/the-highs-and-lows-of-using-lerna-to-manage-your-javascript-projects-ff5c5cd82a99)
 
 ## Angular: 
 

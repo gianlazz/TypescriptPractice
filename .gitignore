@@ -51,6 +51,7 @@ jspm_packages/
 # Ignore built ts files
 dist/**/*
 server/dist/**/*
+client/dist/**/*
 
 # TypeScript v1 declaration files
 typings/
