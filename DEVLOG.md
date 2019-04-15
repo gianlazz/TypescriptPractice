@@ -39,6 +39,14 @@ Dev Notes ***Subjects in descending chronological order***
 
 # Dev Notes (Ordered by oldest to most recent subject)
 
+## Deploy With Zeit Now
+---
+**Now.json:**
+- https://zeit.co/docs/v2/deployments/configuration
+- https://zeit.co/docs/v2/deployments/builders/overview/
+- https://zeit.co/examples/nodejs
+- https://zeit.co/examples/apollo/
+
 ## Angular And Express
 ---
 - [Stackoverflow about seperating express server and angular during dev with proxy and how to handle production](https://stackoverflow.com/questions/42895585/hooking-up-express-js-with-angular-cli-in-dev-environment)
@@ -49,7 +57,6 @@ Dev Notes ***Subjects in descending chronological order***
     - [The highs and lows of using Lerna to manage your JavaScript projects](https://hackernoon.com/the-highs-and-lows-of-using-lerna-to-manage-your-javascript-projects-ff5c5cd82a99)
 
 ## Angular: 
-
 ---
 
 **Organizing Repo With Angular Client & Express Backend:**
