@@ -1,6 +1,7 @@
 import cors = require("cors");
 import dotenv from "dotenv";
 import express from "express";
+import * as http from "http";
 import path from "path";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
@@ -56,9 +57,12 @@ createConnection()
         console.log(error);
     });
 
+// const server = http.createServer(app);
+// server.listen(port, () => console.log("Running..."));
+
 // start the Express server
 app.listen( port, () => {
     // tslint:disable-next-line:no-console
     console.log( `Server started at http://localhost:${ port }` );
     console.log(`Running a GraphQL API server at http://localhost:${ port }/graphql`);
-} );
+ } );
