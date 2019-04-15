@@ -1,17 +1,15 @@
 ## Experimental Project To Investigate Typescript/NodeJS Tech Stack
 
-## Technologies: 
----
-- Nodejs
-    - Typescript
-    - Express
-    - EJS
-    - TypeORM
-    - VueJS
-- Postgres
-- Docker?
-   - Docker Compose?
-- GraphQL?
+## Table Of Contents
+
+[General Learning Resources](#learning-resources)
+
+Dev Notes ***Subjects in descending chronological order***
+
+- [Angular And Express](#angular-and-express)
+- [Angular](#angular)
+- [Graphql](#graphql-setup)
+- [TypeORM](#typeorm-setup)
 
 ## Learning resources:
 ---
@@ -38,6 +36,167 @@
 - https://www.typescriptlang.org/docs/handbook/compiler-options.html
 - https://stackoverflow.com/questions/32906097/preprocessor-defines-in-typescript
 - https://github.com/Microsoft/TypeScript/issues/4691#issuecomment-298653700
+
+# Dev Notes (Ordered by oldest to most recent subject)
+
+## Angular And Express
+---
+Details about seperating express server and angular during dev with proxy and how to handle production:
+https://stackoverflow.com/questions/42895585/hooking-up-express-js-with-angular-cli-in-dev-environment 
+
+## Angular: 
+
+---
+
+**Organizing Repo With Angular Client & Express Backend:**
+- https://www.google.com/search?q=nodejs+server+and+angular+in+same+repository&oq=nodejs+server+and+angular+in+same+repository&aqs=chrome..69i57.9328j0j7&sourceid=chrome&ie=UTF-8
+- https://stackoverflow.com/questions/46212733/angular-2-and-node-js-project-structure
+- https://medium.com/@stephenfluin/adding-a-node-typescript-backend-to-your-angular-app-29b0e9925ff
+
+**Basic Angular Component Setup:**
+
+Install Angular Material: https://material.angular.io/
+```
+ng add @angular/material
+```
+
+Generating general purpose Nav component:
+```
+ng generate @angular/material:material-nav --name=main-nav
+```
+
+- [Angular Material Introduction & Setup](https://www.youtube.com/watch?v=u679SQsfRVM)
+
+- [Angular Material Responsive Navigation Tutorial](https://www.youtube.com/watch?v=Q6qhzG7mObU)
+
+Generating a component & navigating to it:
+- [Angular 4 Tutorial: Routing and Navigation Example](https://www.youtube.com/watch?v=YEashNLYRKY)
+
+```
+ng g component guitars
+```
+
+- [Angular Material Data Table Tutorial](https://www.youtube.com/watch?v=ao-nY-9biWs&list=PL55RiY5tL51p2R1L8sxaYlzmWh6yIrX8k&index=2)
+
+```
+ng generate @angular/material:material-table --name=data-table
+```
+
+- https://angular.io/guide/router
+
+**Setting up Apollo GraphQL with Angular**
+
+- [GraphQL with Apollo Server 2.0](https://www.youtube.com/watch?v=8D9XnnjFGMs)
+- [Apollo Angular GraphQL Optimistic UI](https://www.youtube.com/watch?v=Wc7bJ2uv694)
+
+
+## GraphQL Setup:
+
+---
+https://developer.okta.com/blog/2018/09/27/build-a-simple-api-service-with-express-and-graphql
+
+Install the following packages:
+```
+npm install express-graphql @types/express-graphql graphql @types/graphql graphql-tag cors @types/cors
+```
+
+After that I added the following to the root index.ts
+```Typescript
+import graphqlHTTP from "express-graphql";
+import { buildASTSchema } from "graphql";
+import gql from "graphql-tag";
+import path from "path";
+```
+
+```Typescript
+//#region GraphQL
+// Use cors for graphql
+app.use(cors());
+
+const schema = buildASTSchema(gql`
+    type Query {
+        hello: String
+    }
+`);
+
+const rootValue = {
+    hello: () => "hello world"
+};
+
+app.use("/graphql", graphqlHTTP({ schema, rootValue}));
+
+const graphqlPort = 4000;
+app.listen(graphqlPort);
+console.log(`Running a GraphQL API server at http://localhost:${ graphqlPort }/graphql`);
+//#endregion
+```
+
+Run with `npm run dev` then enter http://localhost:4000/graphql into this page: https://www.graphqlbin.com/v2/new
+
+Enter and run the following in the graphql client:
+```
+query {
+  hello
+}
+```
+
+**GraphQL Client Setup:**
+
+With Axios:
+```Typescript
+addGuitar() {
+            const guitar = {
+                brand: this.brand,
+                color: this.color,
+                model: this.model,
+                year: this.year
+            };
+           
+            axios({
+                url: `http://localhost:8080/graphql`,
+                method: 'post',
+                data: {
+                    query: `
+                        mutation{
+                            createGuitar(
+                              userId: "1"
+                              brand: "${ guitar.brand }"
+                              model: "${ guitar.model }"
+                              year: ${ guitar.year }
+                              color: "${ guitar.color }"
+                            ){
+                              id
+                              userId
+                              brand
+                              model
+                              year
+                              color
+                            }
+                          }
+                    `
+                }
+            }).then((result) => {
+                this.$refs.year.focus();
+                this.brand = "";
+                this.color = "";
+                this.model = "";
+                this.year = "";
+                this.loadGuitars();
+            })
+            .catch( ( err: any ) => {
+                // tslint:disable-next-line:no-console
+                console.log( err );
+            });
+        }
+```
+
+Apollo-client:
+
+Installling the preset package
+```
+npm install apollo-boost graphql-tag graphql --save
+```
+
 
 ## TypeORM Setup:
 
@@ -214,158 +373,3 @@ Or run it from a local install:
 ```
 npx ts-node ./node_modules/.bin/typeorm migration:run
 ```
-
-## GraphQL Setup:
-
----
-https://developer.okta.com/blog/2018/09/27/build-a-simple-api-service-with-express-and-graphql
-
-Install the following packages:
-```
-npm install express-graphql @types/express-graphql graphql @types/graphql graphql-tag cors @types/cors
-```
-
-After that I added the following to the root index.ts
-```Typescript
-import graphqlHTTP from "express-graphql";
-import { buildASTSchema } from "graphql";
-import gql from "graphql-tag";
-import path from "path";
-```
-
-```Typescript
-//#region GraphQL
-// Use cors for graphql
-app.use(cors());
-
-const schema = buildASTSchema(gql`
-    type Query {
-        hello: String
-    }
-`);
-
-const rootValue = {
-    hello: () => "hello world"
-};
-
-app.use("/graphql", graphqlHTTP({ schema, rootValue}));
-
-const graphqlPort = 4000;
-app.listen(graphqlPort);
-console.log(`Running a GraphQL API server at http://localhost:${ graphqlPort }/graphql`);
-//#endregion
-```
-
-Run with `npm run dev` then enter http://localhost:4000/graphql into this page: https://www.graphqlbin.com/v2/new
-
-Enter and run the following in the graphql client:
-```
-query {
-  hello
-}
-```
-
-**GraphQL Client Setup:**
-
-With Axios:
-```Typescript
-addGuitar() {
-            const guitar = {
-                brand: this.brand,
-                color: this.color,
-                model: this.model,
-                year: this.year
-            };
-           
-            axios({
-                url: `http://localhost:8080/graphql`,
-                method: 'post',
-                data: {
-                    query: `
-                        mutation{
-                            createGuitar(
-                              userId: "1"
-                              brand: "${ guitar.brand }"
-                              model: "${ guitar.model }"
-                              year: ${ guitar.year }
-                              color: "${ guitar.color }"
-                            ){
-                              id
-                              userId
-                              brand
-                              model
-                              year
-                              color
-                            }
-                          }
-                    `
-                }
-            }).then((result) => {
-                this.$refs.year.focus();
-                this.brand = "";
-                this.color = "";
-                this.model = "";
-                this.year = "";
-                this.loadGuitars();
-            })
-            .catch( ( err: any ) => {
-                // tslint:disable-next-line:no-console
-                console.log( err );
-            });
-        }
-```
-
-Apollo-client:
-
-Installling the preset package
-```
-npm install apollo-boost graphql-tag graphql --save
-```
-
-## Angular: 
-
----
-
-**Organizing Repo With Angular Client & Express Backend:**
-- https://www.google.com/search?q=nodejs+server+and+angular+in+same+repository&oq=nodejs+server+and+angular+in+same+repository&aqs=chrome..69i57.9328j0j7&sourceid=chrome&ie=UTF-8
-- https://stackoverflow.com/questions/46212733/angular-2-and-node-js-project-structure
-- https://medium.com/@stephenfluin/adding-a-node-typescript-backend-to-your-angular-app-29b0e9925ff
-
-**Basic Angular Component Setup:**
-
-Install Angular Material: https://material.angular.io/
-```
-ng add @angular/material
-```
-
-Generating general purpose Nav component:
-```
-ng generate @angular/material:material-nav --name=main-nav
-```
-
-- [Angular Material Introduction & Setup](https://www.youtube.com/watch?v=u679SQsfRVM)
-
-- [Angular Material Responsive Navigation Tutorial](https://www.youtube.com/watch?v=Q6qhzG7mObU)
-
-Generating a component & navigating to it:
-- [Angular 4 Tutorial: Routing and Navigation Example](https://www.youtube.com/watch?v=YEashNLYRKY)
-
-```
-ng g component guitars
-```
-
-- [Angular Material Data Table Tutorial](https://www.youtube.com/watch?v=ao-nY-9biWs&list=PL55RiY5tL51p2R1L8sxaYlzmWh6yIrX8k&index=2)
-
-```
-ng generate @angular/material:material-table --name=data-table
-```
-
-- https://angular.io/guide/router
-
-**Setting up Apollo GraphQL with Angular**
-
-- [GraphQL with Apollo Server 2.0](https://www.youtube.com/watch?v=8D9XnnjFGMs)
-- [Apollo Angular GraphQL Optimistic UI](https://www.youtube.com/watch?v=Wc7bJ2uv694)
-
-# Details about seperating express server and angular during dev with proxy and how to handle production:
-https://stackoverflow.com/questions/42895585/hooking-up-express-js-with-angular-cli-in-dev-environment 

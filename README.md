@@ -21,4 +21,6 @@ Training weights for face-api.js
 # Development Notes
 ***For reference only and not necessarlily up to date:***
 
-[DEVLOG.md](DEVLOG.md)
+[Root DEVLOG.md](DEVLOG.md)
+
+[Client DEVLOG.md](client/DEVLOG.md)
