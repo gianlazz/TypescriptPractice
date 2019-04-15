@@ -4,5 +4,5 @@ import * as shell from "shelljs";
 shell.cp( "-R", "src/web/views", "dist/web" );
 // Copy face-api.js models to be statically served
 shell.cp( "-R", "../models/", "dist/web/" );
-// Copy images folder for examples for face-api.js
-shell.cp( "-R", "../images/", "dist/web/")
+// Copy client dist folder to be served statically
+shell.cp( "-R", "../client/dist/AngularFrontEnd", "dist/")
