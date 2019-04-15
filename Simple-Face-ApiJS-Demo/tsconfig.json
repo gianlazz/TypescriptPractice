@@ -5,6 +5,10 @@
     "outDir": "dist",
     "sourceMap": true
   },
+  "include": [
+    "src/**/*.ts",
+    "src/index.html"
+  ],
   "exclude": [
     "node_modules"
   ]
