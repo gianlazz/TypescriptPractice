@@ -89,7 +89,7 @@ export class FaceRecognitionComponent implements OnInit {
 
   async savePerson(form: NgForm) {
     console.log('Form data: ' + JSON.stringify(form.value));
-
+    let image = this.canvas.nativeElement.toDataURL("image/png");
     const results = await faceapi.detectSingleFace('video').withFaceLandmarks().withFaceDescriptor();
     const name = form.value.name;
     console.log(JSON.stringify(results));
@@ -102,10 +102,15 @@ export class FaceRecognitionComponent implements OnInit {
       
       // create FaceMatcher with automatically assigned labels
       // from the detection results for the reference image
-      this.faceMatcher = new faceapi.FaceMatcher(labeledDescriptor)
+      // this.faceMatcher = new faceapi.FaceMatcher(labeledDescriptor);
+      this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
     } else {
       alert('Nobody detected.');
     }
+  }
+
+  async registerPersonOnServer(name: string, image: any, descriptors: any) {
+
   }
 
   async recognize() {
