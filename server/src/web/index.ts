@@ -29,6 +29,9 @@ app.set( "view engine", "ejs" );
 // Configure Express to serve static files in the public folder
 app.use( express.static( path.join( __dirname, "public" ) ) );
 
+// Configure Express to serve bundled angular client
+app.use()
+
 // Configure Express to serve static files in the models folder for face-api.js
 app.use("/models", express.static( path.join( __dirname, "models" ) ) );
 app.use("/images", express.static(path.join(__dirname, "images")));

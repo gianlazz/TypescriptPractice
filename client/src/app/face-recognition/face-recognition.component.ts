@@ -108,39 +108,6 @@ export class FaceRecognitionComponent implements OnInit {
     }
   }
 
-  async detect() {
-    // Flip face detection on or off
-    this.faceDetectionIsOn = !this.faceDetectionIsOn;
-
-    if (this.faceDetectionIsOn) {
-      // Subscribe to begin publishing values
-      this.detectionCounterSubscription = this.detectionCounter.subscribe(async (n) => {
-        const detections = await faceapi.detectAllFaces('video');
-        const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
-        const boxesWithText: faceapi.BoxWithText[] = [];
-
-        detectionsForSize.forEach(x => {
-          boxesWithText.push(new faceapi.BoxWithText(
-            x.box, "unknown"
-          ));
-        })
-
-        // Clear the canvas
-        let context = this.canvas.nativeElement.getContext("2d");
-        context.clearRect(0, 0, 640, 480);
-
-        // Draw new results onto a canvas
-        await faceapi.drawDetection('canvas', boxesWithText, { withScore: true });
-      });
-    } else {
-      this.detectionCounterSubscription.unsubscribe();
-
-      // Clear the canvas
-      let context = this.canvas.nativeElement.getContext("2d");
-      context.clearRect(0, 0, 640, 480);
-    }
-  }
-
   async recognize() {
     // Flip face recognition on or off
     this.faceRecognitionIsOn = !this.faceRecognitionIsOn;
@@ -178,6 +145,39 @@ export class FaceRecognitionComponent implements OnInit {
       });
     } else {
       this.recognitionCounterSubscription.unsubscribe();
+
+      // Clear the canvas
+      let context = this.canvas.nativeElement.getContext("2d");
+      context.clearRect(0, 0, 640, 480);
+    }
+  }
+
+  async detect() {
+    // Flip face detection on or off
+    this.faceDetectionIsOn = !this.faceDetectionIsOn;
+
+    if (this.faceDetectionIsOn) {
+      // Subscribe to begin publishing values
+      this.detectionCounterSubscription = this.detectionCounter.subscribe(async (n) => {
+        const detections = await faceapi.detectAllFaces('video');
+        const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
+        const boxesWithText: faceapi.BoxWithText[] = [];
+
+        detectionsForSize.forEach(x => {
+          boxesWithText.push(new faceapi.BoxWithText(
+            x.box, "unknown"
+          ));
+        })
+
+        // Clear the canvas
+        let context = this.canvas.nativeElement.getContext("2d");
+        context.clearRect(0, 0, 640, 480);
+
+        // Draw new results onto a canvas
+        await faceapi.drawDetection('canvas', boxesWithText, { withScore: true });
+      });
+    } else {
+      this.detectionCounterSubscription.unsubscribe();
 
       // Clear the canvas
       let context = this.canvas.nativeElement.getContext("2d");
