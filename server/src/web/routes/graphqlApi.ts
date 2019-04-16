@@ -1,3 +1,4 @@
+import { json } from "body-parser";
 import express from "express";
 import graphqlHTTP from "express-graphql";
 import { buildASTSchema } from "graphql";
@@ -5,7 +6,6 @@ import gql from "graphql-tag";
 import { async } from "q";
 import { Guitar } from "../../dal/entity/guitar";
 import { PersonsFace } from "../../dal/entity/personsFace";
-import { json } from "body-parser";
 
 export const register = ( app: express.Application ) => {
     // Authorization
@@ -37,7 +37,7 @@ export const register = ( app: express.Application ) => {
         type Mutation {
             createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             deleteGuitar(id: Int!): Boolean
-            registerPersonsFace(name: String, image: String, jsonDescriptor): PersonsFace
+            registerPersonsFace(name: String, image: String, jsonDescriptor: String): PersonsFace
         }
     `);
 
