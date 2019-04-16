@@ -4,6 +4,8 @@ import { buildASTSchema } from "graphql";
 import gql from "graphql-tag";
 import { async } from "q";
 import { Guitar } from "../../dal/entity/guitar";
+import { PersonsFace } from "../../dal/entity/personsFace";
+import { json } from "body-parser";
 
 export const register = ( app: express.Application ) => {
     // Authorization
@@ -63,10 +65,18 @@ export const register = ( app: express.Application ) => {
         },
         hello: () => "hello world",
         recognizedFaces: async () => {
-// IMPLEMENT
+            const results = await PersonsFace.find();
+            console.log(results);
+            return results;
         },
-        registerPersonsFace: async () => {
-// IMPLEMENT
+        registerPersonsFace: async (name: string, image: string, jsonDescriptor: string) => {
+            let personsFace = new PersonsFace();
+            personsFace.name = name;
+            personsFace.image = image;
+            personsFace.jsonDescriptor = jsonDescriptor;
+            personsFace = await PersonsFace.create(personsFace);
+            personsFace.save();
+            return personsFace;
         },
     };
 
