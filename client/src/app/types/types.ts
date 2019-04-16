@@ -7,6 +7,13 @@ export type Guitar = {
     color: string;
 }
 
+export type PersonsFace = {
+    id: number;
+    name: string;
+    image: string;
+    jsonDescriptor: string;
+}
+
 export type Query = {
     guitars: Guitar[];
 }

@@ -3,6 +3,7 @@ import graphqlHTTP from "express-graphql";
 import { buildASTSchema } from "graphql";
 import gql from "graphql-tag";
 import { Guitar } from "../../dal/entity/guitar";
+import { async } from "q";
 
 export const register = ( app: express.Application ) => {
     // Authorization
@@ -18,14 +19,23 @@ export const register = ( app: express.Application ) => {
             color: String
         }
 
+        type PersonsFace {
+            id: Int
+            name: String
+            image: String
+            jsonDescriptor: String
+        }
+
         type Query {
             guitars: [Guitar]
+            recognizedFaces: [PersonsFace]
             hello: String
         }
 
         type Mutation {
             createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             deleteGuitar(id: Int!): Boolean
+            registerPersonsFace(name: String, image: String, jsonDescriptor): PersonsFace
         }
     `);
 
@@ -44,12 +54,18 @@ export const register = ( app: express.Application ) => {
                 return false;
             }
         },
+        registerPersonsFace: async () => {
+// IMPLEMENT
+        },
         // guitars: async (userId: string) => {
         guitars: async () => {
             //  const guitars = await Guitar.find({ userId });
             const guitars = await Guitar.find();
             console.log(guitars);
             return guitars;
+        },
+        recognizedFaces: async () => {
+// IMPLEMENT
         },
         hello: () => "hello world"
     };

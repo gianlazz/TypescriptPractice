@@ -122,16 +122,14 @@ export class FaceRecognitionComponent implements OnInit {
       mutation: gql`
         mutation{
             registerPersonsFace(
-              userId: "1"
               name: name
               image: image
-              descriptor: jsonDescriptor
+              jsonDescriptor: jsonDescriptor
             ){
               id
-              userId
               name
               image
-              descriptor
+              jsonDescriptor
             }
           }
       `

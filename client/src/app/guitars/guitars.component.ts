@@ -6,7 +6,6 @@ import gql from 'graphql-tag';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
-import { jsonpCallbackContext } from '@angular/common/http/src/module';
 import { JsonPipe } from '@angular/common';
 
 @Component({
