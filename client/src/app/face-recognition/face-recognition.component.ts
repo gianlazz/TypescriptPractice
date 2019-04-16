@@ -127,9 +127,6 @@ export class FaceRecognitionComponent implements OnInit {
               jsonDescriptor: jsonDescriptor
             ){
               id
-              name
-              image
-              jsonDescriptor
             }
           }
       `

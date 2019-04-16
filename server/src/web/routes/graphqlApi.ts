@@ -37,7 +37,7 @@ export const register = ( app: express.Application ) => {
         type Mutation {
             createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             deleteGuitar(id: Int!): Boolean
-            registerPersonsFace(name: String, image: String, jsonDescriptor: String): PersonsFace
+            registerPersonsFace(name: String, image: String, jsonDescriptor: String): Int
         }
     `);
 
@@ -69,14 +69,12 @@ export const register = ( app: express.Application ) => {
             console.log(results);
             return results;
         },
-        registerPersonsFace: async (name: string, image: string, jsonDescriptor: string) => {
-            let personsFace = new PersonsFace();
-            personsFace.name = name;
-            personsFace.image = image;
-            personsFace.jsonDescriptor = jsonDescriptor;
+        registerPersonsFace: async (personsFace: PersonsFace) => {
+            console.log("registerPersonsFace mutation hit");
             personsFace = await PersonsFace.create(personsFace);
             personsFace.save();
-            return personsFace;
+            console.log(`registerPersonsFace mutation finished ${personsFace.id}`);
+            return personsFace.id;
         },
     };
 

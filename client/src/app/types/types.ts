@@ -16,9 +16,11 @@ export type PersonsFace = {
 
 export type Query = {
     guitars: Guitar[];
+    recognizedFaces: PersonsFace[];
 }
 
 export type Mutation = {
     createGuitar: Guitar;
     deleteGuitar: boolean;
+    registerPersonsFace: number;
 }
