@@ -4,6 +4,10 @@ import { NgForm } from '@angular/forms';
 import { interval, Observable, Subscription } from 'rxjs';
 import { FaceMatcher, LabeledFaceDescriptors } from 'face-api.js';
 import { isNullOrUndefined } from 'util';
+import { Apollo } from 'apollo-angular';
+import { Query, Mutation } from '../types/types';
+import gql from 'graphql-tag';
+
 
 @Component({
   selector: 'app-face-recognition',
@@ -20,6 +24,8 @@ export class FaceRecognitionComponent implements OnInit {
 
   public captures: Array<any>;
 
+  private _apollo: Apollo;
+
   public preLabledImages: string[];
   public labeledDescriptors: LabeledFaceDescriptors[];
   public faceMatcher: faceapi.FaceMatcher;
@@ -32,7 +38,8 @@ export class FaceRecognitionComponent implements OnInit {
   public recognitionCounter: Observable<number>;
   public recognitionCounterSubscription: Subscription;
 
-  constructor() {
+  constructor(apollo: Apollo) {
+    this._apollo = apollo;
     this.captures = [];
     this.labeledDescriptors = [];
 
@@ -102,15 +109,35 @@ export class FaceRecognitionComponent implements OnInit {
       
       // create FaceMatcher with automatically assigned labels
       // from the detection results for the reference image
-      // this.faceMatcher = new faceapi.FaceMatcher(labeledDescriptor);
       this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
+      await this.registerPersonOnServer(name, image, labeledDescriptor)
     } else {
       alert('Nobody detected.');
     }
   }
 
-  async registerPersonOnServer(name: string, image: any, descriptors: any) {
-
+  async registerPersonOnServer(name: string, image: any, descriptor: any) {
+    const jsonDescriptor = JSON.stringify(descriptor);
+    this._apollo.mutate<Mutation>({
+      mutation: gql`
+        mutation{
+            registerPersonsFace(
+              userId: "1"
+              name: name
+              image: image
+              descriptor: jsonDescriptor
+            ){
+              id
+              userId
+              name
+              image
+              descriptor
+            }
+          }
+      `
+    }).subscribe(res => {
+      console.log(res);
+    })
   }
 
   async recognize() {
