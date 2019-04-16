@@ -2,8 +2,8 @@ import express from "express";
 import graphqlHTTP from "express-graphql";
 import { buildASTSchema } from "graphql";
 import gql from "graphql-tag";
-import { Guitar } from "../../dal/entity/guitar";
 import { async } from "q";
+import { Guitar } from "../../dal/entity/guitar";
 
 export const register = ( app: express.Application ) => {
     // Authorization
@@ -54,9 +54,6 @@ export const register = ( app: express.Application ) => {
                 return false;
             }
         },
-        registerPersonsFace: async () => {
-// IMPLEMENT
-        },
         // guitars: async (userId: string) => {
         guitars: async () => {
             //  const guitars = await Guitar.find({ userId });
@@ -64,10 +61,13 @@ export const register = ( app: express.Application ) => {
             console.log(guitars);
             return guitars;
         },
+        hello: () => "hello world",
         recognizedFaces: async () => {
 // IMPLEMENT
         },
-        hello: () => "hello world"
+        registerPersonsFace: async () => {
+// IMPLEMENT
+        },
     };
 
     app.use("/graphql", graphqlHTTP({ schema, rootValue}));
