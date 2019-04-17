@@ -25,6 +25,9 @@
             "label": "New Typeorm Migration",
             "type": "shell",
             "command": "typeorm migration:generate -n ${input:MigrationName}",
+            "options": {
+                "cwd": "${workspaceRoot}/server"
+            },
             "problemMatcher": []
         }
     ],
