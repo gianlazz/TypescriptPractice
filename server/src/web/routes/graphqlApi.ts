@@ -49,7 +49,7 @@ export const register = ( app: express.Application ) => {
     const rootValue = {
         createGuitar: async (guitar: Guitar) => {
             guitar = await Guitar.create(guitar);
-            guitar.save();
+            guitar = await guitar.save();
             return guitar;
         },
         deleteGuitar: async (id: number) => {
@@ -77,7 +77,7 @@ export const register = ( app: express.Application ) => {
         registerPersonsFace: async (personsFace: PersonsFace) => {
             console.log("registerPersonsFace mutation hit");
             personsFace = await PersonsFace.create(personsFace);
-            personsFace.save();
+            personsFace = await personsFace.save();
             console.log(`registerPersonsFace mutation finished ${personsFace.id}`);
             return personsFace.id;
         },
