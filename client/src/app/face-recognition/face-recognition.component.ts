@@ -87,10 +87,12 @@ export class FaceRecognitionComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit(){
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      navigator.mediaDevices.getUserMedia({ video: true }).then(async stream => {
         this.video.nativeElement.srcObject = stream;
         // this.video.nativeElement.src = window.URL.createObjectURL(stream);
         this.video.nativeElement.play();
+
+        await this.recognize();
       });
     }
   }
