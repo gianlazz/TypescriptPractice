@@ -396,3 +396,6 @@ Or run it from a local install:
 ```
 npx ts-node ./node_modules/.bin/typeorm migration:run
 ```
+
+To use a number array with postgres:
+- https://github.com/typeorm/typeorm/issues/460

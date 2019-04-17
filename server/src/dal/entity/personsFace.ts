@@ -1,3 +1,4 @@
+import { type } from "os";
 import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
@@ -12,7 +13,7 @@ export class PersonsFace extends BaseEntity {
     @Column({ nullable: true })
     public image: string;
 
-    @Column({ nullable: true })
+    @Column( "decimal", {array: true, nullable: true })
     public descriptor: number[];
 
 }
