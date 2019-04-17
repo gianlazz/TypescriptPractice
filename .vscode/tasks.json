@@ -20,6 +20,20 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "New Typeorm Migration",
+            "type": "shell",
+            "command": "typeorm migration:generate -n ${input:MigrationName}",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "MigrationName",
+            "description": "Enter Typeorm Migration Name",
+            "default": "",
+            "type": "promptString"
         }
     ]
 }
