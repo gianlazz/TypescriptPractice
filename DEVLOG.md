@@ -6,6 +6,8 @@
 
 Dev Notes ***Subjects in descending chronological order***
 
+- [VSCode Launch & Task Configuration](#vscode-launch-&-task-configuration)
+- [Deployment](#depoyment)
 - [Angular And Express](#angular-and-express)
 - [Angular](#angular)
 - [Graphql](#graphql-setup)
@@ -40,9 +42,18 @@ Dev Notes ***Subjects in descending chronological order***
 
 # Dev Notes (Ordered by oldest to most recent subject)
 
-## Deploy With Zeit Now
+## VSCode Launch & Task Configuration
 ---
-**Now.json:**
+This is important for VSCode debugging and task automation.
+
+- https://stackoverflow.com/questions/45582698/is-it-possible-to-pass-arguments-to-a-task-in-visual-studio-code
+- https://code.visualstudio.com/docs/editor/tasks
+- https://code.visualstudio.com/docs/editor/tasks#_compound-tasks
+
+## Deployment
+---
+
+**Zeit Now json:**
 - https://zeit.co/docs/v2/deployments/configuration
 - https://zeit.co/docs/v2/deployments/builders/overview/
 - https://zeit.co/examples/nodejs

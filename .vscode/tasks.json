@@ -22,7 +22,7 @@
             }
         },
         {
-            "label": "New Typeorm Migration",
+            "label": "New Server Typeorm Migration",
             "type": "shell",
             "command": "typeorm migration:generate -n ${input:MigrationName}",
             "options": {
