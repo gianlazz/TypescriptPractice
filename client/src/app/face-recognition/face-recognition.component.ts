@@ -116,6 +116,21 @@ export class FaceRecognitionComponent implements OnInit {
     }
   }
 
+  async getRecognizedFaces() {
+    const personsFaces = this._apollo.watchQuery<Query>({
+      query: gql`
+        query {
+          recognizedFaces {
+            id
+            name
+            image
+            descriptor
+          }
+        }
+      `
+    })
+  }
+
   async registerPersonOnServer(name: string, image: string, descriptor: Float32Array) {
     console.log(descriptor);
     console.log(descriptor.toString());
