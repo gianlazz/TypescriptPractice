@@ -85,14 +85,13 @@ export const register = ( app: express.Application ) => {
                 console.error(error);
             }
         },
-        registerPersonsFace: async (name: string, image: string, descriptor: number[]) => {
+        registerPersonsFace: async (personsFace: PersonsFace) => {
             try {
                 console.log("registerPersonsFace mutation hit");
-                // personsFace = await PersonsFace.create(personsFace);
-                // personsFace = await personsFace.save();
-                // console.log(`registerPersonsFace mutation finished ${personsFace.id}`);
-                // return personsFace.id;]
-                return 1;
+                personsFace = await PersonsFace.create(personsFace);
+                personsFace = await personsFace.save();
+                console.log(`registerPersonsFace mutation finished ${personsFace.id}`);
+                return personsFace.id;
             } catch (error) {
                 console.error(error);
             }
