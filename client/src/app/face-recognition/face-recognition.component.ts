@@ -126,7 +126,7 @@ export class FaceRecognitionComponent implements OnInit {
             registerPersonsFace(
               name: "${ name }"
               image: "${ image }"
-              descriptor: [${ descriptor.toString() }]
+              descriptor: [${ descriptor }]
             )
           }
       `
