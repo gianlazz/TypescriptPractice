@@ -30,7 +30,7 @@ export const register = ( app: express.Application ) => {
             # Base64 encoded image string used to generate the descriptor
             image: String
             # Float array representation of the face coordinates for matching
-            descriptor: Float[]
+            descriptor: [Float]
         }
 
         type Query {
