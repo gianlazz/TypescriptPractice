@@ -12,6 +12,8 @@ export const register = ( app: express.Application ) => {
     const oidc = app.locals.oidc;
 
     const schema = buildASTSchema(gql`
+        scalar JSON
+
         type Guitar {
             id: Int
             userId: String
@@ -23,9 +25,12 @@ export const register = ( app: express.Application ) => {
 
         type PersonsFace {
             id: Int
+            # For creating labeled descriptors for rendering matches
             name: String
+            # Base64 encoded image string used to generate the descriptor
             image: String
-            jsonDescriptor: String
+            # Float array representation of the face coordinates for matching
+            descriptor: Float[]
         }
 
         type Query {
@@ -37,7 +42,7 @@ export const register = ( app: express.Application ) => {
         type Mutation {
             createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             deleteGuitar(id: Int!): Boolean
-            registerPersonsFace(name: String, image: String, jsonDescriptor: String): Int
+            registerPersonsFace(name: String, image: String, descriptor: String): Int
         }
     `);
 

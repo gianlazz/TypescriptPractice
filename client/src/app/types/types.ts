@@ -11,7 +11,7 @@ export type PersonsFace = {
     id: number;
     name: string;
     image: string;
-    jsonDescriptor: string;
+    descriptor: number[];
 }
 
 export type Query = {

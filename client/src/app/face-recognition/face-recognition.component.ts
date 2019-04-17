@@ -110,24 +110,21 @@ export class FaceRecognitionComponent implements OnInit {
       // create FaceMatcher with automatically assigned labels
       // from the detection results for the reference image
       this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
-      await this.registerPersonOnServer(name, image, labeledDescriptor)
+      await this.registerPersonOnServer(name, image, results.descriptor)
     } else {
       alert('Nobody detected.');
     }
   }
 
-  async registerPersonOnServer(name: string, image: any, descriptor: any) {
-    const jsonDescriptor = JSON.stringify(descriptor);
+  async registerPersonOnServer(name: string, image: string, descriptor: Float32Array) {
     this._apollo.mutate<Mutation>({
       mutation: gql`
         mutation{
             registerPersonsFace(
-              name: name
-              image: image
-              jsonDescriptor: jsonDescriptor
-            ){
-              id
-            }
+              name: "${ name }"
+              image: "${ image }"
+              descriptor: ${ descriptor }
+            )
           }
       `
     }).subscribe(res => {

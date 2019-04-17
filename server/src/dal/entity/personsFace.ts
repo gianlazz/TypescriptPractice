@@ -13,6 +13,6 @@ export class PersonsFace extends BaseEntity {
     public image: string;
 
     @Column({ nullable: true })
-    public jsonDescriptor: string;
+    public descriptor: number[];
 
 }
