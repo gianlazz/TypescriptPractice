@@ -117,13 +117,16 @@ export class FaceRecognitionComponent implements OnInit {
   }
 
   async registerPersonOnServer(name: string, image: string, descriptor: Float32Array) {
+    console.log(descriptor);
+    console.log(descriptor.toString());
+    
     this._apollo.mutate<Mutation>({
       mutation: gql`
         mutation{
             registerPersonsFace(
               name: "${ name }"
               image: "${ image }"
-              descriptor: ${ descriptor }
+              descriptor: [${ descriptor.toString() }]
             )
           }
       `
