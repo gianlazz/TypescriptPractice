@@ -4,14 +4,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "server/ dev",
+            "label": "Run Server Dev",
             "type": "npm",
             "script": "dev",
             "path": "server/",
             "problemMatcher": []
         },
         {
-            "label": "server/ build",
+            "label": "Build Server",
             "type": "npm",
             "script": "build",
             "path": "server/",
@@ -25,6 +25,15 @@
             "label": "New Server Typeorm Migration",
             "type": "shell",
             "command": "typeorm migration:generate -n ${input:MigrationName}",
+            "options": {
+                "cwd": "${workspaceRoot}/server"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Server Typeorm Migrations",
+            "type": "shell",
+            "command": "typeorm migration:run",
             "options": {
                 "cwd": "${workspaceRoot}/server"
             },
