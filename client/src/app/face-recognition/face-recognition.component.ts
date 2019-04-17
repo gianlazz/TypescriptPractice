@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import * as faceapi from 'face-api.js';
 import { NgForm } from '@angular/forms';
 import { interval, Observable, Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { isNullOrUndefined } from 'util';
 import { Apollo } from 'apollo-angular';
 import { Query, Mutation } from '../types/types';
 import gql from 'graphql-tag';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -14,7 +15,7 @@ import gql from 'graphql-tag';
   templateUrl: './face-recognition.component.html',
   styleUrls: ['./face-recognition.component.css']
 })
-export class FaceRecognitionComponent implements OnInit {
+export class FaceRecognitionComponent implements OnInit, OnDestroy {
 
   @ViewChild("video")
   public video: ElementRef;
@@ -25,6 +26,8 @@ export class FaceRecognitionComponent implements OnInit {
   public captures: Array<any>;
 
   private _apollo: Apollo;
+
+  private _recognizedFacesSubscription: Subscription;
 
   public preLabledImages: string[];
   public labeledDescriptors: LabeledFaceDescriptors[];
@@ -76,6 +79,10 @@ export class FaceRecognitionComponent implements OnInit {
     console.log(faceapi.nets)
   }
 
+  ngOnDestroy() {
+    this._recognizedFacesSubscription.unsubscribe();
+  }
+
   ngAfterViewInit(){
     if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
@@ -117,7 +124,7 @@ export class FaceRecognitionComponent implements OnInit {
   }
 
   async getRecognizedFaces() {
-    const personsFaces = this._apollo.watchQuery<Query>({
+    this._recognizedFacesSubscription = await this._apollo.watchQuery<Query>({
       query: gql`
         query {
           recognizedFaces {
@@ -129,6 +136,14 @@ export class FaceRecognitionComponent implements OnInit {
         }
       `
     })
+    .valueChanges
+    .subscribe(({data}) => {
+      console.log(data.recognizedFaces);
+
+      data.recognizedFaces.forEach(element => {
+        
+      });
+    });
   }
 
   async registerPersonOnServer(name: string, image: string, descriptor: Float32Array) {
