@@ -76,7 +76,9 @@ export class FaceRecognitionComponent implements OnInit, OnDestroy {
     await faceapi.loadFaceExpressionModel('/models');
     console.log('Loaded loadFaceExpressionModel');
 
-    console.log(faceapi.nets)
+    console.log(faceapi.nets);
+
+    await this.getRecognizedFaces();
   }
 
   ngOnDestroy() {
@@ -140,8 +142,16 @@ export class FaceRecognitionComponent implements OnInit, OnDestroy {
     .subscribe(({data}) => {
       console.log(data.recognizedFaces);
 
-      data.recognizedFaces.forEach(element => {
+      data.recognizedFaces.forEach(result => {
+        const descriptor = new Float32Array(result.descriptor);
+        const labeledDescriptor = new faceapi.LabeledFaceDescriptors(result.name, [descriptor])
+        console.log(JSON.stringify(labeledDescriptor));
+        this.labeledDescriptors.push(labeledDescriptor);
+        console.log('Added to array of labeled descriptors');
         
+        // create FaceMatcher with automatically assigned labels
+        // from the detection results for the reference image
+        this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
       });
     });
   }
