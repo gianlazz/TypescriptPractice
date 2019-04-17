@@ -4,11 +4,22 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "dev",
+            "label": "server/ dev",
             "type": "npm",
             "script": "dev",
             "path": "server/",
             "problemMatcher": []
+        },
+        {
+            "label": "server/ build",
+            "type": "npm",
+            "script": "build",
+            "path": "server/",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         }
     ]
 }
