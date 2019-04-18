@@ -22,6 +22,20 @@
             }
         },
         {
+            "label": "Build Server For Distribution",
+            "type": "npm",
+            "script": "buildForDistribution",
+            "path": "server/",
+            "problemMatcher": []
+        },
+        {
+            "label": "Dev Server For Distribution",
+            "type": "npm",
+            "script": "dev:distro",
+            "path": "server/",
+            "problemMatcher": []
+        },
+        {
             "label": "Run Client Server",
             "type": "npm",
             "script": "serve",
