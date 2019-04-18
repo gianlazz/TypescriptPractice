@@ -5,8 +5,8 @@ import * as http from "http";
 import path from "path";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import * as sessionAuth from "./middleware/sessionAuth";
-import * as routes from "./routes";
+import * as sessionAuth from "./web/middleware/sessionAuth";
+import * as routes from "./web/routes";
 
 const app = express();
 
@@ -23,20 +23,15 @@ dotenv.config();
 // as if it were an enviroment variable
 const port = process.env.SERVER_PORT;
 
-// Configure Express to use EJS
-app.set( "views", path.join( __dirname, "views" ) );
-app.set( "view engine", "ejs" );
-
-// Configure Express to serve static files in the public folder
-app.use( express.static( path.join( __dirname, "public" ) ) );
+// // Configure Express to serve static files in the public folder
+// app.use( express.static( path.join( __dirname, "public" ) ) );
 
 // Configure Express to serve bundled angular client
-app.use(express.static( path.join( __dirname + "/AngularFrontEnd" ) ) );
-app.use("/*", ( req, res ) => res.sendFile( path.join( __dirname ) ) );
+app.use(express.static( path.join( __dirname + "/web/AngularFrontEnd" ) ) );
+// app.use("/*", ( req, res ) => res.sendFile( path.join( __dirname + "/web/AngularFrontEnd/index.js" ) ) );
 
 // Configure Express to serve static files in the models folder for face-api.js
-app.use("/models", express.static( path.join( __dirname, "models" ) ) );
-app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/models", express.static( path.join( __dirname, "/web/models" ) ) );
 
 // Configure session auth
 sessionAuth.register( app );
