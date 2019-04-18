@@ -29,6 +29,18 @@
             "problemMatcher": []
         },
         {
+            "label": "Open localhost:8080",
+            "type": "shell",
+            "command": "open http://localhost:8080",
+            "problemMatcher": []
+        },
+        {
+            "label": "Open localhost:4200",
+            "type": "shell",
+            "command": "open http://localhost:4200",
+            "problemMatcher": []
+        },
+        {
             "label": "New Server Typeorm Migration",
             "type": "shell",
             "command": "typeorm migration:generate -n ${input:MigrationName}",
