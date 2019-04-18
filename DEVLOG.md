@@ -53,6 +53,29 @@ This is important for VSCode debugging and task automation.
 ## Deployment
 ---
 
+**Serverless Deployment Options:**
+
+**Deploying with Firebase:**
+
+https://codeburst.io/graphql-server-on-cloud-functions-for-firebase-ae97441399c0
+
+[(YouTube) Deploy An Angular App To Firebase In Minutes](https://www.youtube.com/watch?v=mF7FTWHS3ys)
+```
+sudo npm install -g firebase-tools
+firebase login
+cd server/
+firebase init
+```
+- Select: 
+    - Hosting: Configure and deploy Firebase Hosting sites
+    - Functions: Configure and deploy Cloud Functions
+- Select your project.
+- Enter `dist` as your public directory
+- ? Configure as a single-page app (rewrite all urls to /index.html)? (y/N) y
+```
+firebase deploy
+```
+
 **Zeit Now json:**
 - https://zeit.co/docs/v2/deployments/configuration
 - https://zeit.co/docs/v2/deployments/builders/overview/
