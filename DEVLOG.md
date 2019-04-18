@@ -53,7 +53,15 @@ This is important for VSCode debugging and task automation.
 ## Deployment
 ---
 
+**Deploying Docker Container to Zeit**
+https://www.youtube.com/watch?v=QnHch-42Hzw
+
 **Serverless Deployment Options:**
+
+Zeit vs. Firebase
+- Firebase Functions = Zeit Serverless
+- Firebases Hosting = Zeit Static Files
+- Zeit Supports docker
 
 **Deploying with Firebase:**
 
