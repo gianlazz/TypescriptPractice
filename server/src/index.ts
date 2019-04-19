@@ -70,6 +70,7 @@ createConnection({
     entities: [
         "dist/dal/entity/**/*.js"
     ],
+    synchronize: true,
     extra: {
          ssl: true,
     }
