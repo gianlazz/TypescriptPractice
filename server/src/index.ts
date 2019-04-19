@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import * as http from "http";
 import path from "path";
-import { Pool } from "pg";
+import { Pool } from 'pg';
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import * as sessionAuth from "./web/middleware/sessionAuth";
@@ -64,8 +64,16 @@ app.get("/db", async (req, res) => {
   });
 
 // Create connection to database with TypeORM ormconfig.json
-createConnection()
-    .then((connection) => {
+createConnection({
+    url: process.env.DATABASE_URL,
+    type: 'postgres',
+    entities: [
+        "dist/dal/entity/**/*.js"
+    ],
+    extra: {
+         ssl: true,
+    }
+}).then((connection) => {
         // Here you can start working with your entities
         // tslint:disable-next-line:no-console
         console.log("Connected to database with TypeORM.");

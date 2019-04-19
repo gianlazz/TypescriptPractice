@@ -112,6 +112,8 @@ https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=tru
 heroku addons:create heroku-postgresql:hobby-dev
 ```
 
+https://github.com/typeorm/typeorm/issues/278
+
 ## Severless Deployment
 ---
 

@@ -156,3 +156,4 @@ Thumbs.db
 # models/**/*
 # images/**/*
 !.keep
+server/ormconfig.json
