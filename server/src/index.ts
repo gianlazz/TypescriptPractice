@@ -17,7 +17,7 @@ app.use( express.json() );
 app.use(cors());
 
 // initialize configuration
-if (process.env.DEPLOYMENT == "Heroku"){
+if (process.env.DEPLOYMENT === "Heroku"){
 // Environment variables set in heroku 
 }
 else {
