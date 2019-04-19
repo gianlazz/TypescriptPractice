@@ -79,10 +79,13 @@ export class FaceRecognitionComponent implements OnInit, OnDestroy {
     console.log(faceapi.nets);
 
     await this.getRecognizedFaces();
+    await this.recognize();
   }
 
   ngOnDestroy() {
     this._recognizedFacesSubscription.unsubscribe();
+    this.detectionCounterSubscription.unsubscribe();
+    this.recognitionCounterSubscription.unsubscribe();
   }
 
   ngAfterViewInit(){
@@ -91,8 +94,6 @@ export class FaceRecognitionComponent implements OnInit, OnDestroy {
         this.video.nativeElement.srcObject = stream;
         // this.video.nativeElement.src = window.URL.createObjectURL(stream);
         this.video.nativeElement.play();
-
-        await this.recognize();
       });
     }
   }
