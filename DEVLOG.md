@@ -53,6 +53,30 @@ This is important for VSCode debugging and task automation.
 ## Deployment
 ---
 
+**Heroku Deployment:**
+
+```
+brew tap heroku/brew && brew install heroku
+heroku login
+heroku create
+
+heroku git:remote -a nameofproject
+heroku buildpacks:set heroku/nodejs
+```
+There need a package.json at the root of the repository for it to work.
+Use the "heroku-prebuild" script to cd, install and build your projects in nested folders.
+Also you may need to remove devDependency pruning depending on when you're using them.
+```
+heroku config:set NPM_CONFIG_PRODUCTION=false YARN_PRODUCTION=false
+```
+Set your heroku environment variables: https://devcenter.heroku.com/articles/config-vars#managing-config-vars
+Then after commiting and pushing to your git repo you can publish.
+```
+git push heroku master
+```
+**Postgres setup on Heroku:**
+
+
 **Deploying Docker Container to Zeit**
 https://www.youtube.com/watch?v=QnHch-42Hzw
 
