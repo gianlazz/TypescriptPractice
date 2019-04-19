@@ -106,6 +106,8 @@ git push heroku master
 
 **Postgres setup on Heroku:**
 
+https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true#provision-a-database
+
 ## Severless Deployment
 ---
 

@@ -153,6 +153,6 @@ testem.log
 Thumbs.db
 
 # Face-api.js resources
-models/**/*
-images/**/*
+# models/**/*
+# images/**/*
 !.keep

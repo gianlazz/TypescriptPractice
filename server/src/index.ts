@@ -17,10 +17,9 @@ app.use( express.json() );
 app.use(cors());
 
 // initialize configuration
-if (process.env.DEPLOYMENT === "Heroku"){
-// Environment variables set in heroku 
-}
-else {
+if (process.env.DEPLOYMENT === "Heroku") {
+// Environment variables set in heroku
+} else {
     dotenv.config();
 }
 
