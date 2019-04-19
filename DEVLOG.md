@@ -59,19 +59,34 @@ This is important for VSCode debugging and task automation.
 brew tap heroku/brew && brew install heroku
 heroku login
 heroku create
+```
 
+If you have issues getting your project to push because it didn't attach to the new project git:
+- https://stackoverflow.com/questions/18406721/heroku-does-not-appear-to-be-a-git-repository
+
+```
 heroku git:remote -a nameofproject
 heroku buildpacks:set heroku/nodejs
 ```
+
 There need a package.json at the root of the repository for it to work.
 Use the "heroku-prebuild" script to cd, install and build your projects in nested folders.
+- https://stackoverflow.com/questions/51187161/deploy-an-app-to-heroku-that-isnt-in-the-project-root
+- https://devcenter.heroku.com/articles/nodejs-support#heroku-specific-build-steps
+
 Also you may need to remove devDependency pruning depending on when you're using them.
+- https://stackoverflow.com/questions/42671260/trouble-deploying-nodejs-app-to-heroku
+- https://devcenter.heroku.com/articles/nodejs-support#skip-pruning
+
 ```
 heroku config:set NPM_CONFIG_PRODUCTION=false YARN_PRODUCTION=false
 ```
+
 Set your heroku environment variables: https://devcenter.heroku.com/articles/config-vars#managing-config-vars
 
 You'll also need to check in the the main server file to decide if you should use dotenv otherwise it will override your heroku set environment variables.
+- https://stackoverflow.com/questions/49905070/how-to-add-env-file-or-otherwise-set-environment-variables-in-a-heroku-app
+- https://stackoverflow.com/questions/30047205/how-can-i-check-if-an-environment-variable-is-set-in-node-js
 
 ```Typescript
 // initialize configuration
@@ -84,9 +99,11 @@ else {
 ```
 
 Then after commiting and pushing to your git repo you can publish.
+
 ```
 git push heroku master
 ```
+
 **Postgres setup on Heroku:**
 
 ## Severless Deployment
