@@ -83,8 +83,8 @@ export class FaceRecognitionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._recognizedFacesSubscription.unsubscribe();
-    // this.detectionCounterSubscription.unsubscribe();
-    // this.recognitionCounterSubscription.unsubscribe();
+    this.detectionCounterSubscription.unsubscribe();
+    this.recognitionCounterSubscription.unsubscribe();
   }
 
   ngAfterViewInit(){
@@ -136,7 +136,6 @@ export class FaceRecognitionComponent implements OnInit, OnDestroy {
           recognizedFaces {
             id
             name
-            image
             descriptor
           }
         }

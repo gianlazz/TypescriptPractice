@@ -108,6 +108,10 @@ git push heroku master
 
 https://devcenter.heroku.com/articles/getting-started-with-nodejs?singlepage=true#provision-a-database
 
+```
+heroku addons:create heroku-postgresql:hobby-dev
+```
+
 ## Severless Deployment
 ---
 
@@ -488,3 +492,11 @@ npx ts-node ./node_modules/.bin/typeorm migration:run
 
 To use a number array with postgres:
 - https://github.com/typeorm/typeorm/issues/460
+
+**Initialize DB If It Doesn't Exist:**
+
+["If you are asking about "create database method", then it already exist in QueryRunner and its called createDatabase. But its not called inside ORM, you shall call it on your own."](https://github.com/typeorm/typeorm/issues/1406#issuecomment-367063415)
+
+[Github example of doing the method mentioned above.](https://github.com/typeorm/typeorm/blob/master/test/functional/query-runner/create-and-drop-database.ts)
+
+https://github.com/typeorm/typeorm/issues/809#issuecomment-325951226
