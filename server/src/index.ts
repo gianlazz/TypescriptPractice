@@ -17,7 +17,12 @@ app.use( express.json() );
 app.use(cors());
 
 // initialize configuration
-dotenv.config();
+if (process.env.DEPLOYMENT == "Heroku"){
+// Environment variables set in heroku 
+}
+else {
+    dotenv.config();
+}
 
 // port is now available to the Node.js runtime
 // as if it were an enviroment variable
