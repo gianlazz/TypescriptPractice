@@ -23,7 +23,7 @@
   "alias": {
     "vue": "./node_modules/vue/dist/vue.common.js",
     "apollo-boost": "./node_modules/apollo-boost/lib/bundle.umd.js",
-    "graphql-tag": "./node_modules/graphql-tag/lib/graphql-tag.umd.js",
+    "graphql-tag": "./node_modules/graphql-tag/lib/graphql-tag.umd.js"
   },
   "author": "",
   "license": "ISC",
