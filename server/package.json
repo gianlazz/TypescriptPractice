@@ -24,6 +24,7 @@
     "vue": "./node_modules/vue/dist/vue.common.js",
     "apollo-boost": "./node_modules/apollo-boost/lib/bundle.umd.js",
     "graphql-tag": "./node_modules/graphql-tag/lib/graphql-tag.umd.js"
+
   },
   "author": "",
   "license": "ISC",
@@ -44,15 +45,7 @@
     "pg-promise": "^8.6.4",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.16",
-    "vue": "^2.6.10",
-    "nodemon": "^1.18.10",
-    "npm-run-all": "^4.1.5",
-    "parcel-bundler": "^1.12.3",
-    "rimraf": "^2.6.3",
-    "shelljs": "^0.8.3",
-    "ts-node": "^8.0.3",
-    "tslint": "^5.14.0",
-    "typescript": "^3.4.1"
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
