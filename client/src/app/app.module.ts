@@ -67,7 +67,7 @@ const appRoutes: Routes = [
 export class AppModule { 
   constructor(apollo: Apollo, httpLink: HttpLink) {
     apollo.create({
-      link: httpLink.create({ uri: 'http://localhost:8080/graphql' }),
+      link: httpLink.create({ uri: 'https://lazztechvision.herokuapp.com:8080/graphql' }),
       cache: new InMemoryCache()
     })
   }
