@@ -55,6 +55,12 @@
             "problemMatcher": []
         },
         {
+            "label": "Publish to Heroku",
+            "type": "shell",
+            "command": "git push heroku master",
+            "problemMatcher": []
+        },
+        {
             "label": "New Server Typeorm Migration",
             "type": "shell",
             "command": "typeorm migration:generate -n ${input:MigrationName}",

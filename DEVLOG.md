@@ -7,7 +7,8 @@
 Dev Notes ***Subjects in descending chronological order***
 
 - [VSCode Launch & Task Configuration](#vscode-launch-&-task-configuration)
-- [Deployment](#depoyment)
+- [Deployment](#deployment)
+- [Serverless Deployment](#severless-deployment)
 - [Angular And Express](#angular-and-express)
 - [Angular](#angular)
 - [Graphql](#graphql-setup)
@@ -52,7 +53,6 @@ This is important for VSCode debugging and task automation.
 
 ## Deployment
 ---
-
 **Heroku Deployment:**
 
 ```
@@ -70,12 +70,27 @@ Also you may need to remove devDependency pruning depending on when you're using
 heroku config:set NPM_CONFIG_PRODUCTION=false YARN_PRODUCTION=false
 ```
 Set your heroku environment variables: https://devcenter.heroku.com/articles/config-vars#managing-config-vars
+
+You'll also need to check in the the main server file to decide if you should use dotenv otherwise it will override your heroku set environment variables.
+
+```Typescript
+// initialize configuration
+if (process.env.DEPLOYMENT === "Heroku"){
+// Environment variables set in heroku 
+}
+else {
+    dotenv.config();
+}
+```
+
 Then after commiting and pushing to your git repo you can publish.
 ```
 git push heroku master
 ```
 **Postgres setup on Heroku:**
 
+## Severless Deployment
+---
 
 **Deploying Docker Container to Zeit**
 https://www.youtube.com/watch?v=QnHch-42Hzw
