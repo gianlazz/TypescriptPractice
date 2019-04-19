@@ -65,15 +65,15 @@ app.get("/db", async (req, res) => {
 
 // Create connection to database with TypeORM ormconfig.json
 createConnection({
-    type: 'postgres',
-    url: process.env.DATABASE_URL,
     entities: [
         "dist/dal/entity/**/*.js"
     ],
-    synchronize: true,
     extra: {
-         ssl: true,
-    }
+        ssl: true,
+    },
+    synchronize: true,
+    type: 'postgres',
+    url: process.env.DATABASE_URL
 }).then((connection) => {
         // Here you can start working with your entities
         // tslint:disable-next-line:no-console
