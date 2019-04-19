@@ -65,8 +65,8 @@ app.get("/db", async (req, res) => {
 
 // Create connection to database with TypeORM ormconfig.json
 createConnection({
-    url: process.env.DATABASE_URL,
     type: 'postgres',
+    url: process.env.DATABASE_URL,
     entities: [
         "dist/dal/entity/**/*.js"
     ],
