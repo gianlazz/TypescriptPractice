@@ -1,17 +1,49 @@
 import * as functions from 'firebase-functions';
+import axios from "axios";
 // Google Assistant deps
 import { dialogflow, SimpleResponse, BasicCard, Button, Image } from 'actions-on-google';
 const app = dialogflow({ debug: true });
 
 // Capture Intent
 app.intent('Hello Lazztech', async (conv) => {
-    const data = 'Hello World';
+    let data: any;
+
+    axios({
+        url: `https://lazztechvision.herokuapp.com/graphql`,
+        method: 'post',
+        data: {
+            query: `
+                query {
+                    recognizedFaces()
+                    {
+                      id
+                      name
+                    }
+                  }
+            `
+        }
+    }).then((result) => {
+        data = result.data.recognizedFaces;
+    })
+    .catch( ( err: any ) => {
+        // tslint:disable-next-line:no-console
+        console.log( err );
+    });
+
+    let names = "";
+    
+    if (data) {
+        data.forEach((name: string)  => {
+            names += `${name}, `;
+        });
+    }
+        
 
     // conv.ask();
 
     conv.close(new SimpleResponse({
         text: `${data}`,
-        speech: `${data}`
+        speech: `Hello, I can recognize ${names}`
     }));
     conv.close(new BasicCard({
         title: 'Lazztech Assistant',
