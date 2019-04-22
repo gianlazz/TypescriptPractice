@@ -2,10 +2,11 @@
 <!-- <app-main-nav></app-main-nav> -->
 
 <mat-toolbar color="primary">
-  <span>Fullstack TS Practice</span>
+  <span mat-button routerLink="/">TS Vision</span>
   <span class="example-fill-remaining-space"></span>
-  <button mat-button>My Inventory</button>
-  <button mat-button>Login</button>
+  <button mat-button routerLink="/face">Camera</button>
+  <button mat-button routerLink="/guitar">People</button>
+  <!-- <button mat-button>Login</button> -->
 </mat-toolbar>
 
 <router-outlet></router-outlet>
