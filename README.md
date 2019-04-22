@@ -17,6 +17,9 @@ Training weights for face-api.js
 2. Run `npm install` in both server and client dirs
 3. cd into client dir and run `npm run serve` which will launch both the server and client
 
+- Add an ormconfig.json to the server based on ormconfig.sample.json
+- Add a .env file to the server based on .env.sample
+
 
 # Development Notes
 ***For reference only and not necessarlily up to date:***

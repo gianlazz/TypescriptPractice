@@ -6,6 +6,8 @@ import gql from "graphql-tag";
 import { async } from "q";
 import { Guitar } from "../../dal/entity/guitar";
 import { PersonsFace } from "../../dal/entity/personsFace";
+import { PersonImage } from "../../dal/entity/personImage";
+import { Image } from "../../dal/entity/image";
 
 export const register = ( app: express.Application ) => {
     // Authorization
@@ -21,6 +23,35 @@ export const register = ( app: express.Application ) => {
             color: String
         }
 
+        type Person {
+            id: Int
+            name: String
+            firstSeenDateTime: string
+            images: [Image]
+        }
+
+        type Image {
+            id: Int
+            image: String
+            persons: [Person]
+        }
+
+        type PersonDescriptor {
+            id: Int
+            descriptor: [Float]
+            person: Person
+            image: Image
+        }
+
+        type PersonImage {
+            personId: Int
+            imageId: Int
+            personDescriptorId: Int
+            person: Person
+            image: Image
+            personDescriptor: PersonDescriptor
+        }
+
         type PersonsFace {
             id: Int
             # For creating labeled descriptors for rendering matches
@@ -32,6 +63,7 @@ export const register = ( app: express.Application ) => {
         }
 
         type Query {
+            getAllPersonsImages(personId: Int!) [Image]
             guitars: [Guitar]
             recognizedFaces: [PersonsFace]
             hello: String
@@ -45,7 +77,7 @@ export const register = ( app: express.Application ) => {
     `);
 
     const rootValue = {
-        createGuitar: async (guitar: Guitar) => {
+        createGuitar: async (guitar: Guitar): Promise<Guitar> => {
             try {
                 guitar = await Guitar.create(guitar);
                 guitar = await guitar.save();
@@ -53,9 +85,8 @@ export const register = ( app: express.Application ) => {
             } catch (error) {
                 console.error(error);
             }
-
         },
-        deleteGuitar: async (id: number) => {
+        deleteGuitar: async (id: number): Promise<Boolean> => {
             try {
                 Guitar.delete(id);
                 return true;
@@ -64,8 +95,21 @@ export const register = ( app: express.Application ) => {
                 return false;
             }
         },
+        getAllPersonsImages: async (personId: number): Promise<Image[]> => {
+            try {
+                const personImages = await PersonImage.find({personId: personId});
+                let result: Image[] = [];
+                personImages.forEach(x => {
+                    result.push(x.image);
+                });
+                return result;
+            } catch (error) {
+                console.error(error);
+                throw(error);
+            }
+        },
         // guitars: async (userId: string) => {
-        guitars: async () => {
+        guitars: async (): Promise<Guitar[]> => {
             try {
                 //  const guitars = await Guitar.find({ userId });
                 const guitars = await Guitar.find();
@@ -76,7 +120,7 @@ export const register = ( app: express.Application ) => {
             }
         },
         hello: () => "hello world",
-        recognizedFaces: async () => {
+        recognizedFaces: async (): Promise<PersonsFace[]> => {
             try {
                 const results = await PersonsFace.find();
                 console.log(results);
@@ -85,7 +129,7 @@ export const register = ( app: express.Application ) => {
                 console.error(error);
             }
         },
-        registerPersonsFace: async (personsFace: PersonsFace) => {
+        registerPersonsFace: async (personsFace: PersonsFace): Promise<Number> => {
             try {
                 console.log("registerPersonsFace mutation hit");
                 personsFace = await PersonsFace.create(personsFace);
