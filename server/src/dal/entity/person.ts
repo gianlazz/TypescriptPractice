@@ -1,6 +1,6 @@
-import {BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import {BaseEntity, Column, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import { Image } from "./image";
-import { PersonsFace } from "./personsFace";
+import { PersonImage } from "./personImage";
 
 @Entity()
 export class Person extends BaseEntity {
@@ -14,8 +14,7 @@ export class Person extends BaseEntity {
     @Column({ nullable: true })
     public firstSeenDateTime: string;
 
-    @ManyToMany((type) => Image, (image) => image.persons)
-    @JoinTable()
+    @OneToMany((type) => PersonImage, (personImage) => personImage.image)
     public images: Image[];
 
 }

@@ -528,7 +528,7 @@ export class personImage extends BaseEntity {
 
 If you don't need extra information on the relationships then you can define them like below. Pay attention to which you decide is the "owning side" of the relationship. This is the one that if you delete it you would want the other side to be deleted as well if you have cascade delete turned on.
 
-The owning side is the one that you want to add the @JoinTable() attribute to. You must have the @JoinTable() on at least one of the two sides. This will create a join table for you in the database and does not require you to manage a mapping / join table entity like the one above.s
+The owning side is the one that you want to add the @JoinTable() attribute to. You must have the @JoinTable() on at least one of the two sides. This will create a join table for you in the database and does not require you to manage a mapping / join table entity like the one above. **Note: this relationships may not be a good example of which is the owning side with the @JoinTable() attribute.**
 
 ```Typescript
 import {BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
