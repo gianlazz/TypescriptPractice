@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import * as http from "http";
 import path from "path";
-import { Pool } from 'pg';
+import { Pool } from "pg";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import * as sessionAuth from "./web/middleware/sessionAuth";
@@ -72,7 +72,7 @@ createConnection({
         ssl: true,
     },
     synchronize: true,
-    type: 'postgres',
+    type: "postgres",
     url: process.env.DATABASE_URL
 }).then((connection) => {
         // Here you can start working with your entities
