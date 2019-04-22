@@ -16,7 +16,7 @@ export const register = ( app: express.Application ) => {
 
     const schema = buildASTSchema(gql`
         type Guitar {
-            id: Int
+            id: ID
             userId: String
             brand: String
             model: String
@@ -25,49 +25,49 @@ export const register = ( app: express.Application ) => {
         }
 
         type Person {
-            id: Int
+            id: ID
             name: String
             firstSeenDateTime: String
             images: [Image]
         }
 
         input InputPerson {
-            id: Int
+            id: ID
             name: String
             firstSeenDateTime: String
             images: [InputImage]
         }
 
         type Image {
-            id: Int
+            id: ID
             image: String
             persons: [Person]
         }
 
         input InputImage {
-            id: Int
+            id: ID
             image: String
             persons: [InputPerson]
         }
 
         type PersonDescriptor {
-            id: Int
+            id: ID
             descriptor: [Float]
             person: Person
             image: Image
         }
 
         type PersonImage {
-            personId: Int
-            imageId: Int
-            personDescriptorId: Int
+            personId: ID
+            imageId: ID
+            personDescriptorId: ID
             person: Person
             image: Image
             personDescriptor: PersonDescriptor
         }
 
         type PersonsFace {
-            id: Int
+            id: ID
             # For creating labeled descriptors for rendering matches
             name: String
             # Base64 encoded image string used to generate the descriptor
@@ -77,7 +77,7 @@ export const register = ( app: express.Application ) => {
         }
 
         type Query {
-            getAllPersonsImages(personId: Int!): [Image]
+            getAllPersonsImages(personId: ID!): [Image]
             guitars: [Guitar]
             recognizedFaces: [PersonsFace]
             hello: String
@@ -85,7 +85,7 @@ export const register = ( app: express.Application ) => {
 
         type Mutation {
             createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
-            deleteGuitar(id: Int!): Boolean
+            deleteGuitar(id: ID!): Boolean
             registerPersonsFace(name: String, image: String, descriptor: [Float]): Int
             newPerson(newPerson: InputPerson): Int
         }

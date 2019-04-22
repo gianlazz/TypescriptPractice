@@ -316,11 +316,17 @@ npm install apollo-boost graphql-tag graphql --save
 ```
 
 **Input Types**
+You're not able to use graphql `type`s as input parameters for mutations. You have create a different type called an input. `type` types can only be returned. Otherwise you'll get an error like the one below.
+
 - https://stackoverflow.com/questions/41743253/whats-the-point-of-input-type-in-graphql
 - https://github.com/graphql/graphql-js/issues/599
 ```
 {"errors":[{"message":"The type of PersonInput.images must be Input Type but got: [Image].","locations":[]}]}
 ```
+
+- https://raw.githubusercontent.com/sogko/graphql-shorthand-notation-cheat-sheet/master/graphql-shorthand-notation-cheat-sheet.png
+
+[(YouTube Video) GraphQL Basic Types](https://www.youtube.com/watch?v=Y78PadVft7I)
 
 
 ## TypeORM Setup:
