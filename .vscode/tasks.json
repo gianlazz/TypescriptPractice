@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Run Server Dev",
+            "label": "Run Server",
             "type": "npm",
             "script": "dev",
             "path": "server/",
@@ -22,7 +22,7 @@
             }
         },
         {
-            "label": "Build Server For Distribution",
+            "label": "Build Server w/ Client Bundled",
             "type": "npm",
             "script": "buildForDistribution",
             "path": "server/",
@@ -36,7 +36,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Run Client Server",
+            "label": "Run Client & Proxied Server",
             "type": "npm",
             "script": "serve",
             "path": "client/",

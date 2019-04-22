@@ -5,10 +5,10 @@ import { buildASTSchema } from "graphql";
 import gql from "graphql-tag";
 import { async } from "q";
 import { Guitar } from "../../dal/entity/guitar";
-import { PersonsFace } from "../../dal/entity/personsFace";
-import { PersonImage } from "../../dal/entity/personImage";
 import { Image } from "../../dal/entity/image";
 import { Person } from "../../dal/entity/person";
+import { PersonImage } from "../../dal/entity/personImage";
+import { PersonsFace } from "../../dal/entity/personsFace";
 
 export const register = ( app: express.Application ) => {
     // Authorization
@@ -27,7 +27,7 @@ export const register = ( app: express.Application ) => {
         type Person {
             id: Int
             name: String
-            firstSeenDateTime: string
+            firstSeenDateTime: String
             images: [Image]
         }
 
@@ -64,7 +64,7 @@ export const register = ( app: express.Application ) => {
         }
 
         type Query {
-            getAllPersonsImages(personId: Int!) [Image]
+            getAllPersonsImages(personId: Int!): [Image]
             guitars: [Guitar]
             recognizedFaces: [PersonsFace]
             hello: String
@@ -88,7 +88,7 @@ export const register = ( app: express.Application ) => {
                 console.error(error);
             }
         },
-        deleteGuitar: async (id: number): Promise<Boolean> => {
+        deleteGuitar: async (id: number): Promise<boolean> => {
             try {
                 Guitar.delete(id);
                 return true;
@@ -99,9 +99,9 @@ export const register = ( app: express.Application ) => {
         },
         getAllPersonsImages: async (personId: number): Promise<Image[]> => {
             try {
-                const personImages = await PersonImage.find({personId: personId});
-                let result: Image[] = [];
-                personImages.forEach(x => {
+                const personImages = await PersonImage.find({personId});
+                const result: Image[] = [];
+                personImages.forEach((x) => {
                     result.push(x.image);
                 });
                 return result;
@@ -122,7 +122,7 @@ export const register = ( app: express.Application ) => {
             }
         },
         hello: () => "hello world",
-        newPerson: async (newPerson: Person): Promise<Number> => {
+        newPerson: async (newPerson: Person): Promise<number> => {
             try {
                 newPerson = await Person.create(newPerson);
                 newPerson = await newPerson.save();
@@ -141,7 +141,7 @@ export const register = ( app: express.Application ) => {
                 console.error(error);
             }
         },
-        registerPersonsFace: async (personsFace: PersonsFace): Promise<Number> => {
+        registerPersonsFace: async (personsFace: PersonsFace): Promise<number> => {
             try {
                 console.log("registerPersonsFace mutation hit");
                 personsFace = await PersonsFace.create(personsFace);
