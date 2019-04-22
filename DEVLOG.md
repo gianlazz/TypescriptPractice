@@ -495,6 +495,89 @@ npx ts-node ./node_modules/.bin/typeorm migration:run
 To use a number array with postgres:
 - https://github.com/typeorm/typeorm/issues/460
 
+**Relationships:**
+
+Many-to-many relationships:
+
+Many-to-many relationships can be done with either a join table entity like below. This is helpful if you want other columns of information on the relationship row in the db. For example with this for a row where there's a person in an image there could be an extra column for that person <=> image relationship for the descriptor information about the person in the image.
+
+```Typescript
+import {BaseEntity, Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn} from "typeorm";
+import { Image } from "./image";
+import { Person } from "./person";
+
+@Entity()
+export class personImage extends BaseEntity {
+
+    @PrimaryColumn()
+    public personId: number;
+
+    @OneToOne(() => Person)
+    @JoinColumn()
+    public person: Person;
+
+    @PrimaryColumn()
+    public imageId: number;
+
+    @OneToOne(() => Image)
+    @JoinColumn()
+    public image: Image;
+
+}
+```
+
+If you don't need extra information on the relationships then you can define them like below. Pay attention to which you decide is the "owning side" of the relationship. This is the one that if you delete it you would want the other side to be deleted as well if you have cascade delete turned on.
+
+The owning side is the one that you want to add the @JoinTable() attribute to. You must have the @JoinTable() on at least one of the two sides. This will create a join table for you in the database and does not require you to manage a mapping / join table entity like the one above.s
+
+```Typescript
+import {BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import { Image } from "./image";
+import { PersonsFace } from "./personsFace";
+
+@Entity()
+export class Person extends BaseEntity {
+
+    @PrimaryGeneratedColumn()
+    public id: number;
+
+    @Column({ nullable: true })
+    public name: string;
+
+    @Column({ nullable: true })
+    public firstSeenDateTime: string;
+
+    @ManyToMany((type) => Image, (image) => image.persons)
+    @JoinTable()
+    public images: Image[];
+
+}
+
+import {BaseEntity, Column, Entity, ManyToMany, PrimaryGeneratedColumn} from "typeorm";
+import { Person } from "./person";
+
+@Entity()
+export class Image extends BaseEntity {
+
+    @PrimaryGeneratedColumn()
+    public id: number;
+
+    @ManyToMany((type) => Person, (person) => person.images)
+    public persons: Person[];
+
+    @Column({ nullable: true })
+    public image: string;
+
+}
+
+```
+
+Ownership and how it affects deleting entities. 
+
+
+
+**Heroku Deployment:**
+
 **Initialize DB If It Doesn't Exist:**
 
 ["If you are asking about "create database method", then it already exist in QueryRunner and its called createDatabase. But its not called inside ORM, you shall call it on your own."](https://github.com/typeorm/typeorm/issues/1406#issuecomment-367063415)
