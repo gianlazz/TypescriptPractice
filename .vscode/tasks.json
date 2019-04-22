@@ -87,6 +87,15 @@
             },
             "problemMatcher": []
         },
+        {
+            "label": "Npm Install All Projects",
+            "type": "shell",
+            "command": "cd googleAssistant/functions && npm install && cd .. && cd client && npm install && cd .. && cd server && npm install",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "problemMatcher": []
+        },
     ],
     "inputs": [
         {
