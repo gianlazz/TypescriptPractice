@@ -8,6 +8,7 @@ import { Guitar } from "../../dal/entity/guitar";
 import { PersonsFace } from "../../dal/entity/personsFace";
 import { PersonImage } from "../../dal/entity/personImage";
 import { Image } from "../../dal/entity/image";
+import { Person } from "../../dal/entity/person";
 
 export const register = ( app: express.Application ) => {
     // Authorization
@@ -73,6 +74,7 @@ export const register = ( app: express.Application ) => {
             createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             deleteGuitar(id: Int!): Boolean
             registerPersonsFace(name: String, image: String, descriptor: [Float]): Int
+            newPerson(newPerson: Person): Int
         }
     `);
 
@@ -120,6 +122,16 @@ export const register = ( app: express.Application ) => {
             }
         },
         hello: () => "hello world",
+        newPerson: async (newPerson: Person): Promise<Number> => {
+            try {
+                newPerson = await Person.create(newPerson);
+                newPerson = await newPerson.save();
+                return newPerson.id;
+            } catch (error) {
+                console.error(error);
+                throw(error);
+            }
+        },
         recognizedFaces: async (): Promise<PersonsFace[]> => {
             try {
                 const results = await PersonsFace.find();
