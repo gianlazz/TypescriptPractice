@@ -31,10 +31,23 @@ export const register = ( app: express.Application ) => {
             images: [Image]
         }
 
+        input InputPerson {
+            id: Int
+            name: String
+            firstSeenDateTime: String
+            images: [InputImage]
+        }
+
         type Image {
             id: Int
             image: String
             persons: [Person]
+        }
+
+        input InputImage {
+            id: Int
+            image: String
+            persons: [InputPerson]
         }
 
         type PersonDescriptor {
@@ -74,7 +87,7 @@ export const register = ( app: express.Application ) => {
             createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             deleteGuitar(id: Int!): Boolean
             registerPersonsFace(name: String, image: String, descriptor: [Float]): Int
-            newPerson(newPerson: Person): Int
+            newPerson(newPerson: InputPerson): Int
         }
     `);
 

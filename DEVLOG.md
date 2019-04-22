@@ -315,6 +315,13 @@ Installling the preset package
 npm install apollo-boost graphql-tag graphql --save
 ```
 
+**Input Types**
+- https://stackoverflow.com/questions/41743253/whats-the-point-of-input-type-in-graphql
+- https://github.com/graphql/graphql-js/issues/599
+```
+{"errors":[{"message":"The type of PersonInput.images must be Input Type but got: [Image].","locations":[]}]}
+```
+
 
 ## TypeORM Setup:
 
