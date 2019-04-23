@@ -12,6 +12,7 @@ import { PersonImage } from "../../dal/entity/personImage";
 import { PersonsFace } from "../../dal/entity/personsFace";
 import { GuitarResolver } from "../resolvers/guitarResolver";
 import { HelloResolver } from "../resolvers/helloResolver";
+import { PersonsFaceResolver } from "../resolvers/personsFaceResolver";
 
 export const register = async ( app: express.Application ) => {
 
@@ -19,7 +20,7 @@ export const register = async ( app: express.Application ) => {
     const oidc = app.locals.oidc;
 
     const schema = await buildSchema({
-        resolvers: [HelloResolver, GuitarResolver],
+        resolvers: [HelloResolver, GuitarResolver, PersonsFaceResolver],
       });
 
     const apolloServer = new ApolloServer({schema});
@@ -92,7 +93,7 @@ export const register = async ( app: express.Application ) => {
             getAllPersonsImages(personId: ID!): [Image]
             # guitars: [Guitar]
             # recognizedFaces: [PersonsFace]
-            hello: String
+            # hello: String
         }
 
         type Mutation {
@@ -104,15 +105,15 @@ export const register = async ( app: express.Application ) => {
     `);
 
     const rootValue = {
-        createGuitar: async (guitar: Guitar): Promise<Guitar> => {
-            try {
-                guitar = await Guitar.create(guitar);
-                guitar = await guitar.save();
-                return guitar;
-            } catch (error) {
-                console.error(error);
-            }
-        },
+        // createGuitar: async (guitar: Guitar): Promise<Guitar> => {
+        //     try {
+        //         guitar = await Guitar.create(guitar);
+        //         guitar = await guitar.save();
+        //         return guitar;
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // },
         // deleteGuitar: async (id: number): Promise<boolean> => {
         //     try {
         //         Guitar.delete(id);
@@ -146,7 +147,7 @@ export const register = async ( app: express.Application ) => {
         //         console.error(error);
         //     }
         // },
-        hello: () => "hello world",
+        // hello: () => "hello world",
         newPerson: async (newPerson: Person): Promise<number> => {
             try {
                 newPerson = await Person.create(newPerson);
