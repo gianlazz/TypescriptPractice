@@ -1,9 +1,7 @@
 import cors = require("cors");
 import dotenv from "dotenv";
 import express from "express";
-import * as http from "http";
 import path from "path";
-import { Pool } from "pg";
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import * as sessionAuth from "./web/middleware/sessionAuth";

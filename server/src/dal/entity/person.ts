@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import {BaseEntity, Column, Entity, JoinTable, OneToMany, PrimaryGeneratedColumn} from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Image } from "./image";
 import { PersonImage } from "./personImage";
 

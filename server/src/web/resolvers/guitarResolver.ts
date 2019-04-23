@@ -1,4 +1,4 @@
-import { Arg, Args, ArgsType, Field, ID, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import { Guitar } from "../../dal/entity/guitar";
 import { CreateGuitarArgs } from "./argsTypes/createGuitarArgs";
 

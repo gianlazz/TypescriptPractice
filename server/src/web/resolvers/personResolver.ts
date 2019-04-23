@@ -1,4 +1,4 @@
-import { Arg, Args, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Image } from "../../dal/entity/image";
 import { Person } from "../../dal/entity/person";
 import { PersonImage } from "../../dal/entity/personImage";

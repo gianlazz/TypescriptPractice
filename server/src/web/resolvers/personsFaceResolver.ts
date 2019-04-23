@@ -1,5 +1,4 @@
 import { Arg, Float, Int, Mutation, Query, Resolver } from "type-graphql";
-import { Person } from "../../dal/entity/person";
 import { PersonsFace } from "../../dal/entity/personsFace";
 
 @Resolver()
