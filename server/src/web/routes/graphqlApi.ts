@@ -78,27 +78,27 @@ export const register = async ( app: express.Application ) => {
             personDescriptor: PersonDescriptor
         }
 
-        type PersonsFace {
-            id: ID
-            # For creating labeled descriptors for rendering matches
-            name: String
-            # Base64 encoded image string used to generate the descriptor
-            image: String
-            # Float array representation of the face coordinates for matching
-            descriptor: [Float]
-        }
+        # type PersonsFace {
+        #     id: ID
+        #     # For creating labeled descriptors for rendering matches
+        #     name: String
+        #     # Base64 encoded image string used to generate the descriptor
+        #     image: String
+        #     # Float array representation of the face coordinates for matching
+        #     descriptor: [Float]
+        # }
 
         type Query {
             getAllPersonsImages(personId: ID!): [Image]
             # guitars: [Guitar]
-            recognizedFaces: [PersonsFace]
+            # recognizedFaces: [PersonsFace]
             hello: String
         }
 
         type Mutation {
-            createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
+            # createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             # deleteGuitar(id: ID!): Boolean
-            registerPersonsFace(name: String, image: String, descriptor: [Float]): Int
+            # registerPersonsFace(name: String, image: String, descriptor: [Float]): Int
             newPerson(newPerson: InputPerson): Int
         }
     `);
@@ -157,26 +157,26 @@ export const register = async ( app: express.Application ) => {
                 throw(error);
             }
         },
-        recognizedFaces: async (): Promise<PersonsFace[]> => {
-            try {
-                const results = await PersonsFace.find();
-                console.log(results);
-                return results;
-            } catch (error) {
-                console.error(error);
-            }
-        },
-        registerPersonsFace: async (personsFace: PersonsFace): Promise<number> => {
-            try {
-                console.log("registerPersonsFace mutation hit");
-                personsFace = await PersonsFace.create(personsFace);
-                personsFace = await personsFace.save();
-                console.log(`registerPersonsFace mutation finished ${personsFace.id}`);
-                return personsFace.id;
-            } catch (error) {
-                console.error(error);
-            }
-        },
+        // recognizedFaces: async (): Promise<PersonsFace[]> => {
+        //     try {
+        //         const results = await PersonsFace.find();
+        //         console.log(results);
+        //         return results;
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // },
+        // registerPersonsFace: async (personsFace: PersonsFace): Promise<number> => {
+        //     try {
+        //         console.log("registerPersonsFace mutation hit");
+        //         personsFace = await PersonsFace.create(personsFace);
+        //         personsFace = await personsFace.save();
+        //         console.log(`registerPersonsFace mutation finished ${personsFace.id}`);
+        //         return personsFace.id;
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // },
     };
 
     // app.use("/graphql", graphqlHTTP({ schema: ASTSschema, rootValue}));
