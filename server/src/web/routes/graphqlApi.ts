@@ -12,6 +12,7 @@ import { PersonImage } from "../../dal/entity/personImage";
 import { PersonsFace } from "../../dal/entity/personsFace";
 import { GuitarResolver } from "../resolvers/guitarResolver";
 import { HelloResolver } from "../resolvers/helloResolver";
+import { PersonResolver } from "../resolvers/personResolver";
 import { PersonsFaceResolver } from "../resolvers/personsFaceResolver";
 
 export const register = async ( app: express.Application ) => {
@@ -20,14 +21,14 @@ export const register = async ( app: express.Application ) => {
     const oidc = app.locals.oidc;
 
     const schema = await buildSchema({
-        resolvers: [HelloResolver, GuitarResolver, PersonsFaceResolver],
+        resolvers: [HelloResolver, GuitarResolver, PersonsFaceResolver, PersonResolver],
       });
 
     const apolloServer = new ApolloServer({schema});
 
     apolloServer.applyMiddleware({ app });
 
-    const ASTSschema = buildASTSchema(gql`
+    const ASTSschema = buildASTScheam(gql`
         # type Guitar {
         #     id: ID
         #     userId: String
@@ -37,47 +38,47 @@ export const register = async ( app: express.Application ) => {
         #     color: String
         # }
 
-        type Person {
-            id: ID
-            name: String
-            firstSeenDateTime: String
-            images: [Image]
-        }
+        # type Person {
+        #     id: ID
+        #     name: String
+        #     firstSeenDateTime: String
+        #     images: [Image]
+        # }
 
-        input InputPerson {
-            id: ID
-            name: String
-            firstSeenDateTime: String
-            images: [InputImage]
-        }
+        # input InputPerson {
+        #     id: ID
+        #     name: String
+        #     firstSeenDateTime: String
+        #     images: [InputImage]
+        # }
 
-        type Image {
-            id: ID
-            image: String
-            persons: [Person]
-        }
+        # type Image {
+        #     id: ID
+        #     image: String
+        #     persons: [Person]
+        # }
 
-        input InputImage {
-            id: ID
-            image: String
-            persons: [InputPerson]
-        }
+        # input InputImage {
+        #     id: ID
+        #     image: String
+        #     persons: [InputPerson]
+        # }
 
-        type PersonDescriptor {
-            id: ID
-            descriptor: [Float]
-            person: Person
-            image: Image
-        }
+        # type PersonDescriptor {
+        #     id: ID
+        #     descriptor: [Float]
+        #     person: Person
+        #     image: Image
+        # }
 
-        type PersonImage {
-            personId: ID
-            imageId: ID
-            personDescriptorId: ID
-            person: Person
-            image: Image
-            personDescriptor: PersonDescriptor
-        }
+        # type PersonImage {
+        #     personId: ID
+        #     imageId: ID
+        #     personDescriptorId: ID
+        #     person: Person
+        #     image: Image
+        #     personDescriptor: PersonDescriptor
+        # }
 
         # type PersonsFace {
         #     id: ID
@@ -89,19 +90,19 @@ export const register = async ( app: express.Application ) => {
         #     descriptor: [Float]
         # }
 
-        type Query {
-            getAllPersonsImages(personId: ID!): [Image]
+        # type Query {
+            # getAllPersonsImages(personId: ID!): [Image]
             # guitars: [Guitar]
             # recognizedFaces: [PersonsFace]
             # hello: String
-        }
+        # }
 
-        type Mutation {
+        # type Mutation {
             # createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             # deleteGuitar(id: ID!): Boolean
             # registerPersonsFace(name: String, image: String, descriptor: [Float]): Int
-            newPerson(newPerson: InputPerson): Int
-        }
+            # newPerson(newPerson: InputPerson): Int
+        # }
     `);
 
     const rootValue = {
@@ -123,19 +124,19 @@ export const register = async ( app: express.Application ) => {
         //         return false;
         //     }
         // },
-        getAllPersonsImages: async (personId: number): Promise<Image[]> => {
-            try {
-                const personImages = await PersonImage.find({personId});
-                const result: Image[] = [];
-                personImages.forEach((x) => {
-                    result.push(x.image);
-                });
-                return result;
-            } catch (error) {
-                console.error(error);
-                throw(error);
-            }
-        },
+        // getAllPersonsImages: async (personId: number): Promise<Image[]> => {
+        //     try {
+        //         const personImages = await PersonImage.find({personId});
+        //         const result: Image[] = [];
+        //         personImages.forEach((x) => {
+        //             result.push(x.image);
+        //         });
+        //         return result;
+        //     } catch (error) {
+        //         console.error(error);
+        //         throw(error);
+        //     }
+        // },
         // // guitars: async (userId: string) => {
         // guitars: async (): Promise<Guitar[]> => {
         //     try {
@@ -148,16 +149,16 @@ export const register = async ( app: express.Application ) => {
         //     }
         // },
         // hello: () => "hello world",
-        newPerson: async (newPerson: Person): Promise<number> => {
-            try {
-                newPerson = await Person.create(newPerson);
-                newPerson = await newPerson.save();
-                return newPerson.id;
-            } catch (error) {
-                console.error(error);
-                throw(error);
-            }
-        },
+        // newPerson: async (newPerson: Person): Promise<number> => {
+        //     try {
+        //         newPerson = await Person.create(newPerson);
+        //         newPerson = await newPerson.save();
+        //         return newPerson.id;
+        //     } catch (error) {
+        //         console.error(error);
+        //         throw(error);
+        //     }
+        // },
         // recognizedFaces: async (): Promise<PersonsFace[]> => {
         //     try {
         //         const results = await PersonsFace.find();
