@@ -96,7 +96,7 @@ export const register = async ( app: express.Application ) => {
         }
 
         type Mutation {
-            # createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
+            createGuitar(userId: String!, brand: String!, model: String!, year: Int, color: String): Guitar
             # deleteGuitar(id: ID!): Boolean
             registerPersonsFace(name: String, image: String, descriptor: [Float]): Int
             newPerson(newPerson: InputPerson): Int
@@ -104,15 +104,15 @@ export const register = async ( app: express.Application ) => {
     `);
 
     const rootValue = {
-        // createGuitar: async (guitar: Guitar): Promise<Guitar> => {
-        //     try {
-        //         guitar = await Guitar.create(guitar);
-        //         guitar = await guitar.save();
-        //         return guitar;
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // },
+        createGuitar: async (guitar: Guitar): Promise<Guitar> => {
+            try {
+                guitar = await Guitar.create(guitar);
+                guitar = await guitar.save();
+                return guitar;
+            } catch (error) {
+                console.error(error);
+            }
+        },
         // deleteGuitar: async (id: number): Promise<boolean> => {
         //     try {
         //         Guitar.delete(id);

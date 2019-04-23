@@ -1,5 +1,6 @@
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, ArgsType, Field, ID, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Guitar } from "../../dal/entity/guitar";
+import { CreateGuitarArgs } from "./createGuitarArgs";
 
 @Resolver()
 export class GuitarResolver {
@@ -18,9 +19,9 @@ export class GuitarResolver {
     }
 
     @Mutation((type) => Guitar)
-    public async createGuitar(guitar: Guitar): Promise<Guitar> {
+    public async createGuitar(@Args() guitarInput: CreateGuitarArgs): Promise<Guitar> {
         try {
-            guitar = await Guitar.create(guitar);
+            let guitar = await Guitar.create(guitarInput as Guitar);
             guitar = await guitar.save();
             return guitar;
         } catch (error) {
