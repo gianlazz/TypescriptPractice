@@ -1,6 +1,5 @@
-import { Resolver, Query, Mutation, Arg } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { Guitar } from "../../dal/entity/guitar";
-
 
 @Resolver()
 export class GuitarResolver {
@@ -18,7 +17,7 @@ export class GuitarResolver {
         }
     }
 
-    @Mutation(type => Guitar)
+    @Mutation((type) => Guitar)
     public async createGuitar(guitar: Guitar): Promise<Guitar> {
         try {
             guitar = await Guitar.create(guitar);
@@ -29,7 +28,7 @@ export class GuitarResolver {
         }
     }
 
-    @Mutation(type => Boolean)
+    @Mutation((type) => Boolean)
     public async deleteGuitar( @Arg("id", { nullable: false })id: number ): Promise<boolean> {
         try {
             Guitar.delete(id);

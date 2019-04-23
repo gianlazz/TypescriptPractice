@@ -10,8 +10,8 @@ import { Image } from "../../dal/entity/image";
 import { Person } from "../../dal/entity/person";
 import { PersonImage } from "../../dal/entity/personImage";
 import { PersonsFace } from "../../dal/entity/personsFace";
-import { HelloResolver } from "../resolvers/helloResolver";
 import { GuitarResolver } from "../resolvers/guitarResolver";
+import { HelloResolver } from "../resolvers/helloResolver";
 
 export const register = async ( app: express.Application ) => {
 

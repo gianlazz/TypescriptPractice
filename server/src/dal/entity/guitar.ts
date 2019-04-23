@@ -1,5 +1,5 @@
-import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 import { Field, ID, Int } from "type-graphql";
+import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
 export class Guitar extends BaseEntity {
@@ -20,7 +20,7 @@ export class Guitar extends BaseEntity {
     @Column({ nullable: false })
     public model: string;
 
-    @Field(type => Int, { nullable: true })
+    @Field((type) => Int, { nullable: true })
     @Column({ nullable: true })
     public year: number;
 
