@@ -1,6 +1,7 @@
-import { Field, ID, Int } from "type-graphql";
+import { Field, ID, Int, ObjectType } from "type-graphql";
 import {BaseEntity, Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
+@ObjectType()
 @Entity()
 export class Guitar extends BaseEntity {
 
