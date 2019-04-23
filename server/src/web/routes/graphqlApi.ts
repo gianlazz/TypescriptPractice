@@ -10,14 +10,8 @@ import { Image } from "../../dal/entity/image";
 import { Person } from "../../dal/entity/person";
 import { PersonImage } from "../../dal/entity/personImage";
 import { PersonsFace } from "../../dal/entity/personsFace";
-
-@Resolver()
-class HelloResolver {
-  @Query((returns) => String)
-  public async hello() {
-    return "Hello World!";
-  }
-}
+import { HelloResolver } from "../resolvers/helloResolver";
+import { GuitarResolver } from "../resolvers/guitarResolver";
 
 export const register = async ( app: express.Application ) => {
 
@@ -25,7 +19,7 @@ export const register = async ( app: express.Application ) => {
     const oidc = app.locals.oidc;
 
     const schema = await buildSchema({
-        resolvers: [HelloResolver],
+        resolvers: [HelloResolver, GuitarResolver],
       });
 
     const apolloServer = new ApolloServer({schema});
@@ -141,17 +135,17 @@ export const register = async ( app: express.Application ) => {
                 throw(error);
             }
         },
-        // guitars: async (userId: string) => {
-        guitars: async (): Promise<Guitar[]> => {
-            try {
-                //  const guitars = await Guitar.find({ userId });
-                const guitars = await Guitar.find();
-                console.log(guitars);
-                return guitars;
-            } catch (error) {
-                console.error(error);
-            }
-        },
+        // // guitars: async (userId: string) => {
+        // guitars: async (): Promise<Guitar[]> => {
+        //     try {
+        //         //  const guitars = await Guitar.find({ userId });
+        //         const guitars = await Guitar.find();
+        //         console.log(guitars);
+        //         return guitars;
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // },
         hello: () => "hello world",
         newPerson: async (newPerson: Person): Promise<number> => {
             try {
