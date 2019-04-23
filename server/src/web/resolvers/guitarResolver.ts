@@ -1,6 +1,6 @@
 import { Arg, Args, ArgsType, Field, ID, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Guitar } from "../../dal/entity/guitar";
-import { CreateGuitarArgs } from "./createGuitarArgs";
+import { CreateGuitarArgs } from "./argsTypes/createGuitarArgs";
 
 @Resolver()
 export class GuitarResolver {

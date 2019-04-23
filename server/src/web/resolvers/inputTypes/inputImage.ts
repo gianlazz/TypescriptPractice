@@ -1,6 +1,7 @@
 import { Field, ID, InputType } from "type-graphql";
 import { InputPerson } from "./InputPerson";
 
+
 @InputType()
 export class InputImage {
 

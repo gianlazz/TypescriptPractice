@@ -29,7 +29,7 @@
             "problemMatcher": []
         },
         {
-            "label": "Dev Server For Distribution",
+            "label": "Run Server w/ Client Bundled",
             "type": "npm",
             "script": "dev:distro",
             "path": "server/",
