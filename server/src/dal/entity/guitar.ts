@@ -20,11 +20,11 @@ export class Guitar extends BaseEntity {
     @Column({ nullable: false })
     public model: string;
 
-    @Field(type => Int)
+    @Field(type => Int, { nullable: true })
     @Column({ nullable: true })
     public year: number;
 
-    @Field()
+    @Field({ nullable: true })
     @Column({ nullable: true })
     public color: string;
 
