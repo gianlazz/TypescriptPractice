@@ -328,6 +328,13 @@ You're not able to use graphql `type`s as input parameters for mutations. You ha
 
 [(YouTube Video) GraphQL Basic Types](https://www.youtube.com/watch?v=Y78PadVft7I)
 
+**GraphQL Real-time Websocket Subscriptions:**
+Graphql can also expose real-time updating queries that utilize websockets. The video below demonstrates how to do this with the apollo server.
+
+- [(Youtube Video) How GraphQL Subscriptions Work](https://www.youtube.com/watch?v=_r2ooFgBdoc&list=PLN3n1USn4xln0j_NN9k4j5hS1thsGibKi&index=4)
+
+**TypeGraphQL & Typeorm**
+[(YouTube Playlist About TypeGraphqQL & Typeorm) TypeGrahpQL](https://www.youtube.com/watch?v=8yZImm2A1KE&list=PLN3n1USn4xlma1bBu3Tloe4NyYn9Ko8Gs)
 
 ## TypeORM Setup:
 
