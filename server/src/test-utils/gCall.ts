@@ -13,8 +13,6 @@ interface IOptions {
     }>;
 }
 
-let schema: GraphQLSchema;
-
 const createSchema = async () => {
     return await buildSchema({
         resolvers: [
@@ -25,6 +23,8 @@ const createSchema = async () => {
         ]
     });
 };
+
+let schema: GraphQLSchema;
 
 export const gCall = async ({ source, variableValues }: IOptions) => {
     // Check if schema already exists

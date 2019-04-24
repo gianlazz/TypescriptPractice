@@ -96,6 +96,13 @@
             },
             "problemMatcher": []
         },
+        {
+            "label": "Test Server",
+            "type": "npm",
+            "script": "test",
+            "path": "server/",
+            "problemMatcher": []
+        }
     ],
     "inputs": [
         {

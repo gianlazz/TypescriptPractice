@@ -6,6 +6,7 @@
 
 Dev Notes ***Subjects in descending chronological order***
 
+- [Testing Server]()
 - [VSCode Launch & Task Configuration](#vscode-launch-&-task-configuration)
 - [Deployment](#deployment)
 - [Serverless Deployment](#severless-deployment)
@@ -42,6 +43,18 @@ Dev Notes ***Subjects in descending chronological order***
 - https://github.com/Microsoft/TypeScript/issues/4691#issuecomment-298653700
 
 # Dev Notes (Ordered by oldest to most recent subject)
+
+## Testing Server
+
+**Testing server graphql resolvers with jest**
+[(YouTube Playlist) TypeGraphQL, Typeorm, & testing with Jest](https://www.youtube.com/playlist?list=PLN3n1USn4xlma1bBu3Tloe4NyYn9Ko8Gs)
+
+Note: jest by default seems to run all .test.* files so if you try to run your test setup with ts-node then it will fail when jest runs the .js code.
+I've gotten around this by cleaning the dist folder before every test run. This may not be ideal but works.
+
+For information about configuring jest to only test certain files or paths checkout:
+- https://stackoverflow.com/questions/50145078/jest-typescript-tests-runs-twice-one-for-ts-files-and-one-for-js-files
+- https://stackoverflow.com/questions/48318230/configure-jest-global-tests-setup-with-ts-file-typescript
 
 ## VSCode Launch & Task Configuration
 ---
