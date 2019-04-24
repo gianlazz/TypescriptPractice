@@ -11,7 +11,6 @@ export class GuitarResolver {
         try {
             //  const guitars = await Guitar.find({ userId });
             const guitars = await Guitar.find();
-            console.log(guitars);
             return guitars;
         } catch (error) {
             console.error(error);

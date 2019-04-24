@@ -33,4 +33,17 @@ export class PersonsFaceResolver {
         }
     }
 
+    @Mutation((type) => Int)
+    public async deleteRegisteredPersonsFaceByName(
+        @Arg("name", { nullable: false }) name: string,
+    ): Promise<number> {
+        try {
+            const result = await PersonsFace.delete({ name });
+            console.log(result.affected + " lines affected by deleteRegisteredPersonsFaceByName");
+            return result.affected;
+        } catch (error) {
+            console.error(error);
+            throw(error);
+        }
+    }
 }

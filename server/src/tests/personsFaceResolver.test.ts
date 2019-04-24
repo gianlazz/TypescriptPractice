@@ -26,9 +26,9 @@ describe("PersonsFace Resolver", () => {
         // Assert
         expect(response).toMatchObject({
             data: {
-              registerPersonsFace: 1
+                registerPersonsFace: 1
             }
-          });
+        });
     });
 
     it("recognizedFaces query should return an array of PersonsFace from the db.", async () => {
@@ -36,6 +36,7 @@ describe("PersonsFace Resolver", () => {
         const query = `query {
             recognizedFaces {
               id
+              name
               image
               descriptor
             }
@@ -48,6 +49,7 @@ describe("PersonsFace Resolver", () => {
                 recognizedFaces: [
                     {
                         id: "1",
+                        name: "Gian",
                         image: "sdf",
                         descriptor: []
                     }
@@ -55,4 +57,20 @@ describe("PersonsFace Resolver", () => {
             }
         });
     });
+
+    it("deleteRegisteredPersonsFaceByName mutation should return that 1 line was affected by delete.",
+        async () => {
+            // Arrange
+            const mutation = `mutation {
+                deleteRegisteredPersonsFaceByName(name: "Gian")
+              }`;
+            // Act
+            const response = await gCall({ source: mutation });
+            // Assert
+            expect(response).toMatchObject({
+                data: {
+                    deleteRegisteredPersonsFaceByName: 1
+                }
+            });
+        });
 });
