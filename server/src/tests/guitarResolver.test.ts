@@ -32,7 +32,6 @@ describe("Guitar Resolver", () => {
 	  }`;
         // Act
         const response = await gCall({ source: mutation });
-        console.log(response);
 
         // Assert
         expect(response).toMatchObject({
@@ -62,7 +61,6 @@ describe("Guitar Resolver", () => {
           }`;
 
         const response = await gCall({ source: query });
-        console.log(response);
 
         expect(response).toMatchObject({
             data: {

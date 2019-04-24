@@ -1,7 +1,6 @@
 import { createConnection } from "typeorm";
 
 export const testConn = (drop: boolean = false) => {
-    console.log(__dirname + "/../dal/entity/**/*.ts");
     return createConnection({
         type: "postgres",
         host: "localhost",
@@ -10,7 +9,7 @@ export const testConn = (drop: boolean = false) => {
         password: "Password123",
         database: "postgres-test",
         synchronize: drop,
-        logging: true,
+        logging: false,
         dropSchema: drop,
         entities: [
             __dirname + "/../dal/entity/**/*.ts"

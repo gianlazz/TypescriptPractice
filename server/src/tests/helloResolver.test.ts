@@ -25,8 +25,6 @@ describe("Hello Resolver", () => {
             source: helloQuery
         });
 
-        console.log(response);
-
         expect(response).toMatchObject({
             data: {
               hello: "Hello World!"
