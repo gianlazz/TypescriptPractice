@@ -13,14 +13,14 @@ afterAll(async () => {
     await conn.close();
 });
 
-const helloQuery = `
-    query {
-        hello
-    }
-`;
-
 describe("Hello Resolver", () => {
     it("should respond with hello world", async () => {
+        const helloQuery = `
+            query {
+                hello
+            }
+        `;
+
         const response = await gCall({
             source: helloQuery
         });
