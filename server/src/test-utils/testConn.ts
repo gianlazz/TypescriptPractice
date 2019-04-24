@@ -9,7 +9,7 @@ export const testConn = (drop: boolean = false) => {
         password: "Password123",
         database: "postgres-test",
         synchronize: drop,
-        logging: false,
+        logging: true,
         dropSchema: drop,
         entities: [
             __dirname + "/../dal/entity/**/*.ts"
