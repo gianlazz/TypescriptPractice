@@ -4,8 +4,8 @@ import { InputPerson } from "./InputPerson";
 @InputType()
 export class InputImage {
 
-    @Field((type) => ID)
-    public id: number;
+    // @Field((type) => ID)
+    // public id: number;
 
     @Field()
     public image: string;

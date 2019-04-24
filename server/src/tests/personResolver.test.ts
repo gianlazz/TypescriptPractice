@@ -13,7 +13,19 @@ afterAll(async () => {
 describe("PersonResolver", () => {
     it("newPerson mutation should return the db id.", async () => {
         // Arrange
-        const mutation = ``;
+        const mutation = `
+            mutation {
+                newPerson(
+                    name: "unknown",
+                    firstSeenDateTime: "now",
+                    images: [
+                        {
+                            image: "base64png"
+                        }
+                    ]
+                    )
+            }
+        `;
         // Act
         const response = await gCall({ source: mutation });
         // Assert
