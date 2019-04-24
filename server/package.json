@@ -18,7 +18,8 @@
     "dev": "nodemon --watch src -e ts --exec npm run dev:start",
     "start": "node .",
     "initdb": "ts-node tools/initdb",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "db:setup": "ts-node ./src/test-utils/setup.ts",
+    "test": "npm run db:setup && jest"
   },
   "alias": {
     "vue": "./node_modules/vue/dist/vue.common.js",
@@ -57,19 +58,22 @@
     "@types/express-session": "^1.15.12",
     "@types/fs-extra": "^5.0.5",
     "@types/graphql": "^14.2.0",
+    "@types/jest": "^24.0.11",
     "@types/materialize-css": "^1.0.6",
     "@types/node": "^11.12.2",
     "@types/pg": "^7.4.14",
     "@types/shelljs": "^0.8.3",
     "@types/vue": "^2.0.0",
     "fs-extra": "^7.0.1",
+    "jest": "^24.7.1",
     "nodemon": "^1.18.11",
     "npm-run-all": "^4.1.5",
     "parcel-bundler": "^1.12.3",
     "rimraf": "^2.6.3",
     "shelljs": "^0.8.3",
+    "ts-jest": "^24.0.2",
     "ts-node": "^8.1.0",
     "tslint": "^5.14.0",
-    "typescript": "^3.4.4"
+    "typescript": "^3.4.5"
   }
 }

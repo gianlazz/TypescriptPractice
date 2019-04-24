@@ -13,7 +13,10 @@
 Training weights for face-api.js
 
 # Quick Start
-1. Install Postgresql on your machine
+1. Install Postgresql
+    - brew install postgresql
+    - brew services start postgresql
+    - createdb -U test postgres
 2. Run `npm install` in both server and client dirs
 3. cd into client dir and run `npm run serve` which will launch both the server and client
 
