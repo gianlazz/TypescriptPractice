@@ -1,7 +1,6 @@
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Image } from "../../../dal/entity/image";
 import { Person } from "../../../dal/entity/person";
-import { PersonImage } from "../../../dal/entity/personImage";
 import { InputPerson } from "./inputTypes/InputPerson";
 
 @Resolver()
@@ -10,7 +9,9 @@ export class PersonResolver {
     @Query((type) => [Person])
     public async getAllPersons(): Promise<Person[]> {
         try {
-            return await Person.find({ loadEagerRelations: true, relations: ["images"] });
+            const persons = await Person.find();
+            console.log(JSON.stringify(persons, null, 4));
+            return persons;
         } catch (error) {
             console.error(error);
         }
@@ -19,13 +20,12 @@ export class PersonResolver {
     @Mutation((type) => Int)
     public async newPerson(@Arg("inputPerson") inputPerson: InputPerson): Promise<number> {
         try {
-            let newPerson = await Person.create(inputPerson as Person);
-            newPerson = await newPerson.save();
-            console.log("Saved new person");
-            inputPerson.images.forEach(async (image) => {
-                let personsImage = await Image.create(image as Image);
-                personsImage = await personsImage.save();
-                console.log(`Saved persons image ${personsImage.id}`);
+            const newPerson = await Person.save(inputPerson as Person);
+            newPerson.images = [];
+            inputPerson.images.forEach(async (inputImage) => {
+                const image = await Image.create(inputImage as Image);
+                image.persons.push(newPerson);
+                image.save();
             });
 
             return newPerson.id;

@@ -79,9 +79,9 @@
             "problemMatcher": []
         },
         {
-            "label": "Drop DB & Run Migrations",
+            "label": "Drop DB Tables",
             "type": "shell",
-            "command": "typeorm schema:drop && typeorm migration:run",
+            "command": "typeorm schema:drop",
             "options": {
                 "cwd": "${workspaceRoot}/server"
             },

@@ -1,7 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Person } from "./person";
-import { PersonImage } from "./personImage";
 
 @ObjectType()
 @Entity()
@@ -16,7 +15,8 @@ export class Image extends BaseEntity {
     public image: string;
 
     @Field((type) => [Person], { nullable: true })
-    @OneToMany((type) => PersonImage, (personImage) => personImage.person)
+    @ManyToMany((type) => Person, (person) => person.images)
+    @JoinTable()
     public persons?: Person[];
 
 }
