@@ -14,22 +14,26 @@ describe("PersonResolver", () => {
     it("newPerson mutation should return the db id.", async () => {
         // Arrange
         const mutation = `
-            mutation {
-                newPerson(
-                    name: "unknown",
-                    firstSeenDateTime: "now",
-                    images: [
-                        {
-                            image: "base64png"
-                        }
-                    ]
-                    )
-            }
+        mutation {
+            newPerson(inputPerson: {
+              name: "unknown"
+              firstSeenDateTime: "now"
+              images: [
+                {
+                  image: "base64png"
+                }
+              ]
+            })
+          }
         `;
         // Act
         const response = await gCall({ source: mutation });
         // Assert
-        expect(response).toMatchObject({});
+        expect(response).toMatchObject({
+            data: {
+              newPerson: 1
+            }
+          });
     });
 
     it("getAllPersonsImages query should should return array of Image.", async () => {

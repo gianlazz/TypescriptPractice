@@ -81,7 +81,7 @@ describe("Guitar Resolver", () => {
     it("deleteGuitar mutation should return true.", async () => {
         // Arrange
         const mutation = `mutation {
-            deleteGuitar(id: 1) 
+            deleteGuitar(id: 1)
         }`;
         // Act
         const response = await gCall({ source: mutation });
@@ -91,5 +91,5 @@ describe("Guitar Resolver", () => {
                 deleteGuitar: true
             }
         });
-    })
+    });
 });

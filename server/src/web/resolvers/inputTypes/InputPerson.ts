@@ -13,7 +13,7 @@ export class InputPerson {
     @Field()
     public firstSeenDateTime: string;
 
-    @Field((type) => [InputImage])
-    public images: InputImage[];
+    @Field((type) => [InputImage], { nullable: true })
+    public images?: InputImage[];
 
 }

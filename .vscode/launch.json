@@ -38,6 +38,18 @@
                 "<node_internals>/**/*.js"
             ],
             "preLaunchTask": "Open localhost:4200",
+        },
+        {
+            "name": "Debug Jest Tests",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/server/node_modules/jest/bin/jest.js",
+            "args": [
+                "-i",
+                "-t", "removeById",
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
     ],
     "compounds": [
