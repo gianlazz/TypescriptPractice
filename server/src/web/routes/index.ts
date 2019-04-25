@@ -34,5 +34,4 @@ export const register = ( app: express.Application ) => {
 
     // Register the other express .ts sources of routes
     api.register( app );
-    graphqlApi.register( app );
 };
