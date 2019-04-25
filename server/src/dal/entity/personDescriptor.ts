@@ -16,6 +16,14 @@ export class PersonDescriptor extends BaseEntity {
     @Column( "decimal", {array: true, nullable: true })
     public descriptor?: number[];
 
+    @Field((type) => ID, { nullable: true })
+    @Column({ nullable: true })
+    public personId?: number;
+
+    @Field((type) => ID, { nullable: true })
+    @Column({ nullable: true })
+    public imageId?: number;
+
     @Field((type) => Person)
     @OneToOne((type) => PersonImage, (personImage) => personImage.person)
     public person: Person;

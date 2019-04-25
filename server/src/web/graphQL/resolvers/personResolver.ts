@@ -10,7 +10,7 @@ export class PersonResolver {
     @Query((type) => [Person])
     public async getAllPersons(): Promise<Person[]> {
         try {
-            return await Person.find();
+            return await Person.find({ loadEagerRelations: true, relations: ["images"] });
         } catch (error) {
             console.error(error);
         }
@@ -21,6 +21,13 @@ export class PersonResolver {
         try {
             let newPerson = await Person.create(inputPerson as Person);
             newPerson = await newPerson.save();
+            console.log("Saved new person");
+            inputPerson.images.forEach(async (image) => {
+                let personsImage = await Image.create(image as Image);
+                personsImage = await personsImage.save();
+                console.log(`Saved persons image ${personsImage.id}`);
+            });
+
             return newPerson.id;
         } catch (error) {
             console.error(error);
