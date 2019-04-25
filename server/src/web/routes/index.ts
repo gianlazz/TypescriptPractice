@@ -1,6 +1,6 @@
 import * as express from "express";
+import * as graphqlApi from "../graphQL/graphqlApi";
 import * as api from "./api";
-import * as graphqlApi from "./graphqlApi";
 
 export const register = ( app: express.Application ) => {
     const oidc = app.locals.oidc;

@@ -1,5 +1,5 @@
 import { Query, Resolver } from "type-graphql";
-import { Image } from "../../dal/entity/image";
+import { Image } from "../../../dal/entity/image";
 
 @Resolver()
 export class ImageResolver {

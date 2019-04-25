@@ -22,7 +22,7 @@ describe("ImageResolver", () => {
           }
         `;
         // Act
-        const response = gCall({ source: query });
+        const response = await gCall({ source: query });
         // Assert
         expect(response).toMatchObject({
             data: {
