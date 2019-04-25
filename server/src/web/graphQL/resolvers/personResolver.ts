@@ -7,23 +7,6 @@ import { InputPerson } from "./inputTypes/InputPerson";
 @Resolver()
 export class PersonResolver {
 
-    @Query((type) => [Image])
-    public async getAllPersonsImages(
-        @Arg("personId", { nullable: false }) personId: number
-    ): Promise<Image[]> {
-        try {
-            const personImages = await PersonImage.find({personId});
-            const result: Image[] = [];
-            personImages.forEach((x) => {
-                result.push(x.image);
-            });
-            return result;
-        } catch (error) {
-            console.error(error);
-            throw(error);
-        }
-    }
-
     @Query((type) => [Person])
     public async getAllPersons(): Promise<Person[]> {
         try {

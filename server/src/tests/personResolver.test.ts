@@ -63,31 +63,4 @@ describe("PersonResolver", () => {
             }
           });
     });
-
-    it("getAllPersonsImages query should should return array of Image.", async () => {
-        // Arrange
-        const query = `
-        query {
-            getAllPersonsImages(personId: 1) {
-              id
-              image
-              persons {
-                id
-                firstSeenDateTime
-                name
-              }
-            }
-          }
-        `;
-        // Act
-        const response = await gCall({ source: query });
-        // Assert
-        expect(response).toMatchObject({
-            data: {
-              getAllPersonsImages: [
-                      {}
-              ]
-            }
-          });
-    });
 });
