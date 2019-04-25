@@ -1,10 +1,9 @@
 import * as faceapi from "face-api.js";
-import { FaceMatcher, LabeledFaceDescriptors } from "face-api.js";
+import { LabeledFaceDescriptors } from "face-api.js";
+import { PersonsFace } from "../../dal/entity/personsFace";
 import { loadModels } from "./loadModels";
 
 export class FaceRecognition {
-
-  public video: ElementRef;
 
   public preLabledImages: string[];
   public labeledDescriptors: LabeledFaceDescriptors[];
@@ -13,7 +12,7 @@ export class FaceRecognition {
 
   constructor() {
     this.labeledDescriptors = [];
-    this.loadModelsPromise = loadModels().;
+    this.loadModelsPromise = loadModels();
   }
 
   public async savePerson(image: string, name: string) {
@@ -21,7 +20,6 @@ export class FaceRecognition {
 
     if (results) {
       const labeledDescriptor = new faceapi.LabeledFaceDescriptors(name, [results.descriptor]);
-      console.log(JSON.stringify(labeledDescriptor));
       this.labeledDescriptors.push(labeledDescriptor);
       console.log("Added to array of labeled descriptors");
 
@@ -35,9 +33,9 @@ export class FaceRecognition {
   }
 
   public async getRecognizedFaces() {
-    const queryResult: any = [];
+    const recognizedFaces = await PersonsFace.find();
 
-    queryResult.recognizedFaces.forEach((result) => {
+    recognizedFaces.forEach((result) => {
     const descriptor = new Float32Array(result.descriptor);
     const labeledDescriptor = new faceapi.LabeledFaceDescriptors(result.name, [descriptor]);
     console.log(JSON.stringify(labeledDescriptor));
