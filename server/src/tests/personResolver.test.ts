@@ -1,3 +1,4 @@
+import { async } from "q";
 import { Connection } from "typeorm";
 import { gCall } from "../test-utils/gCall";
 import { testConn } from "../test-utils/testConn";
@@ -32,6 +33,33 @@ describe("PersonResolver", () => {
         expect(response).toMatchObject({
             data: {
               newPerson: 1
+            }
+          });
+    });
+
+    it("getAllPersons query should return Person[].", async () => {
+        // Arrange
+        const query = `
+        query {
+            getAllPersons {
+              id
+              name
+              firstSeenDateTime
+            }
+          }
+        `;
+        // Act
+        const response = await gCall({ source: query });
+        // Assert
+        expect(response).toMatchObject({
+            data: {
+              getAllPersons: [
+                {
+                  id: "1",
+                  name: "unknown",
+                  firstSeenDateTime: "now"
+                }
+              ]
             }
           });
     });
