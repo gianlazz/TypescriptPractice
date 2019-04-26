@@ -2,8 +2,7 @@ import { GraphQLSchema } from "graphql";
 import { buildSchema } from "type-graphql";
 import { GuitarResolver } from "./resolvers/guitarResolver";
 import { HelloResolver } from "./resolvers/helloResolver";
-import { ImageResolver } from "./resolvers/imageResolver";
-import { PersonResolver } from "./resolvers/personResolver";
+import { PersonImageResolver } from "./resolvers/personImageResolver";
 import { PersonsFaceResolver } from "./resolvers/personsFaceResolver";
 
 export const configuredSchema = async (): Promise<GraphQLSchema> => {
@@ -12,8 +11,7 @@ export const configuredSchema = async (): Promise<GraphQLSchema> => {
           HelloResolver,
           GuitarResolver,
           PersonsFaceResolver,
-          PersonResolver,
-          ImageResolver
+          PersonImageResolver,
         ],
       });
 };

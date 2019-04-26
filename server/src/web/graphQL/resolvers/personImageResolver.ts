@@ -5,7 +5,7 @@ import { PersonImage } from "../../../dal/entity/personImage";
 import { InputPerson } from "./inputTypes/InputPerson";
 
 @Resolver()
-export class PersonResolver {
+export class PersonImageResolver {
 
     @Query((type) => [Person])
     public async getAllPersons(): Promise<Person[]> {
@@ -49,6 +49,15 @@ export class PersonResolver {
         } catch (error) {
             console.error(error);
             throw(error);
+        }
+    }
+
+    @Query((type) => [Image])
+    public async getAllImages(): Promise<Image[]> {
+        try {
+            return await Image.find();
+        } catch (error) {
+            console.error(error);
         }
     }
 
