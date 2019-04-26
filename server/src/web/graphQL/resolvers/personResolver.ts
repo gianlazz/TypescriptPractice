@@ -18,7 +18,11 @@ export class PersonResolver {
             // .createQueryBuilder()
             // .leftJoinAndSelect("person.imagesConnection", "person_image");
             persons.forEach((person) => {
-                person.imagesConnection.forEach((x) => console.log(x.image));
+                const p = person;
+                p.images = [];
+                person.imagesConnection.forEach((conn) => {
+                    p.images.push(conn.image);
+                });
             });
 
             console.log(JSON.stringify(persons, null, 4));

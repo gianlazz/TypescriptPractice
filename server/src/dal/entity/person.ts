@@ -23,4 +23,7 @@ export class Person extends BaseEntity {
     @OneToMany((type) => PersonImage, (personImage) => personImage.person)
     public imagesConnection: PersonImage[];
 
+    @Field(() => [Image], { nullable: true })
+    public images: Image[];
+
 }
