@@ -19,7 +19,7 @@
     "start": "node .",
     "initdb": "ts-node tools/initdb",
     "db:setup": "ts-node ./src/test-utils/setup.ts",
-    "test": "npm run clean && npm run db:setup && jest"
+    "test": "npm run clean && npm run db:setup && jest --runInBand"
   },
   "alias": {
     "vue": "./node_modules/vue/dist/vue.common.js",
