@@ -25,6 +25,10 @@ export class Person extends BaseEntity {
 
     @Field(() => [Image], { nullable: true })
     public async images(): Promise<Image[]> {
+        return this.getThisPersonsImages();
+    }
+
+    private async getThisPersonsImages() {
         const images: Image[] = [];
         await PersonImage.find({
             where: { personId: this.id },

@@ -15,10 +15,6 @@ export class PersonResolver {
             // });
 
             const persons = await Person.find();
-
-            // const person = await Person
-            // .createQueryBuilder()
-            // .leftJoinAndSelect("person.imagesConnection", "person_image");
             // persons.forEach((person) => {
             //     const p = person;
             //     p.images = [];
