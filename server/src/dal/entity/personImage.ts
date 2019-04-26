@@ -22,12 +22,12 @@ export class PersonImage extends BaseEntity {
 
     @Field((type) => Person)
     @ManyToOne(() => Person, (person) => person.imagesConnection, { primary: true })
-    @JoinColumn({ name: "personId" })
+    @JoinColumn()
     public person: Person;
 
     @Field((type) => Image)
-    @ManyToMany(() => Image, (image) => image.personsConnection, { primary: true })
-    @JoinColumn({ name: "imageId" })
+    @ManyToOne(() => Image, (image) => image.personsConnection, { primary: true })
+    @JoinColumn()
     public image: Image;
 
     // @Field((type) => PersonDescriptor)

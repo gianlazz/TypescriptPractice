@@ -10,7 +10,16 @@ export class PersonResolver {
     @Query((type) => [Person])
     public async getAllPersons(): Promise<Person[]> {
         try {
-            const persons = await Person.find({ relations: ["imagesConnection"] });
+            const persons = await Person.find({
+                relations: ["imagesConnection", "imagesConnection.person", "imagesConnection.image" ]
+            });
+
+            // const person = await Person
+            // .createQueryBuilder()
+            // .leftJoinAndSelect("person.imagesConnection", "person_image");
+            persons.forEach((person) => {
+                person.imagesConnection.forEach((x) => console.log(x.image));
+            });
 
             console.log(JSON.stringify(persons, null, 4));
             return persons;
