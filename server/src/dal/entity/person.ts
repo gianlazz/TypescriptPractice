@@ -19,11 +19,23 @@ export class Person extends BaseEntity {
     @Column({ nullable: true })
     public firstSeenDateTime: string;
 
-    @Field((type) => [PersonImage], { nullable: true })
+    // @Field((type) => [PersonImage], { nullable: true })
     @OneToMany((type) => PersonImage, (personImage) => personImage.person)
     public imagesConnection: PersonImage[];
 
     @Field(() => [Image], { nullable: true })
-    public images: Image[];
+    public async images(): Promise<Image[]> {
+        const images: Image[] = [];
+        await PersonImage.find({
+            where: { personId: this.id },
+            relations: [ "image" ]
+        }).then((result) => {
+            result.forEach( (personImage) => {
+                images.push(personImage.image);
+            });
+        });
+
+        return images;
+    }
 
 }
