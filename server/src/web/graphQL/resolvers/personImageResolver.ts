@@ -23,8 +23,6 @@ export class PersonImageResolver {
             //     });
             // });
 
-            console.log(JSON.stringify(persons, null, 4));
-            console.log(await persons[0].images());
             return persons;
         } catch (error) {
             console.error(error);

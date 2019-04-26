@@ -8,11 +8,15 @@ export const testConn = (drop: boolean = false) => {
         username: "test",
         password: "Password123",
         database: "postgres-test",
-        synchronize: drop,
+        // synchronize: drop,
+        migrationsRun: true,
         logging: true,
         dropSchema: drop,
         entities: [
             __dirname + "/../dal/entity/**/*.ts"
         ],
+        migrations: [
+            __dirname + "/../dal/migration/**/*.ts"
+        ]
     });
 };

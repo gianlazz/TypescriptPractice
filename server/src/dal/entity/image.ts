@@ -1,6 +1,5 @@
-import { resultKeyNameFromField } from "apollo-utilities";
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Person } from "./person";
 import { PersonImage } from "./personImage";
 
