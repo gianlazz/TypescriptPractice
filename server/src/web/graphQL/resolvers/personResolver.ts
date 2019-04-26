@@ -1,6 +1,7 @@
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Image } from "../../../dal/entity/image";
 import { Person } from "../../../dal/entity/person";
+import { PersonImage } from "../../../dal/entity/personImage";
 import { InputPerson } from "./inputTypes/InputPerson";
 
 @Resolver()
@@ -9,7 +10,8 @@ export class PersonResolver {
     @Query((type) => [Person])
     public async getAllPersons(): Promise<Person[]> {
         try {
-            const persons = await Person.find();
+            const persons = await Person.find({ relations: ["imagesConnection"] });
+
             console.log(JSON.stringify(persons, null, 4));
             return persons;
         } catch (error) {
@@ -20,12 +22,15 @@ export class PersonResolver {
     @Mutation((type) => Int)
     public async newPerson(@Arg("inputPerson") inputPerson: InputPerson): Promise<number> {
         try {
-            const newPerson = await Person.save(inputPerson as Person);
-            newPerson.images = [];
+            const newPerson = await Person.create(inputPerson as Person).save();
+
             inputPerson.images.forEach(async (inputImage) => {
-                const image = await Image.create(inputImage as Image);
-                image.persons.push(newPerson);
-                image.save();
+                const image = await Image.create(inputImage as Image).save();
+
+                const personImage = await PersonImage.create({
+                     imageId: image.id,
+                     personId: newPerson.id
+                    }).save();
             });
 
             return newPerson.id;
