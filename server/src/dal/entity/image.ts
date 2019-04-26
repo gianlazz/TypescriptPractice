@@ -1,3 +1,4 @@
+import { resultKeyNameFromField } from "apollo-utilities";
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Person } from "./person";
@@ -15,8 +16,25 @@ export class Image extends BaseEntity {
     @Column({ nullable: true })
     public image: string;
 
-    @Field((type) => [PersonImage], { nullable: true })
     @OneToMany((type) => PersonImage, (personImage) => personImage.image)
     public personsConnection: PersonImage[];
 
+    @Field((type) => [Person], { nullable: true })
+    public async people(): Promise<Person[]> {
+        return this.getThisImagesPersons();
+    }
+
+    private async getThisImagesPersons() {
+        const people: Person[] = [];
+        await PersonImage.find({
+            where: { imageId: this.id },
+            relations: [ "person" ]
+        }).then((result) => {
+            result.forEach((personImage) => {
+                people.push(personImage.person);
+            });
+        });
+
+        return people;
+    }
 }
