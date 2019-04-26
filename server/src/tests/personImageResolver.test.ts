@@ -11,7 +11,7 @@ afterAll(async () => {
     await conn.close();
 });
 
-describe("PersonImageResolver", () => {
+describe("PersonImageResolver", async () => {
     it("newPerson mutation should return the db id.", async () => {
         // Arrange
         const mutation = `
