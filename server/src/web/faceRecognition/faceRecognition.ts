@@ -2,6 +2,8 @@ import * as faceapi from "face-api.js";
 import { LabeledFaceDescriptors } from "face-api.js";
 import { PersonsFace } from "../../dal/entity/personsFace";
 import { loadModels } from "./loadModels";
+import { Person } from "../../dal/entity/person";
+import { RecognitionResult } from "./recognitionResult";
 
 export class FaceRecognition {
 
@@ -52,7 +54,7 @@ export class FaceRecognition {
     // Save to database
   }
 
-  public async recognize() {
+  public async recognize(): RecognitionResult[] {
     const results = await faceapi.detectAllFaces("video", new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
     const detectionsForSize = await faceapi.resizeResults(results, { width: 640, height: 480 });
     const boxesWithText: faceapi.BoxWithText[] = [];

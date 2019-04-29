@@ -69,18 +69,23 @@ export class PersonImageResolver {
                     }).save();
                 });
             } else if (!inputImage.personDescriptors) {
-                // // Perform face recognition and update/save to de-normalized object to db
-                // const rec = new FaceRecognition();
-                // const recognizedPeople = rec.recognize(inputImage.image);
+                // Perform face recognition and update/save to de-normalized object to db
+                const rec = new FaceRecognition();
+                const recognitionResults = rec.recognize(inputImage.image);
 
-                // recognizedPeople!.forEach(async personResult => {
+                recognitionResults!.forEach(async result => {
+                    const person = await Person.create(result.person).save();
 
-                //     const personImage = await PersonImage.create({
-                //         person: personResult.person,
-                //         image: newImage,
-                //         personDescriptor: personResult.descriptor
-                //     });
-                // });
+                    let descriptor = new PersonDescriptor();
+                    descriptor.descriptor = result.descriptor;
+                    descriptor = await PersonDescriptor.create(descriptor).save();
+
+                    const personImage = await PersonImage.create({
+                        personId: person.id,
+                        imageId: newImage.id,
+                        personDescriptorId: descriptor.id
+                    });
+                });
             } else {
                 throw new Error(("Input not in a valid state"));
             }
