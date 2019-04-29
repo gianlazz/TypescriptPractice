@@ -8,8 +8,8 @@ export class InputImage {
     @Field()
     public image: string;
 
-    @Field((type) => [InputPerson], { nullable: true })
-    public persons?: InputPerson[];
+    // @Field((type) => [InputPerson], { nullable: true })
+    // public persons?: InputPerson[];
 
     @Field((type) => [InputPersonDescriptor], { nullable: true })
     public personDescriptors?: InputPersonDescriptor[];

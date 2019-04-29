@@ -68,7 +68,7 @@ export class PersonImageResolver {
                         personDescriptorId: newDescriptor.id
                     }).save();
                 });
-            } else if (!inputImage.persons) {
+            } else if (!inputImage.personDescriptors) {
                 // // Perform face recognition and update/save to de-normalized object to db
                 // const rec = new FaceRecognition();
                 // const recognizedPeople = rec.recognize(inputImage.image);
