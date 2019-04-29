@@ -2,8 +2,10 @@ import * as faceapi from "face-api.js";
 import { LabeledFaceDescriptors } from "face-api.js";
 import { Person } from "../../dal/entity/person";
 import { PersonsFace } from "../../dal/entity/personsFace";
-import { loadModels } from "./loadModels";
 import { RecognitionResult } from "./recognitionResult";
+import axios from "axios";
+import { faceDetectionNet, canvas } from "./common";
+
 
 export class FaceRecognition {
 
@@ -14,7 +16,7 @@ export class FaceRecognition {
 
   constructor() {
     this.labeledDescriptors = [];
-    this.loadModelsPromise = loadModels();
+    // this.loadModelsPromise = loadModels("../../../../models/");
   }
 
   public async savePerson(image: string, name: string) {
@@ -49,9 +51,15 @@ export class FaceRecognition {
     });
   }
 
-  public async recognize(image: string): Promise<RecognitionResult[]> {
+  public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
+    // const base64Url = await this.getBase64(imageUrl);
+    await faceDetectionNet.loadFromDisk(__dirname + "/../../../../models/");
+    await faceapi.nets.faceLandmark68Net.loadFromDisk(__dirname + "/../../../../models/");
+    await faceapi.nets.faceRecognitionNet.loadFromDisk(__dirname + "/../../../../models/");
+
+    const cnvs = await canvas.loadImage(imageUrl);
     const faceapiResults = await faceapi
-      .detectAllFaces(image, new faceapi.TinyFaceDetectorOptions())
+      .detectAllFaces(cnvs)
       .withFaceLandmarks()
       .withFaceDescriptors();
 
@@ -72,6 +80,12 @@ export class FaceRecognition {
     });
 
     return results;
+  }
+  
+  public async getBase64(url: string): Promise<string> {
+    let image = await axios.get(url, {responseType: 'arraybuffer'});
+    let b64 = Buffer.from(image.data).toString('base64');
+    return b64;
   }
 
 }

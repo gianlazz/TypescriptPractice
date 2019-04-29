@@ -60,11 +60,11 @@
     "compounds": [
         {
           "name": "Full-stack Debug",
-          "configurations": ["Launch Server", "Launch Chrome", "Attach to Chrome"]
+          "configurations": ["Debug Server index.ts", "Launch Chrome", "Attach to Chrome"]
         },
         {
             "name": "Angular",
-            "configurations": ["Launch Chrome", "Launch Chrome", "Attach to Chrome"]
+            "configurations": ["Launch Chrome", "Attach to Chrome"]
         }
     ]
 }

@@ -1,6 +1,11 @@
 import * as faceapi from "face-api.js";
+import { faceDetectionNet } from "./common";
 
-export const loadModels = async () => {
+export async function loadModels(modelsPath: string)  {
+    await faceDetectionNet.loadFromDisk(modelsPath);
+    await faceapi.nets.faceLandmark68Net.loadFromDisk(modelsPath);
+    await faceapi.nets.faceRecognitionNet.loadFromDisk(modelsPath);
+
     await faceapi.loadSsdMobilenetv1Model("/models");
     console.log("Loaded loadSsdMobilenetv1Model");
 
