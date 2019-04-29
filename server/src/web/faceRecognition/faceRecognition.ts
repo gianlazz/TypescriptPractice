@@ -1,11 +1,10 @@
+import axios from "axios";
 import * as faceapi from "face-api.js";
 import { LabeledFaceDescriptors } from "face-api.js";
 import { Person } from "../../dal/entity/person";
 import { PersonsFace } from "../../dal/entity/personsFace";
+import { canvas, faceDetectionNet } from "./common";
 import { RecognitionResult } from "./recognitionResult";
-import axios from "axios";
-import { faceDetectionNet, canvas } from "./common";
-
 
 export class FaceRecognition {
 
@@ -56,7 +55,7 @@ export class FaceRecognition {
     await faceDetectionNet.loadFromDisk(__dirname + "/../../../../models/");
     await faceapi.nets.faceLandmark68Net.loadFromDisk(__dirname + "/../../../../models/");
     await faceapi.nets.faceRecognitionNet.loadFromDisk(__dirname + "/../../../../models/");
-
+    // await this.getRecognizedFaces();
     const cnvs = await canvas.loadImage(imageUrl);
     const faceapiResults = await faceapi
       .detectAllFaces(cnvs)
@@ -68,24 +67,20 @@ export class FaceRecognition {
     const results: RecognitionResult[] = [];
     detectionsForSize.forEach(async (detection) => {
         const result = new RecognitionResult();
+        console.log(detection.descriptor);
 
-        const bestMatch = await this.faceMatcher.findBestMatch(detection.descriptor);
-        const boxWithText = new faceapi.BoxWithText(
-          detection.detection.box, `${bestMatch.label} ${bestMatch.distance}`
-          );
+        // const bestMatch = await this.faceMatcher.findBestMatch(detection.descriptor);
+        // const boxWithText = new faceapi.BoxWithText(
+        //   detection.detection.box, `${bestMatch.label} ${bestMatch.distance}`
+        //   );
 
         // result.person.id = parseInt(bestMatch.label, );
         result.descriptor = Array.prototype.slice.call(detection.descriptor);
-        result.boxesWithText = boxWithText;
+        // result.boxesWithText = boxWithText;
+        results.push(result);
     });
 
     return results;
-  }
-  
-  public async getBase64(url: string): Promise<string> {
-    let image = await axios.get(url, {responseType: 'arraybuffer'});
-    let b64 = Buffer.from(image.data).toString('base64');
-    return b64;
   }
 
 }

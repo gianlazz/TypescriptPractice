@@ -28,4 +28,4 @@ export async function loadModels(modelsPath: string)  {
     console.log("Loaded loadFaceExpressionModel");
 
     console.log(faceapi.nets);
-};
+}

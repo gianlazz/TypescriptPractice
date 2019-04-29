@@ -84,7 +84,7 @@ export class PersonImageResolver {
                         personId: person.id,
                         imageId: newImage.id,
                         personDescriptorId: descriptor.id
-                    });
+                    }).save();
                 });
             } else {
                 throw new Error(("Input not in a valid state"));
