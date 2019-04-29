@@ -71,7 +71,7 @@ export class PersonImageResolver {
             } else if (!inputImage.personDescriptors) {
                 // Perform face recognition and update/save to de-normalized object to db
                 const rec = new FaceRecognition();
-                const recognitionResults = rec.recognize(inputImage.image);
+                const recognitionResults = await rec.recognize(inputImage.image);
 
                 recognitionResults!.forEach(async result => {
                     const person = await Person.create(result.person).save();

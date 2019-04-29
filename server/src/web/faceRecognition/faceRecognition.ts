@@ -28,7 +28,6 @@ export class FaceRecognition {
       // create FaceMatcher with automatically assigned labels
       // from the detection results for the reference image
       this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
-      await this.registerPerson(name, image, results.descriptor);
     } else {
       console.error("Nobody detected.");
     }
@@ -50,49 +49,29 @@ export class FaceRecognition {
     });
   }
 
-  public async registerPerson(name: string, image: string, descriptor: Float32Array) {
-    // Save to database
-  }
+  public async recognize(image: string): Promise<RecognitionResult[]> {
+    const faceapiResults = await faceapi
+      .detectAllFaces(image, new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks()
+      .withFaceDescriptors();
 
-  public async recognize(): RecognitionResult[] {
-    const results = await faceapi.detectAllFaces("video", new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceDescriptors();
-    const detectionsForSize = await faceapi.resizeResults(results, { width: 640, height: 480 });
-    const boxesWithText: faceapi.BoxWithText[] = [];
+    const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
 
-    detectionsForSize.forEach(async (result) => {
-        const bestMatch = await this.faceMatcher.findBestMatch(result.descriptor);
-        console.log(bestMatch.label);
-        boxesWithText.push(new faceapi.BoxWithText(
-        result.detection.box, `${bestMatch.label} ${bestMatch.distance}`
-        ));
-        console.log("boxes with text: " + boxesWithText.length);
-    });
-  }
+    const results: RecognitionResult[] = []; 
+    detectionsForSize.forEach(async (detection) => {
+        const result = new RecognitionResult();
 
-  public async detect(image: string) {
-        const detections = await faceapi.detectAllFaces(image);
-        const detectionsForSize = await faceapi.resizeResults(detections, { width: 640, height: 480 });
-        const boxesWithText: faceapi.BoxWithText[] = [];
+        const bestMatch = await this.faceMatcher.findBestMatch(detection.descriptor);
+        const boxWithText = new faceapi.BoxWithText(
+          detection.detection.box, `${bestMatch.label} ${bestMatch.distance}`
+          );
 
-        detectionsForSize.forEach((x) => {
-          boxesWithText.push(new faceapi.BoxWithText(
-            x.box, "unknown"
-          ));
-        });
-  }
-
-  public async generateLabeledDescriptors() {
-    this.preLabledImages.forEach(async (imagePath) => {
-      const imageName = imagePath.split("/").pop();
-      const imageDescriptor = await faceapi.detectSingleFace(imagePath).withFaceLandmarks().withFaceDescriptor();
-
-      this.labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(
-        imageName,
-        [imageDescriptor.descriptor]
-      ));
+        result.person.id = parseInt(bestMatch.label);
+        result.descriptor = Array.prototype.slice.call(detection.descriptor);
+        result.boxesWithText = boxWithText;
     });
 
-    const faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
+    return results;
   }
 
 }
