@@ -31,7 +31,8 @@ export class PersonImage extends BaseEntity {
     public image: Image;
 
     @Field((type) => PersonDescriptor)
-    @OneToOne(() => PersonDescriptor)
+    @OneToOne(() => PersonDescriptor, (personDescriptor) => personDescriptor.personImageConnection)
+    @JoinColumn()
     public personDescriptor: PersonDescriptor;
 
 }

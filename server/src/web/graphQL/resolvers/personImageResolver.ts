@@ -57,9 +57,11 @@ export class PersonImageResolver {
             if (inputImage.personDescriptors) {
                 inputImage.personDescriptors.forEach(async (inputPersonDescriptor) => {
                     const person = await Person.create({ ...inputPersonDescriptor.person }).save();
+
                     let newDescriptor = new PersonDescriptor();
                     newDescriptor.descriptor = inputPersonDescriptor.descriptor;
                     newDescriptor = await PersonDescriptor.create(newDescriptor).save();
+
                     const personImage = await PersonImage.create({
                         personId: person.id,
                         imageId: newImage.id,
