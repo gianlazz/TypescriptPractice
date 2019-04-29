@@ -1,5 +1,5 @@
-import { Person } from "../../dal/entity/person";
 import * as faceapi from "face-api.js";
+import { Person } from "../../dal/entity/person";
 
 export class RecognitionResult {
 

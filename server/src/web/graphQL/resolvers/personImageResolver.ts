@@ -73,7 +73,7 @@ export class PersonImageResolver {
                 const rec = new FaceRecognition();
                 const recognitionResults = await rec.recognize(inputImage.image);
 
-                recognitionResults!.forEach(async result => {
+                recognitionResults!.forEach(async (result) => {
                     const person = await Person.create(result.person).save();
 
                     let descriptor = new PersonDescriptor();

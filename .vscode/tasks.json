@@ -49,6 +49,12 @@
             "problemMatcher": []
         },
         {
+            "label": "Open GraphQL Playground",
+            "type": "shell",
+            "command": "open http://localhost:8080/graphql",
+            "problemMatcher": []
+        },
+        {
             "label": "Open localhost:4200",
             "type": "shell",
             "command": "open http://localhost:4200",

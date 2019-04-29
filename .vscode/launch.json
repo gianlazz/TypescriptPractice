@@ -5,12 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug Server index.ts",
             "type": "node",
             "request": "launch",
-            "name": "Launch Server",
-            "program": "${workspaceFolder}/server/dist/web/index.js",
-            "preLaunchTask": "Run Client Server",
-            "smartStep": true
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/server/src/index.ts"
+            ],
+            "cwd": "${workspaceRoot}/server",
         },
         {
             "type": "chrome",

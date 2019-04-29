@@ -1,8 +1,8 @@
 import * as faceapi from "face-api.js";
 import { LabeledFaceDescriptors } from "face-api.js";
+import { Person } from "../../dal/entity/person";
 import { PersonsFace } from "../../dal/entity/personsFace";
 import { loadModels } from "./loadModels";
-import { Person } from "../../dal/entity/person";
 import { RecognitionResult } from "./recognitionResult";
 
 export class FaceRecognition {
@@ -57,7 +57,7 @@ export class FaceRecognition {
 
     const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
 
-    const results: RecognitionResult[] = []; 
+    const results: RecognitionResult[] = [];
     detectionsForSize.forEach(async (detection) => {
         const result = new RecognitionResult();
 
@@ -66,7 +66,7 @@ export class FaceRecognition {
           detection.detection.box, `${bestMatch.label} ${bestMatch.distance}`
           );
 
-        result.person.id = parseInt(bestMatch.label);
+        // result.person.id = parseInt(bestMatch.label, );
         result.descriptor = Array.prototype.slice.call(detection.descriptor);
         result.boxesWithText = boxWithText;
     });

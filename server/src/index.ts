@@ -43,7 +43,8 @@ app.use(express.static( path.join( __dirname + "/web/AngularFrontEnd" ) ) );
 app.use("/models", express.static( path.join( __dirname, "/web/models" ) ) );
 
 // Configure session auth middleware
-sessionAuth.register( app );
+// TS-NODE DEBUGGER THROWS ERROR ON THIS LINE
+// sessionAuth.register( app );
 
 // Register GraphQL setup middleware
 graphqlApi.register( app );
