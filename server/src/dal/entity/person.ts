@@ -16,7 +16,7 @@ export class Person extends BaseEntity {
     public name?: string;
 
     @Field({ nullable: true })
-    @Column({ nullable: true })
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     public firstSeenDateTime: string;
 
     // @Field((type) => [PersonImage], { nullable: true })
