@@ -34,7 +34,7 @@ export class PersonImageResolver {
             const newPerson = await Person.create({ ...inputPerson }).save();
 
             inputPerson.images.forEach(async (inputImage) => {
-                const image = await Image.create(inputImage as Image).save();
+                const image = await Image.create({ ...inputImage }).save();
 
                 const personImage = await PersonImage.create({
                      imageId: image.id,
@@ -54,15 +54,16 @@ export class PersonImageResolver {
         try {
             const newImage = await Image.create({ ...inputImage }).save();
 
-            if (inputImage.persons) {
-                // Persons are already populated so just de-normalize into db
-                inputImage.persons.forEach(async (inputPerson) => {
-                    const newPerson = await Person.create({ ...inputPerson }).save();
-
+            if (inputImage.personDescriptors) {
+                inputImage.personDescriptors.forEach(async (inputPersonDescriptor) => {
+                    const person = await Person.create({ ...inputPersonDescriptor.person }).save();
+                    let newDescriptor = new PersonDescriptor();
+                    newDescriptor.descriptor = inputPersonDescriptor.descriptor;
+                    newDescriptor = await PersonDescriptor.create(newDescriptor).save();
                     const personImage = await PersonImage.create({
-                        person: newPerson,
-                        image: newImage,
-                        personDescriptorId: null
+                        personId: person.id,
+                        imageId: newImage.id,
+                        personDescriptorId: newDescriptor.id
                     }).save();
                 });
             } else if (!inputImage.persons) {
