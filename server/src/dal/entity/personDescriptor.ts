@@ -16,12 +16,15 @@ export class PersonDescriptor extends BaseEntity {
     @Column( "decimal", {array: true, nullable: true })
     public descriptor?: number[];
 
-    @Field((type) => Person)
-    @OneToOne((type) => PersonImage, (personImage) => personImage.person)
-    public person: Person;
+    // @OneToOne(type => PersonImage, personImage => personImage.personDescriptor)
+    // public personImageConnection: number
 
-    @Field((type) => Image)
-    @OneToOne((type) => PersonImage, (personImage) => personImage.image)
-    public image: Image;
+    // @Field((type) => Person)
+    // @OneToOne((type) => PersonImage, (personImage) => personImage.person)
+    // public person: Person;
+
+    // @Field((type) => Image)
+    // @OneToOne((type) => PersonImage, (personImage) => personImage.image)
+    // public image: Image;
 
 }

@@ -50,7 +50,7 @@ export class PersonImageResolver {
     }
 
     @Mutation((type) => Int)
-    public async newImage(@Arg("inputPerson") inputImage: InputImage): Promise<number> {
+    public async newImage(@Arg("inputImage") inputImage: InputImage): Promise<number> {
         try {
             const newImage = await Image.create({ ...inputImage }).save();
 
@@ -60,9 +60,9 @@ export class PersonImageResolver {
                     const newPerson = await Person.create({ ...inputPerson }).save();
 
                     const personImage = await PersonImage.create({
-                        personId: newPerson.id,
-                        imageId: newImage.id,
-                        personDescriptorId: 1
+                        person: newPerson,
+                        image: newImage,
+                        personDescriptorId: null
                     }).save();
                 });
             } else if (!inputImage.persons) {

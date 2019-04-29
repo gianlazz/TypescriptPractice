@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
 import { Image } from "./image";
 import { Person } from "./person";
 import { PersonDescriptor } from "./personDescriptor";
@@ -16,8 +16,8 @@ export class PersonImage extends BaseEntity {
     @PrimaryColumn()
     public imageId: number;
 
-    @Field((type) => ID)
-    @PrimaryColumn()
+    @Field((type) => ID, { nullable: true })
+    @Column()
     public personDescriptorId: number;
 
     @Field((type) => Person)
@@ -31,7 +31,7 @@ export class PersonImage extends BaseEntity {
     public image: Image;
 
     @Field((type) => PersonDescriptor)
-    @OneToOne(() => PersonDescriptor, (personDescriptor) => personDescriptor.image, { primary: true })
+    @OneToOne(() => PersonDescriptor)
     public personDescriptor: PersonDescriptor;
 
 }

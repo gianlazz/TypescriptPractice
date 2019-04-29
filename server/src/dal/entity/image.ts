@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Person } from "./person";
+import { PersonDescriptor } from "./personDescriptor";
 import { PersonImage } from "./personImage";
 
 @ObjectType()
@@ -17,6 +18,11 @@ export class Image extends BaseEntity {
 
     @OneToMany((type) => PersonImage, (personImage) => personImage.image)
     public personsConnection: PersonImage[];
+
+    @Field((type) => [PersonDescriptor], { nullable: true })
+    public async personDescriptors(): Promise<PersonDescriptor[]> {
+        return this.getThisImagesDescriptors();
+    }
 
     @Field((type) => [Person], { nullable: true })
     public async people(): Promise<Person[]> {
@@ -35,5 +41,19 @@ export class Image extends BaseEntity {
         });
 
         return people;
+    }
+
+    private async getThisImagesDescriptors() {
+        const descriptors: PersonDescriptor[] = [];
+        await PersonImage.find({
+            where: { imageId: this.id },
+            relations: [ "personDescriptor" ]
+        }).then((result) => {
+            result.forEach((descriptor) => {
+                descriptors.push(descriptor.personDescriptor);
+            });
+        });
+
+        return descriptors;
     }
 }
