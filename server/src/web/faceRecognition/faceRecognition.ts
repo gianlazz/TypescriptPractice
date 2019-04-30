@@ -26,7 +26,7 @@ export class FaceRecognition {
   public async getRecognizedFaces() {
     const recognizedFaces = await PersonDescriptor.find();
 
-    recognizedFaces.forEach(async (result) => {
+    await recognizedFaces.forEach(async (result) => {
       const person = await result.person();
       this.recognizablePeople[person.id] = result;
 
@@ -40,6 +40,7 @@ export class FaceRecognition {
   public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
     await this.modelsLoaded;
     await this.loadedPeople;
+    await this.getRecognizedFaces();
 
     const cnvs = await canvas.loadImage(imageUrl);
     const faceapiResults = await faceapi
@@ -63,11 +64,10 @@ export class FaceRecognition {
           );
 
           result.boxWithText = boxWithText;
-        }
-        else if (this.faceMatcher && bestMatch.label === "unknown") {
+        } else if (this.faceMatcher && bestMatch.label === "unknown") {
           throw new Error("Unknown person found")
-        } else {
-
+        } else if (!this.faceMatcher) {
+          
         }
         
         // result.person.id = parseInt(bestMatch.label, );

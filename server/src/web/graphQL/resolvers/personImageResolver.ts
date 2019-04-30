@@ -83,10 +83,13 @@ export class PersonImageResolver {
 
                     let descriptor = new PersonDescriptor();
                     descriptor.descriptor = result.descriptor;
-                    descriptor.x = result.boxWithText.x;
-                    descriptor.y = result.boxWithText.y;
-                    descriptor.height = result.boxWithText.height;
-                    descriptor.width = result.boxWithText.width;
+                    if (result.boxWithText) {
+                        descriptor.x = result.boxWithText.x;
+                        descriptor.y = result.boxWithText.y;
+                        descriptor.height = result.boxWithText.height;
+                        descriptor.width = result.boxWithText.width;
+                    }
+
                     descriptor = await PersonDescriptor.create(descriptor).save();
 
                     const personImage = await PersonImage.create({
@@ -95,14 +98,15 @@ export class PersonImageResolver {
                         personDescriptorId: descriptor.id
                     }).save();
                 });
+                return newImage.id;
             } else {
                 throw new Error(("Input not in a valid state"));
             }
 
-            return newImage.id;
         } catch (error) {
             console.error(error);
         }
+        return 0;
     }
 
 }
