@@ -8,13 +8,13 @@
     "synchronize": true,
     "logging": true,
     "entities": [
-       "*/dal/entity/**/*{.ts,.js}"
+       "*/dal/entity/**/*.js"
     ],
     "migrations": [
-       "*/dal/migration/**/*{.ts,.js}"
+       "*/dal/migration/**/*.js"
     ],
     "subscribers": [
-       "*/dal/subscriber/**/*{.ts,.js}"
+       "*/dal/subscriber/**/*.js"
     ],
     "cli": {
        "entitiesDir": "src/dal/entity",

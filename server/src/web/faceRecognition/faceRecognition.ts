@@ -40,7 +40,6 @@ export class FaceRecognition {
   public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
     await this.modelsLoaded;
     await this.loadedPeople;
-    await this.getRecognizedFaces();
 
     const cnvs = await canvas.loadImage(imageUrl);
     const faceapiResults = await faceapi
@@ -53,11 +52,17 @@ export class FaceRecognition {
     detectionsForSize.forEach(async (detection) => {
         const result = new RecognitionResult();
         console.log(detection.descriptor);
+        result.x = detection.detection.box.x;
+        result.y = detection.detection.box.y;
+        result.height = detection.detection.box.height;
+        result.width = detection.detection.box.width;
+        // result.person.id = parseInt(bestMatch.label, );
+        result.descriptor = Array.prototype.slice.call(detection.descriptor);
 
-        let bestMatch: faceapi.FaceMatch; 
+        let bestMatch: faceapi.FaceMatch;
         if (this.faceMatcher) {
           bestMatch = await this.faceMatcher!.findBestMatch(detection.descriptor);
-          const recognizedPerson = this.recognizablePeople[parseInt(bestMatch.label)];
+          const recognizedPerson = this.recognizablePeople[parseInt(bestMatch.label, 10)];
           const person = await recognizedPerson.person();
           const boxWithText = new faceapi.BoxWithText(
             detection.detection.box, `${person.name} ${bestMatch.distance}`
@@ -65,13 +70,11 @@ export class FaceRecognition {
 
           result.boxWithText = boxWithText;
         } else if (this.faceMatcher && bestMatch.label === "unknown") {
-          throw new Error("Unknown person found")
+          throw new Error("Unknown person found");
         } else if (!this.faceMatcher) {
-          
+          this.getRecognizedFaces();
         }
-        
-        // result.person.id = parseInt(bestMatch.label, );
-        result.descriptor = Array.prototype.slice.call(detection.descriptor);
+
         results.push(result);
     });
 

@@ -20,25 +20,27 @@ export class PersonDescriptor extends BaseEntity {
     public personImageConnection: PersonDescriptor;
 
     @Field((type) => Float, { nullable: true })
-    @Column("decimal", { nullable: true })
+    @Column("decimal", { nullable: false })
     public x: number;
 
     @Field((type) => Float, { nullable: true })
-    @Column("decimal", { nullable: true })
+    @Column("decimal", { nullable: false })
     public y: number;
 
     @Field((type) => Float, { nullable: true })
-    @Column("decimal", { nullable: true })
+    @Column("decimal", { nullable: false })
     public height: number;
 
     @Field((type) => Float, { nullable: true })
-    @Column("decimal", { nullable: true })
+    @Column("decimal", { nullable: false })
     public width: number;
 
+    private loadedPerson: Person;
+
     @Field((type) => Person)
-    public async person(): Promise<Person>{
+    public async person(): Promise<Person> {
         if (!this.loadedPerson) {
-            const personImage = await PersonImage.findOne({ 
+            const personImage = await PersonImage.findOne({
                 where: { personDescriptorId: this.id },
                 relations: ["person"]
             });
@@ -46,10 +48,7 @@ export class PersonDescriptor extends BaseEntity {
         }
 
         return this.loadedPerson;
-    };
-
-    private loadedPerson: Person;
-
+    }
     // @Field((type) => Image)
     // @OneToOne((type) => PersonImage, (personImage) => personImage.image)
     // public image: Image;

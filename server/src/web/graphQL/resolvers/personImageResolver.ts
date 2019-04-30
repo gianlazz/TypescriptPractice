@@ -79,16 +79,15 @@ export class PersonImageResolver {
                 const recognitionResults = await this.faceService.recognize(inputImage.image);
 
                 recognitionResults!.forEach(async (result) => {
+                    // Check the result before just saving a blank person!
                     const person = await Person.create(result.person).save();
 
                     let descriptor = new PersonDescriptor();
                     descriptor.descriptor = result.descriptor;
-                    if (result.boxWithText) {
-                        descriptor.x = result.boxWithText.x;
-                        descriptor.y = result.boxWithText.y;
-                        descriptor.height = result.boxWithText.height;
-                        descriptor.width = result.boxWithText.width;
-                    }
+                    descriptor.x = result.x;
+                    descriptor.y = result.y;
+                    descriptor.height = result.height;
+                    descriptor.width = result.width;
 
                     descriptor = await PersonDescriptor.create(descriptor).save();
 
