@@ -1,11 +1,11 @@
 import axios from "axios";
 import * as faceapi from "face-api.js";
 import { LabeledFaceDescriptors } from "face-api.js";
+import { Service } from "typedi";
 import { Person } from "../../dal/entity/person";
 import { PersonsFace } from "../../dal/entity/personsFace";
 import { canvas, faceDetectionNet } from "./common";
 import { RecognitionResult } from "./recognitionResult";
-import { Service } from "typedi";
 
 @Service()
 export class FaceRecognition {
@@ -18,15 +18,6 @@ export class FaceRecognition {
   constructor() {
     this.labeledDescriptors = [];
     this.modelsLoaded = this.loadModels();
-  }
-
-  private async loadModels(): Promise<boolean> {
-    await faceDetectionNet.loadFromDisk(__dirname + "/../../../../models/");
-    // await faceapi.nets.faceLandmark68Net.loadFromDisk(__dirname + "/../../../../models/");
-    await faceapi.nets.faceRecognitionNet.loadFromDisk(__dirname + "/../../../../models/");
-    await faceapi.nets.faceLandmark68TinyNet.loadFromDisk(__dirname + "/../../../../models/");
-    await faceapi.nets.tinyFaceDetector.loadFromDisk(__dirname + "/../../../../models/");
-    return true;
   }
 
   public async savePerson(image: string, name: string) {
@@ -61,8 +52,8 @@ export class FaceRecognition {
     });
   }
 
-  public async recognize(imageUrl: string): Promise<RecognitionResult[]> {  
-    await this.modelsLoaded;  
+  public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
+    await this.modelsLoaded;
     // await this.getRecognizedFaces();
     const cnvs = await canvas.loadImage(imageUrl);
     const faceapiResults = await faceapi
@@ -85,6 +76,7 @@ export class FaceRecognition {
         const boxWithText = new faceapi.BoxWithText(
           detection.detection.box, `${"test label"} ${"test match distance"}`
           );
+        result.boxWithText = boxWithText;
 
         // result.person.id = parseInt(bestMatch.label, );
         result.descriptor = Array.prototype.slice.call(detection.descriptor);
@@ -93,6 +85,15 @@ export class FaceRecognition {
     });
 
     return results;
+  }
+
+  private async loadModels(): Promise<boolean> {
+    await faceDetectionNet.loadFromDisk(__dirname + "/../../../../models/");
+    // await faceapi.nets.faceLandmark68Net.loadFromDisk(__dirname + "/../../../../models/");
+    await faceapi.nets.faceRecognitionNet.loadFromDisk(__dirname + "/../../../../models/");
+    await faceapi.nets.faceLandmark68TinyNet.loadFromDisk(__dirname + "/../../../../models/");
+    await faceapi.nets.tinyFaceDetector.loadFromDisk(__dirname + "/../../../../models/");
+    return true;
   }
 
 }

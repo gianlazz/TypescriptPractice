@@ -19,19 +19,19 @@ export class PersonDescriptor extends BaseEntity {
     @OneToOne((type) => PersonImage, (personImage) => personImage.personDescriptor)
     public personImageConnection: PersonDescriptor;
 
-    @Field(type => Float, { nullable: true })
+    @Field((type) => Float, { nullable: true })
     @Column("decimal", { nullable: true })
     public x: number;
 
-    @Field(type => Float, { nullable: true })
+    @Field((type) => Float, { nullable: true })
     @Column("decimal", { nullable: true })
     public y: number;
 
-    @Field(type => Float, { nullable: true })
+    @Field((type) => Float, { nullable: true })
     @Column("decimal", { nullable: true })
     public height: number;
 
-    @Field(type => Float, { nullable: true })
+    @Field((type) => Float, { nullable: true })
     @Column("decimal", { nullable: true })
     public width: number;
 
