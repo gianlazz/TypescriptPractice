@@ -28,8 +28,7 @@ if (process.env.DEPLOYMENT === "Heroku") {
     .catch((error) => console.log(error));
 } else {
     dotenv.config();
-
-    // Typeorm connection
+// Typeorm connection
     createLocalDevDbConnection()
     .then((connection) => console.log("Connected to default ormconfig.json database with TypeORM."))
     .catch((error) => console.log(error));

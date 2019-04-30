@@ -1,23 +1,81 @@
-import axios from "axios";
 import * as faceapi from "face-api.js";
 import { LabeledFaceDescriptors } from "face-api.js";
 import { Service } from "typedi";
-import { Person } from "../../dal/entity/person";
-import { PersonsFace } from "../../dal/entity/personsFace";
+import { PersonDescriptor } from "../../dal/entity/personDescriptor";
 import { canvas, faceDetectionNet } from "./common";
 import { RecognitionResult } from "./recognitionResult";
 
 @Service()
 export class FaceRecognition {
 
-  public preLabledImages: string[];
+  public recognizablePeople: { [key: number]: PersonDescriptor};
   public labeledDescriptors: LabeledFaceDescriptors[];
   public faceMatcher: faceapi.FaceMatcher;
+
   public modelsLoaded: Promise<boolean>;
+  public loadedPeople: Promise<void>;
 
   constructor() {
+    this.recognizablePeople = [];
     this.labeledDescriptors = [];
+
     this.modelsLoaded = this.loadModels();
+    this.loadedPeople = this.getRecognizedFaces();
+  }
+
+  public async getRecognizedFaces() {
+    const recognizedFaces = await PersonDescriptor.find();
+
+    recognizedFaces.forEach(async (result) => {
+      const person = await result.person();
+      this.recognizablePeople[person.id] = result;
+
+      const descriptor = new Float32Array(result.descriptor);
+      const labeledDescriptor = new faceapi.LabeledFaceDescriptors(`${person.id}`, [descriptor]);
+      this.labeledDescriptors.push(labeledDescriptor);
+      this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
+    });
+  }
+
+  public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
+    await this.modelsLoaded;
+    await this.loadedPeople;
+
+    const cnvs = await canvas.loadImage(imageUrl);
+    const faceapiResults = await faceapi
+      .detectAllFaces(cnvs, new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks(true)
+      .withFaceDescriptors();
+    const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
+
+    const results: RecognitionResult[] = [];
+    detectionsForSize.forEach(async (detection) => {
+        const result = new RecognitionResult();
+        console.log(detection.descriptor);
+
+        let bestMatch: faceapi.FaceMatch; 
+        if (this.faceMatcher) {
+          bestMatch = await this.faceMatcher!.findBestMatch(detection.descriptor);
+          const recognizedPerson = this.recognizablePeople[parseInt(bestMatch.label)];
+          const person = await recognizedPerson.person();
+          const boxWithText = new faceapi.BoxWithText(
+            detection.detection.box, `${person.name} ${bestMatch.distance}`
+          );
+
+          result.boxWithText = boxWithText;
+        }
+        else if (this.faceMatcher && bestMatch.label === "unknown") {
+          throw new Error("Unknown person found")
+        } else {
+
+        }
+        
+        // result.person.id = parseInt(bestMatch.label, );
+        result.descriptor = Array.prototype.slice.call(detection.descriptor);
+        results.push(result);
+    });
+
+    return results;
   }
 
   public async savePerson(image: string, name: string) {
@@ -28,63 +86,10 @@ export class FaceRecognition {
       this.labeledDescriptors.push(labeledDescriptor);
       console.log("Added to array of labeled descriptors");
 
-      // create FaceMatcher with automatically assigned labels
-      // from the detection results for the reference image
       this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
     } else {
       console.error("Nobody detected.");
     }
-  }
-
-  public async getRecognizedFaces() {
-    const recognizedFaces = await PersonsFace.find();
-
-    recognizedFaces.forEach((result) => {
-    const descriptor = new Float32Array(result.descriptor);
-    const labeledDescriptor = new faceapi.LabeledFaceDescriptors(result.name, [descriptor]);
-    console.log(JSON.stringify(labeledDescriptor));
-    this.labeledDescriptors.push(labeledDescriptor);
-    console.log("Added to array of labeled descriptors");
-
-    // create FaceMatcher with automatically assigned labels
-    // from the detection results for the reference image
-    this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
-    });
-  }
-
-  public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
-    await this.modelsLoaded;
-    // await this.getRecognizedFaces();
-    const cnvs = await canvas.loadImage(imageUrl);
-    const faceapiResults = await faceapi
-      .detectAllFaces(cnvs, new faceapi.TinyFaceDetectorOptions())
-      .withFaceLandmarks(true)
-      .withFaceDescriptors();
-
-    const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
-
-    const results: RecognitionResult[] = [];
-    detectionsForSize.forEach(async (detection) => {
-        const result = new RecognitionResult();
-        console.log(detection.descriptor);
-
-        // const bestMatch = await this.faceMatcher.findBestMatch(detection.descriptor);
-        // const boxWithText = new faceapi.BoxWithText(
-        //   detection.detection.box, `${bestMatch.label} ${bestMatch.distance}`
-        //   );
-
-        const boxWithText = new faceapi.BoxWithText(
-          detection.detection.box, `${"test label"} ${"test match distance"}`
-          );
-        result.boxWithText = boxWithText;
-
-        // result.person.id = parseInt(bestMatch.label, );
-        result.descriptor = Array.prototype.slice.call(detection.descriptor);
-        // result.boxesWithText = boxWithText;
-        results.push(result);
-    });
-
-    return results;
   }
 
   private async loadModels(): Promise<boolean> {

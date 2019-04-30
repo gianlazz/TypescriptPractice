@@ -35,9 +35,20 @@ export class PersonDescriptor extends BaseEntity {
     @Column("decimal", { nullable: true })
     public width: number;
 
-    // @Field((type) => Person)
-    // @OneToOne((type) => PersonImage, (personImage) => personImage.person)
-    // public person: Person;
+    @Field((type) => Person)
+    public async person(): Promise<Person>{
+        if (!this.loadedPerson) {
+            const personImage = await PersonImage.findOne({ 
+                where: { personDescriptorId: this.id },
+                relations: ["person"]
+            });
+            this.loadedPerson = personImage.person;
+        }
+
+        return this.loadedPerson;
+    };
+
+    private loadedPerson: Person;
 
     // @Field((type) => Image)
     // @OneToOne((type) => PersonImage, (personImage) => personImage.image)
