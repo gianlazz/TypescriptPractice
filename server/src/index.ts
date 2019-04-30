@@ -7,9 +7,12 @@ import { createConnection } from "typeorm";
 import { createHerokuDbConnection } from "./deploymentConfigs/herokuDeployment";
 import * as graphqlApi from "./web/graphQL/graphqlApi";
 import * as sessionAuth from "./web/middleware/sessionAuth";
+import { useContainer } from "class-validator";
+import { Container } from "typedi";
+
+useContainer(Container)
 
 const app = express();
-
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
 

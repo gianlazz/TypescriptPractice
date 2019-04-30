@@ -5,17 +5,28 @@ import { Person } from "../../dal/entity/person";
 import { PersonsFace } from "../../dal/entity/personsFace";
 import { canvas, faceDetectionNet } from "./common";
 import { RecognitionResult } from "./recognitionResult";
+import { Service } from "typedi";
 
+@Service()
 export class FaceRecognition {
 
   public preLabledImages: string[];
   public labeledDescriptors: LabeledFaceDescriptors[];
   public faceMatcher: faceapi.FaceMatcher;
-  public loadModelsPromise: Promise<void>;
+  public modelsLoaded: Promise<boolean>;
 
   constructor() {
     this.labeledDescriptors = [];
-    // this.loadModelsPromise = loadModels("../../../../models/");
+    this.modelsLoaded = this.loadModels();
+  }
+
+  private async loadModels(): Promise<boolean> {
+    await faceDetectionNet.loadFromDisk(__dirname + "/../../../../models/");
+    // await faceapi.nets.faceLandmark68Net.loadFromDisk(__dirname + "/../../../../models/");
+    await faceapi.nets.faceRecognitionNet.loadFromDisk(__dirname + "/../../../../models/");
+    await faceapi.nets.faceLandmark68TinyNet.loadFromDisk(__dirname + "/../../../../models/");
+    await faceapi.nets.tinyFaceDetector.loadFromDisk(__dirname + "/../../../../models/");
+    return true;
   }
 
   public async savePerson(image: string, name: string) {
@@ -50,16 +61,13 @@ export class FaceRecognition {
     });
   }
 
-  public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
-    // const base64Url = await this.getBase64(imageUrl);
-    await faceDetectionNet.loadFromDisk(__dirname + "/../../../../models/");
-    await faceapi.nets.faceLandmark68Net.loadFromDisk(__dirname + "/../../../../models/");
-    await faceapi.nets.faceRecognitionNet.loadFromDisk(__dirname + "/../../../../models/");
+  public async recognize(imageUrl: string): Promise<RecognitionResult[]> {  
+    await this.modelsLoaded;  
     // await this.getRecognizedFaces();
     const cnvs = await canvas.loadImage(imageUrl);
     const faceapiResults = await faceapi
-      .detectAllFaces(cnvs)
-      .withFaceLandmarks()
+      .detectAllFaces(cnvs, new faceapi.TinyFaceDetectorOptions())
+      .withFaceLandmarks(true)
       .withFaceDescriptors();
 
     const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });

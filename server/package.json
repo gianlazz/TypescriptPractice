@@ -48,6 +48,7 @@
     "pg-promise": "^8.6.4",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^0.17.1",
+    "typedi": "^0.8.0",
     "typeorm": "^0.2.16",
     "vue": "^2.6.10"
   },

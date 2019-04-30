@@ -10,6 +10,12 @@ import { InputPerson } from "./inputTypes/InputPerson";
 @Resolver()
 export class PersonImageResolver {
 
+    private _faceService: FaceRecognition;
+
+    constructor(faceService: FaceRecognition) {
+        this._faceService = faceService;
+    }
+
     @Query((type) => [Person])
     public async getAllPersons(): Promise<Person[]> {
         try {
@@ -70,8 +76,7 @@ export class PersonImageResolver {
                 });
             } else if (!inputImage.personDescriptors) {
                 // Perform face recognition and update/save to de-normalized object to db
-                const rec = new FaceRecognition();
-                const recognitionResults = await rec.recognize(inputImage.image);
+                const recognitionResults = await this._faceService.recognize(inputImage.image);
 
                 recognitionResults!.forEach(async (result) => {
                     const person = await Person.create(result.person).save();

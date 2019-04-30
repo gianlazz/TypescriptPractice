@@ -6,7 +6,7 @@
 
 Dev Notes ***Subjects in descending chronological order***
 
-- [Testing Server]()
+- [Testing Server](#testing-server)
 - [VSCode Launch & Task Configuration](#vscode-launch-&-task-configuration)
 - [Deployment](#deployment)
 - [Serverless Deployment](#severless-deployment)
@@ -26,6 +26,7 @@ Dev Notes ***Subjects in descending chronological order***
 - https://github.com/benawad/node-ts-graphql-boilerplate/tree/7_gql2ts
 
 #### Debugging Resources:
+- https://stackoverflow.com/questions/31169259/how-to-debug-typescript-files-in-visual-studio-code
 - https://stackoverflow.com/questions/50361948/syntaxerror-unexpected-token-import-typeorm-entity
    - ormconfig.json entities should be .js because they'll be used post build.
 - https://stackoverflow.com/questions/49990513/tslint-says-calls-to-console-log-are-not-allowed-how-do-i-allow-this
@@ -43,6 +44,12 @@ Dev Notes ***Subjects in descending chronological order***
 - https://github.com/Microsoft/TypeScript/issues/4691#issuecomment-298653700
 
 # Dev Notes (Ordered by oldest to most recent subject)
+
+## Dependency Injection
+
+- [(YouTube) Dependency Injection TypeGraphQL](https://www.youtube.com/watch?v=5YYsfkl2UCM)
+- https://typegraphql.ml/docs/dependency-injection.html
+- https://github.com/typestack/typedi#usage-with-typescript
 
 ## Testing Server
 
