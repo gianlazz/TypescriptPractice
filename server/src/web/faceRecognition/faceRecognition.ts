@@ -82,6 +82,10 @@ export class FaceRecognition {
         //   detection.detection.box, `${bestMatch.label} ${bestMatch.distance}`
         //   );
 
+        const boxWithText = new faceapi.BoxWithText(
+          detection.detection.box, `${"test label"} ${"test match distance"}`
+          );
+
         // result.person.id = parseInt(bestMatch.label, );
         result.descriptor = Array.prototype.slice.call(detection.descriptor);
         // result.boxesWithText = boxWithText;
