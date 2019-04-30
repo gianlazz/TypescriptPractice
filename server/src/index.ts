@@ -6,6 +6,7 @@ import path from "path";
 import "reflect-metadata";
 import { Container } from "typedi";
 import { createConnection } from "typeorm";
+import { createLocalDevDbConnection } from "./deploymentConfigs/createLocalDevDbConnection";
 import { createHerokuDbConnection } from "./deploymentConfigs/herokuDeployment";
 import * as graphqlApi from "./web/graphQL/graphqlApi";
 import * as sessionAuth from "./web/middleware/sessionAuth";
@@ -26,12 +27,12 @@ if (process.env.DEPLOYMENT === "Heroku") {
     .then((connection) => console.log("Connected to heroku Postgres with TypeORM."))
     .catch((error) => console.log(error));
 } else {
-// Typeorm connection
-    createConnection()
+    dotenv.config();
+
+    // Typeorm connection
+    createLocalDevDbConnection()
     .then((connection) => console.log("Connected to default ormconfig.json database with TypeORM."))
     .catch((error) => console.log(error));
-
-    dotenv.config();
 }
 
 // port is now available to the Node.js runtime
