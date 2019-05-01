@@ -51,32 +51,32 @@ export class FaceRecognition {
     const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
 
     const results: RecognitionResult[] = [];
-    detectionsForSize.forEach(async (detection) => {
-        const result = new RecognitionResult();
-        console.log(detection.descriptor);
-        result.x = detection.detection.box.x;
-        result.y = detection.detection.box.y;
-        result.height = detection.detection.box.height;
-        result.width = detection.detection.box.width;
-        result.descriptor = Array.prototype.slice.call(detection.descriptor);
+    for (const detection of detectionsForSize){
+      const result = new RecognitionResult();
+      console.log(detection.descriptor);
+      result.x = detection.detection.box.x;
+      result.y = detection.detection.box.y;
+      result.height = detection.detection.box.height;
+      result.width = detection.detection.box.width;
+      result.descriptor = Array.prototype.slice.call(detection.descriptor);
 
-        let bestMatch: faceapi.FaceMatch;
-        if (this.faceMatcher) {
-          bestMatch = this.faceMatcher.findBestMatch(detection.descriptor);
-          const recognizedPerson = this.recognizablePeople[parseInt(bestMatch.label, 10)];
-          const person = await recognizedPerson.person();
-          const boxWithText = new faceapi.BoxWithText(
-            detection.detection.box, `${person.name} ${bestMatch.distance}`
-          );
-          result.person = person;
-          
-          result.boxWithText = boxWithText;
-        } else if (this.faceMatcher && bestMatch.label === "unknown") {
-          throw new Error("Unknown person found");
-        } 
+      let bestMatch: faceapi.FaceMatch;
+      if (this.faceMatcher) {
+        bestMatch = this.faceMatcher.findBestMatch(detection.descriptor);
+        const recognizedPerson = this.recognizablePeople[parseInt(bestMatch.label, 10)];
+        const person = await recognizedPerson.person();
+        const boxWithText = new faceapi.BoxWithText(
+          detection.detection.box, `${person.name} ${bestMatch.distance}`
+        );
+        result.person = person;
+        
+        result.boxWithText = boxWithText;
+      } else if (this.faceMatcher && bestMatch.label === "unknown") {
+        throw new Error("Unknown person found");
+      } 
 
-        results.push(result);
-    });
+      results.push(result);
+    }
 
     return results;
   }

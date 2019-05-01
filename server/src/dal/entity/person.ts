@@ -25,7 +25,7 @@ export class Person extends BaseEntity {
 
     @Field(() => [Image], { nullable: true })
     public async images(): Promise<Image[]> {
-        return this.getThisPersonsImages();
+        return await this.getThisPersonsImages();
     }
 
     private async getThisPersonsImages() {

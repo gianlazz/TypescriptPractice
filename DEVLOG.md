@@ -37,6 +37,7 @@ Dev Notes ***Subjects in descending chronological order***
 - https://stackoverflow.com/questions/36172442/how-to-npm-start-at-a-different-directory
 - https://git-scm.com/book/en/v2/Git-Tools-Rewriting-History
 - https://stackoverflow.com/questions/4981126/how-to-amend-several-commits-in-git-to-change-author
+- https://stackoverflow.com/questions/37576685/using-async-await-with-a-foreach-loop
 
 #### TypeScript Language Features:
 - https://www.typescriptlang.org/docs/handbook/compiler-options.html
