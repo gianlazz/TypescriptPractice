@@ -6,7 +6,6 @@ import { PersonImage } from "../../../dal/entity/personImage";
 import { FaceRecognition } from "../../faceRecognition/faceRecognition";
 import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
-import { isNullOrUndefined } from "util";
 
 @Resolver()
 export class PersonImageResolver {
@@ -40,14 +39,14 @@ export class PersonImageResolver {
         try {
             const newPerson = await Person.create({ ...inputPerson }).save();
 
-            inputPerson.images.forEach(async (inputImage) => {
+            for (const inputImage of inputPerson.images) {
                 const image = await Image.create({ ...inputImage }).save();
 
                 const personImage = await PersonImage.create({
                      imageId: image.id,
                      personId: newPerson.id
                     }).save();
-            });
+            }
 
             return newPerson.id;
         } catch (error) {
@@ -62,7 +61,7 @@ export class PersonImageResolver {
             const newImage = await Image.create({ ...inputImage }).save();
 
             if (inputImage.personDescriptors) {
-                inputImage.personDescriptors.forEach(async (inputPersonDescriptor) => {
+                for (const inputPersonDescriptor of inputImage.personDescriptors) {
                     const person = await Person.create({ ...inputPersonDescriptor.person }).save();
 
                     let newDescriptor = new PersonDescriptor();
@@ -74,12 +73,12 @@ export class PersonImageResolver {
                         imageId: newImage.id,
                         personDescriptorId: newDescriptor.id
                     }).save();
-                });
+                }
             } else if (!inputImage.personDescriptors) {
                 // Perform face recognition and update/save to de-normalized object to db
                 const recognitionResults = await this.faceService.recognize(inputImage.image);
 
-                recognitionResults!.forEach(async (result) => {
+                for (const result of recognitionResults) {
                     // Check the result before just saving a blank person!
                     let person: Person;
                     if (result.person !== undefined) {
@@ -102,7 +101,8 @@ export class PersonImageResolver {
                         imageId: newImage.id,
                         personDescriptorId: descriptor.id
                     }).save();
-                });
+                }
+
                 return newImage.id;
             } else {
                 throw new Error(("Input not in a valid state"));

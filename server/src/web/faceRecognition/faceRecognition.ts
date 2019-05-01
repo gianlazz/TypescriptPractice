@@ -51,7 +51,7 @@ export class FaceRecognition {
     const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
 
     const results: RecognitionResult[] = [];
-    for (const detection of detectionsForSize){
+    for (const detection of detectionsForSize) {
       const result = new RecognitionResult();
       console.log(detection.descriptor);
       result.x = detection.detection.box.x;
@@ -69,11 +69,11 @@ export class FaceRecognition {
           detection.detection.box, `${person.name} ${bestMatch.distance}`
         );
         result.person = person;
-        
+
         result.boxWithText = boxWithText;
       } else if (this.faceMatcher && bestMatch.label === "unknown") {
         throw new Error("Unknown person found");
-      } 
+      }
 
       results.push(result);
     }
