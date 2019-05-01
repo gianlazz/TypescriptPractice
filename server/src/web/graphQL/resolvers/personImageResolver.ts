@@ -51,6 +51,41 @@ export class PersonImageResolver {
     }
 
     @Mutation((type) => Int)
+    public async newPerson(@Arg("inputPerson") inputPerson: InputPerson): Promise<number> {
+        try {
+            const recognitionResults = await this.faceService.recognize(inputPerson.image);
+            if (recognitionResults.length > 1) {
+                throw new Error("Persons image must only contain that person.");
+            } else if (recognitionResults.length === 0) {
+                throw new Error("No person found in the image.");
+            }
+            const newPerson = await Person.create({ name: inputPerson.name }).save();
+            const newImage = await Image.create({ image: inputPerson.image }).save();
+
+            const newDescriptor = new PersonDescriptor();
+            newDescriptor.descriptor = recognitionResults[0].descriptor;
+            newDescriptor.x = recognitionResults[0].x;
+            newDescriptor.y = recognitionResults[0].y;
+            newDescriptor.height = recognitionResults[0].height;
+            newDescriptor.width = recognitionResults[0].width;
+            await newDescriptor.save();
+
+            const newPersonImage = await PersonImage.create({
+                personId: newPerson.id,
+                imageId: newImage.id,
+                personDescriptorId: newDescriptor.id
+            }).save();
+
+            return newPerson.id;
+        } catch (error) {
+            console.error(error);
+            throw (error);
+        }
+
+        return 0;
+    }
+
+    @Mutation((type) => Int)
     public async newImage(@Arg("inputImage") inputImage: InputImage): Promise<number> {
         try {
             const newImage = await Image.create({ ...inputImage }).save();

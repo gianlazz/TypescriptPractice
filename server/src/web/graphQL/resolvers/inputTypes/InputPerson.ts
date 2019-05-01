@@ -8,9 +8,6 @@ export class InputPerson {
     public name: string;
 
     @Field()
-    public firstSeenDateTime: string;
-
-    @Field((type) => [InputImage], { nullable: true })
-    public images?: InputImage[];
+    public image: string;
 
 }
