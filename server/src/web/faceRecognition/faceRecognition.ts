@@ -8,7 +8,7 @@ import { RecognitionResult } from "./recognitionResult";
 @Service({ global: true })
 export class FaceRecognition {
 
-  public recognizablePeople: { [key: number]: PersonDescriptor};
+  public recognizablePeople: { [key: number]: PersonDescriptor };
   public labeledDescriptors: LabeledFaceDescriptors[];
   public faceMatcher: faceapi.FaceMatcher;
 
@@ -26,7 +26,7 @@ export class FaceRecognition {
   public async getRecognizedFaces() {
     const recognizedFaces = await PersonDescriptor.find();
 
-    await recognizedFaces.forEach(async (result) => {
+    for (const result of recognizedFaces) {
       const person = await result.person();
       this.recognizablePeople[person.id] = result;
 
@@ -34,7 +34,7 @@ export class FaceRecognition {
       const labeledDescriptor = new faceapi.LabeledFaceDescriptors(`${person.id}`, [descriptor]);
       this.labeledDescriptors.push(labeledDescriptor);
       this.faceMatcher = new faceapi.FaceMatcher(this.labeledDescriptors);
-    });
+    }
   }
 
   public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
