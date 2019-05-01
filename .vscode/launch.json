@@ -16,6 +16,11 @@
                 "${workspaceFolder}/server/src/index.ts"
             ],
             "cwd": "${workspaceRoot}/server",
+            "skipFiles": [
+                "${workspaceFolder}/server/node_modules/**/*.js",
+                "${workspaceFolder}/server/dist/**/*.js",
+                "<node_internals>/**/*.js"
+            ],
         },
         {
             "type": "chrome",
