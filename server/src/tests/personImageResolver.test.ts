@@ -142,4 +142,70 @@ describe("PersonImageResolver", () => {
         }
       });
   });
+
+    it("renamePerson should return true.", async () => {
+    // Arrange
+    const mutation = `
+    mutation {
+      renamePerson(personId: 1, newName: "Mark")
+    }
+    `;
+    // Act
+    const result = await gCall({ source: mutation });
+    // Assert
+    expect(result).toMatchObject({
+      data: {
+        renamePerson: true
+      }
+    });
+  });
+
+    it("getAllPersons should reflect the renamePerson mutation's newName.", async () => {
+    // Arrange
+    const query = `
+    query {
+      getAllPersons {
+        id
+        name
+        images {
+          id
+          personDescriptors {
+            id
+          }
+        }
+      }
+    }
+    `;
+    // Act
+    const result = await gCall({ source: query });
+    // Assert
+    expect(result).toMatchObject({
+      data: {
+        getAllPersons: [
+          {
+            id: "1",
+            name: "Mark",
+            images: [
+              {
+                id: "1",
+                personDescriptors: [
+                  {
+                    id: "1"
+                  }
+                ]
+              },
+              {
+                id: "2",
+                personDescriptors: [
+                  {
+                    id: "2"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    });
+  });
 });

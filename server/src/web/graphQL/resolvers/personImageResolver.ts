@@ -34,6 +34,22 @@ export class PersonImageResolver {
         }
     }
 
+    @Mutation((type) => Boolean)
+    public async renamePerson(@Arg("personId") personId: number, @Arg("newName") newName: string): Promise<boolean> {
+        try {
+            const person = await Person.findOne({ where: { id: personId }});
+            if (!person) {
+                return false;
+            } else {
+                person.name = newName;
+                await person.save();
+                return true;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     @Mutation((type) => Int)
     public async newImage(@Arg("inputImage") inputImage: InputImage): Promise<number> {
         try {
