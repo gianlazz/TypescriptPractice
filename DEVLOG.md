@@ -51,6 +51,20 @@ Dev Notes ***Subjects in descending chronological order***
 - https://typegraphql.ml/docs/dependency-injection.html
 - https://github.com/typestack/typedi#usage-with-typescript
 
+Object lifecycle: singleton, scoped, or transient
+- https://github.com/typestack/typedi/issues/24
+- https://github.com/typestack/typedi
+
+The default is for services to be scoped. However you can make them singletons or transient by doing the following:
+```Typescript
+// Singleton
+@Service({ global: true })
+
+// Transient
+@Service({ transient: true })
+```
+To see more look at the ServiceOptions.d.ts which is an input type for one of the @Service() overloads.
+
 ## Testing Server
 
 **Testing server graphql resolvers with jest**

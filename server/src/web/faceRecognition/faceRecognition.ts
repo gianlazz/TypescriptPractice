@@ -5,7 +5,7 @@ import { PersonDescriptor } from "../../dal/entity/personDescriptor";
 import { canvas, faceDetectionNet } from "./common";
 import { RecognitionResult } from "./recognitionResult";
 
-@Service()
+@Service({ global: true })
 export class FaceRecognition {
 
   public recognizablePeople: { [key: number]: PersonDescriptor};
@@ -51,7 +51,7 @@ export class FaceRecognition {
     const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
 
     const results: RecognitionResult[] = [];
-    await detectionsForSize.forEach(async (detection) => {
+    detectionsForSize.forEach(async (detection) => {
         const result = new RecognitionResult();
         console.log(detection.descriptor);
         result.x = detection.detection.box.x;
@@ -62,7 +62,7 @@ export class FaceRecognition {
 
         let bestMatch: faceapi.FaceMatch;
         if (this.faceMatcher) {
-          bestMatch = await this.faceMatcher!.findBestMatch(detection.descriptor);
+          bestMatch = this.faceMatcher.findBestMatch(detection.descriptor);
           const recognizedPerson = this.recognizablePeople[parseInt(bestMatch.label, 10)];
           const person = await recognizedPerson.person();
           const boxWithText = new faceapi.BoxWithText(
