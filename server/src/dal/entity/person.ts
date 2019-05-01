@@ -15,6 +15,7 @@ export class Person extends BaseEntity {
     @Column({ nullable: true })
     public name?: string;
 
+    // Should probably remove this since it's on the personImage table now
     @Field({ nullable: true })
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
     public firstSeenDateTime: string;

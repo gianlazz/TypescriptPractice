@@ -209,7 +209,7 @@ describe("PersonImageResolver", () => {
     });
   });
 
-  it("newPerson mutation should return the id of the new person.", async () => {
+    it("newPerson mutation should return the id of the new person.", async () => {
     // Arrange
     const mutation = `
     mutation {
@@ -223,9 +223,9 @@ describe("PersonImageResolver", () => {
     const result = await gCall({ source: mutation });
     // Assert
     expect(result).toMatchObject({
-      "data": {
-        "newPerson": 2
+      data: {
+        newPerson: 2
       }
     });
-  })
+  });
 });

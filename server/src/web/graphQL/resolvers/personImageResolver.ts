@@ -58,9 +58,9 @@ export class PersonImageResolver {
                 throw new Error("Persons image must only contain that person.");
             } else if (recognitionResults.length === 0) {
                 throw new Error("No person found in the image.");
-            } 
+            }
             if (recognitionResults[0].person !== undefined) {
-                throw new Error("Person recognized as being already in database.")
+                throw new Error("Person recognized as being already in database.");
             }
             const newPerson = await Person.create({ name: inputPerson.name }).save();
             const newImage = await Image.create({ image: inputPerson.image }).save();

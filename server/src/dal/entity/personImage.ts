@@ -20,6 +20,10 @@ export class PersonImage extends BaseEntity {
     @Column()
     public personDescriptorId: number;
 
+    @Field({ nullable: true })
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
+    public timestamp: string;
+
     @Field((type) => Person)
     @ManyToOne(() => Person, (person) => person.imagesConnection, { primary: true })
     @JoinColumn()

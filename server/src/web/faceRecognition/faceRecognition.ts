@@ -71,7 +71,7 @@ export class FaceRecognition {
             detection.detection.box, `${person.name} ${bestMatch.distance}`
           );
           result.person = person;
-  
+
           result.boxWithText = boxWithText;
         } else {
 
