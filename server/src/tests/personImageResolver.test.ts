@@ -6,6 +6,7 @@ import { testConn } from "../test-utils/testConn";
 let conn: Connection;
 beforeAll(async () => {
     conn = await testConn();
+    jest.setTimeout(30000);
 });
 afterAll(async () => {
     await conn.close();
@@ -93,11 +94,12 @@ describe("PersonImageResolver", () => {
       query {
         getAllImages {
           id
-          image
+          personDescriptors {
+            id
+          }
           people {
             id
             name
-            firstSeenDateTime
           }
         }
       }
@@ -106,32 +108,38 @@ describe("PersonImageResolver", () => {
       const response = await gCall({ source: query });
       // Assert
       expect(response).toMatchObject({
-          data: {
-            getAllImages: [
-              {
-                id: "1",
-                image: "p2image1",
-                people: [
-                  {
-                    id: "1",
-                    name: "gian",
-                    firstSeenDateTime: "now"
-                  }
-                ]
-              },
-              {
-                id: "2",
-                image: "p2image2",
-                people: [
-                  {
-                    id: "1",
-                    name: "gian",
-                    firstSeenDateTime: "now"
-                  }
-                ]
-              }
-            ]
-          }
-        });
+        data: {
+          getAllImages: [
+            {
+              id: "1",
+              personDescriptors: [
+                {
+                  id: "1"
+                }
+              ],
+              people: [
+                {
+                  id: "1",
+                  name: null
+                }
+              ]
+            },
+            {
+              id: "2",
+              personDescriptors: [
+                {
+                  id: "2"
+                }
+              ],
+              people: [
+                {
+                  id: "1",
+                  name: null
+                }
+              ]
+            }
+          ]
+        }
+      });
   });
 });
