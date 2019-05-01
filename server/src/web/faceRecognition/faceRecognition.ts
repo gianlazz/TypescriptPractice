@@ -39,7 +39,9 @@ export class FaceRecognition {
 
   public async recognize(imageUrl: string): Promise<RecognitionResult[]> {
     await this.modelsLoaded;
-    await this.loadedPeople;
+    if (this.faceMatcher === undefined) {
+      await this.getRecognizedFaces();
+    }
 
     const cnvs = await canvas.loadImage(imageUrl);
     const faceapiResults = await faceapi
@@ -49,14 +51,13 @@ export class FaceRecognition {
     const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
 
     const results: RecognitionResult[] = [];
-    detectionsForSize.forEach(async (detection) => {
+    await detectionsForSize.forEach(async (detection) => {
         const result = new RecognitionResult();
         console.log(detection.descriptor);
         result.x = detection.detection.box.x;
         result.y = detection.detection.box.y;
         result.height = detection.detection.box.height;
         result.width = detection.detection.box.width;
-        // result.person.id = parseInt(bestMatch.label, );
         result.descriptor = Array.prototype.slice.call(detection.descriptor);
 
         let bestMatch: faceapi.FaceMatch;
@@ -67,13 +68,12 @@ export class FaceRecognition {
           const boxWithText = new faceapi.BoxWithText(
             detection.detection.box, `${person.name} ${bestMatch.distance}`
           );
-
+          result.person = person;
+          
           result.boxWithText = boxWithText;
         } else if (this.faceMatcher && bestMatch.label === "unknown") {
           throw new Error("Unknown person found");
-        } else if (!this.faceMatcher) {
-          this.getRecognizedFaces();
-        }
+        } 
 
         results.push(result);
     });

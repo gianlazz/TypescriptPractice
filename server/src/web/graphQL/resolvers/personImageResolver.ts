@@ -6,6 +6,7 @@ import { PersonImage } from "../../../dal/entity/personImage";
 import { FaceRecognition } from "../../faceRecognition/faceRecognition";
 import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
+import { isNullOrUndefined } from "util";
 
 @Resolver()
 export class PersonImageResolver {
@@ -80,7 +81,12 @@ export class PersonImageResolver {
 
                 recognitionResults!.forEach(async (result) => {
                     // Check the result before just saving a blank person!
-                    const person = await Person.create(result.person).save();
+                    let person: Person;
+                    if (result.person !== undefined) {
+                        person = result.person;
+                    } else {
+                        person = await Person.create(result.person).save();
+                    }
 
                     let descriptor = new PersonDescriptor();
                     descriptor.descriptor = result.descriptor;
