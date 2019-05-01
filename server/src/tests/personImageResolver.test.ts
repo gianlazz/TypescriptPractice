@@ -208,4 +208,24 @@ describe("PersonImageResolver", () => {
       }
     });
   });
+
+  it("newPerson mutation should return the id of the new person.", async () => {
+    // Arrange
+    const mutation = `
+    mutation {
+      newPerson(inputPerson: {
+        image: "https://avatars3.githubusercontent.com/u/1166579?s=460&v=4"
+        name: "Gian"
+      })
+    }
+    `;
+    // Act
+    const result = await gCall({ source: mutation });
+    // Assert
+    expect(result).toMatchObject({
+      "data": {
+        "newPerson": 3
+      }
+    });
+  })
 });
