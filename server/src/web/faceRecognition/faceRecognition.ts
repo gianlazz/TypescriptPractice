@@ -63,16 +63,24 @@ export class FaceRecognition {
       let bestMatch: faceapi.FaceMatch;
       if (this.faceMatcher) {
         bestMatch = this.faceMatcher.findBestMatch(detection.descriptor);
-        const recognizedPerson = this.recognizablePeople[parseInt(bestMatch.label, 10)];
-        const person = await recognizedPerson.person();
-        const boxWithText = new faceapi.BoxWithText(
-          detection.detection.box, `${person.name} ${bestMatch.distance}`
-        );
-        result.person = person;
 
-        result.boxWithText = boxWithText;
-      } else if (this.faceMatcher && bestMatch.label === "unknown") {
-        throw new Error("Unknown person found");
+        if (bestMatch.label !== "unknown") {
+          const recognizedPerson = this.recognizablePeople[parseInt(bestMatch.label, 10)];
+          const person = await recognizedPerson.person();
+          const boxWithText = new faceapi.BoxWithText(
+            detection.detection.box, `${person.name} ${bestMatch.distance}`
+          );
+          result.person = person;
+  
+          result.boxWithText = boxWithText;
+        } else {
+
+          const boxWithText = new faceapi.BoxWithText(
+            detection.detection.box, `${bestMatch.label}`
+          );
+
+          result.boxWithText = boxWithText;
+        }
       }
 
       results.push(result);

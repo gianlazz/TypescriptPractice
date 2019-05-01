@@ -224,7 +224,7 @@ describe("PersonImageResolver", () => {
     // Assert
     expect(result).toMatchObject({
       "data": {
-        "newPerson": 3
+        "newPerson": 2
       }
     });
   })
