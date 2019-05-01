@@ -35,27 +35,6 @@ export class PersonImageResolver {
     }
 
     @Mutation((type) => Int)
-    public async newPerson(@Arg("inputPerson") inputPerson: InputPerson): Promise<number> {
-        try {
-            const newPerson = await Person.create({ ...inputPerson }).save();
-
-            for (const inputImage of inputPerson.images) {
-                const image = await Image.create({ ...inputImage }).save();
-
-                const personImage = await PersonImage.create({
-                     imageId: image.id,
-                     personId: newPerson.id
-                    }).save();
-            }
-
-            return newPerson.id;
-        } catch (error) {
-            console.error(error);
-            throw(error);
-        }
-    }
-
-    @Mutation((type) => Int)
     public async newImage(@Arg("inputImage") inputImage: InputImage): Promise<number> {
         try {
             const newImage = await Image.create({ ...inputImage }).save();

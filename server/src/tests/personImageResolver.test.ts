@@ -12,34 +12,6 @@ afterAll(async () => {
 });
 
 describe("PersonImageResolver", async () => {
-    it("newPerson mutation should return the db id.", async () => {
-        // Arrange
-        const mutation = `
-        mutation {
-          newPerson(inputPerson: {
-            name: "gian"
-            firstSeenDateTime: "now"
-            images: [
-              {
-                image: "p2image1"
-              },
-              {
-                image: "p2image2"
-              }
-            ]
-          })
-        }
-        `;
-        // Act
-        const response = await gCall({ source: mutation });
-        // Assert
-        expect(response).toMatchObject({
-            data: {
-              newPerson: 1
-            }
-          });
-    });
-
     it("getAllPersons query should return Person[].", async () => {
         // Arrange
         const query = `
