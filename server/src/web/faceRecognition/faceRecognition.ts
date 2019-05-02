@@ -1,16 +1,17 @@
 import * as faceapi from "face-api.js";
 import { LabeledFaceDescriptors, TinyFaceDetectorOptions } from "face-api.js";
+import * as fs from "fs";
+import { request } from "http";
+import { interval, Observable } from "rxjs";
 import { Service } from "typedi";
+import { Image } from "../../dal/entity/image";
+import { Person } from "../../dal/entity/person";
 import { PersonDescriptor } from "../../dal/entity/personDescriptor";
+import { PersonImage } from "../../dal/entity/personImage";
 import { canvas, faceDetectionNet, saveFile } from "./common";
 import { RecognitionResult } from "./recognitionResult";
-import { request } from "http";
-import * as fs from "fs";
-import { Observable, interval } from "rxjs";
-import { Person } from "../../dal/entity/person";
-import { PersonImage } from "../../dal/entity/personImage";
-import { Image } from "../../dal/entity/image";
-const uuidv1 = require('uuid/v1');
+const uuidv1 = require("uuid/v1");
+import * as http from "http";
 
 @Service({ global: true })
 export class FaceRecognition {
@@ -50,9 +51,9 @@ export class FaceRecognition {
       await this.getRecognizedFaces();
     }
 
-    const video = new HTMLVideoElement();
-    // request('https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4').pipe(video.srcObject)
+    const video = document.createElement("video");
     video.src = videoUrl;
+
     const counter: Observable<number> = interval(1000);
     counter.subscribe(async () => {
 
@@ -60,9 +61,9 @@ export class FaceRecognition {
         .detectAllFaces(video, new TinyFaceDetectorOptions())
         .withFaceLandmarks(true)
         .withFaceDescriptors();
-        const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
-        const results: RecognitionResult[] = [];
-        for (const detection of detectionsForSize) {
+      const detectionsForSize = await faceapi.resizeResults(faceapiResults, { width: 640, height: 480 });
+      const results: RecognitionResult[] = [];
+      for (const detection of detectionsForSize) {
           const result = new RecognitionResult();
           result.x = detection.detection.box.x;
           result.y = detection.detection.box.y;
@@ -89,17 +90,17 @@ export class FaceRecognition {
               );
               console.log(`Recognized Person: ${bestMatch.label}`);
 
-              const outQuery = faceapi.createCanvasFromMedia(video) as any
+              const outQuery = faceapi.createCanvasFromMedia(video) as any;
               faceapi.drawDetection(outQuery, boxWithText);
               const imageName = `${uuidv1()}.jpg`;
-              saveFile(imageName, outQuery.toBuffer('image/jpeg'))
-              console.log('done, saved results to out/queryImage.jpg')
-              
+              saveFile(imageName, outQuery.toBuffer("image/jpeg"));
+              console.log("done, saved results to out/queryImage.jpg");
+
               this.saveResult(result, imageName);
             }
           }
         }
-    })
+    });
   }
 
   public async saveResult(result: RecognitionResult, imageName: string) {

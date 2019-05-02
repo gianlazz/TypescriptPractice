@@ -20,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/gianlazz/TypescriptPractice/issues"
   },
-  "homepage": "https://github.com/gianlazz/TypescriptPractice#readme"
+  "homepage": "https://github.com/gianlazz/TypescriptPractice#readme",
+  "dependencies": {}
 }

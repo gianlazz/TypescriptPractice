@@ -1,4 +1,8 @@
+import { addYears, subDays, subYears } from "date-fns";
+import * as fs from "fs";
+import * as https from "https";
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Between } from "typeorm";
 import { Image } from "../../../dal/entity/image";
 import { Person } from "../../../dal/entity/person";
 import { PersonDescriptor } from "../../../dal/entity/personDescriptor";
@@ -6,11 +10,9 @@ import { PersonImage } from "../../../dal/entity/personImage";
 import { FaceRecognition } from "../../faceRecognition/faceRecognition";
 import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
-import { Between } from "typeorm";
-import { addYears, subYears, subDays } from 'date-fns';
-import * as fs from "fs";
-import { httpRequestRouter } from "@tensorflow/tfjs-core/dist/io/browser_http";
-import { request } from "http";
+// import * as ffmpeg from "fluent-ffmpeg";
+const ffmpeg = require("fluent-ffmpeg");
+// import ffmpeg from "fluent-ffmpeg";
 
 @Resolver()
 export class PersonImageResolver {
@@ -39,7 +41,7 @@ export class PersonImageResolver {
         }
     }
 
-    @Query(type => [PersonImage])
+    @Query((type) => [PersonImage])
     public async personImageThisWeek(): Promise<PersonImage[]> {
         try {
             const now = {};
@@ -55,7 +57,7 @@ export class PersonImageResolver {
             //     },
             //     });
             const results = await PersonImage.find({
-                where: { 
+                where: {
                     timestamp: AfterDate(subDays(Date.now(), 7)),
                 },
                 relations: [
@@ -65,16 +67,47 @@ export class PersonImageResolver {
                 ]
             });
             return results;
-            
+
         } catch (error) {
-            
+            console.error(error);
         }
     }
 
-    @Mutation(type => Boolean)
+    @Mutation((type) => Boolean)
     public async watchNewStream(@Arg("url") url: string): Promise<boolean> {
         try {
-            await this.faceService.recognizeVideo(url);
+                // request('https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4').pipe(fs.createWriteStream(__dirname + "video.mp4"));
+
+                https.get(url, (res) => {
+                    const videoPath = __dirname + "video.mp4";
+                    const write = fs.createWriteStream(videoPath);
+                    const len = parseInt(res.headers["content-length"], 10);
+                    let cur = 0;
+                    const total = len / 1048576; // 1048576 - bytes in  1Megabyte
+                    console.log("File size: " + len);
+                    res.pipe(write);
+                    res.on("data", (chunk) => {
+                        cur += chunk.length;
+                        console.log("Downloading " + (100.0 * cur / len).toFixed(2) + "% "
+                        + (cur / 1048576).toFixed(2) + " mb\r" + ".<br/> Total size: " + total.toFixed(2) + " mb");
+                        // console.log(bytesDownloaded);
+                    });
+                    res.on("end", () => {
+                        ffmpeg(videoPath)
+                        .on("end", () => {
+                          console.log("Screenshots taken");
+                        })
+                        .on("error", (err: any) => {
+                          console.error(err);
+                        })
+                        .screenshots({
+                          // Will take screenshots at 20%, 40%, 60% and 80% of the video
+                          count: 4,
+                          folder: __dirname
+                        });
+                    });
+                });
+            // await this.faceService.recognizeVideo(url);
         } catch (error) {
             console.error(error);
         }
