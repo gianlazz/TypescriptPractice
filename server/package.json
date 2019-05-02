@@ -30,6 +30,7 @@
   "license": "ISC",
   "dependencies": {
     "@okta/oidc-middleware": "^1.0.2",
+    "@types/uuid": "^3.4.4",
     "apollo-boost": "^0.3.1",
     "apollo-server-express": "^2.4.8",
     "axios": "^0.18.0",
@@ -48,10 +49,13 @@
     "pg": "^7.9.0",
     "pg-promise": "^8.6.4",
     "reflect-metadata": "^0.1.13",
+    "rxjs": "^6.5.1",
     "type-graphql": "^0.17.1",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.16",
-    "vue": "^2.6.10"
+    "uuid": "^3.3.2",
+    "vue": "^2.6.10",
+    "youtube-stream-url": "^1.0.1"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
@@ -64,7 +68,7 @@
     "@types/graphql": "^14.2.0",
     "@types/jest": "^24.0.11",
     "@types/materialize-css": "^1.0.6",
-    "@types/node": "^11.12.2",
+    "@types/node": "^11.13.8",
     "@types/pg": "^7.4.14",
     "@types/shelljs": "^0.8.3",
     "@types/vue": "^2.0.0",

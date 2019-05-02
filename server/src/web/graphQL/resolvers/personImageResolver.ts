@@ -8,6 +8,9 @@ import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
 import { Between } from "typeorm";
 import { addYears, subYears, subDays } from 'date-fns';
+import * as fs from "fs";
+import { httpRequestRouter } from "@tensorflow/tfjs-core/dist/io/browser_http";
+import { request } from "http";
 
 @Resolver()
 export class PersonImageResolver {
@@ -66,6 +69,16 @@ export class PersonImageResolver {
         } catch (error) {
             
         }
+    }
+
+    @Mutation(type => Boolean)
+    public async watchNewStream(@Arg("url") url: string): Promise<boolean> {
+        try {
+            await this.faceService.recognizeVideo(url);
+        } catch (error) {
+            console.error(error);
+        }
+        return false;
     }
 
     @Mutation((type) => Boolean)
