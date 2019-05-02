@@ -6,6 +6,8 @@ import { PersonImage } from "../../../dal/entity/personImage";
 import { FaceRecognition } from "../../faceRecognition/faceRecognition";
 import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
+import { Between } from "typeorm";
+import { addYears, subYears, subDays } from 'date-fns';
 
 @Resolver()
 export class PersonImageResolver {
@@ -31,6 +33,38 @@ export class PersonImageResolver {
             return await Image.find();
         } catch (error) {
             console.error(error);
+        }
+    }
+
+    @Query(type => [PersonImage])
+    public async personImageThisWeek(): Promise<PersonImage[]> {
+        try {
+            const now = {};
+            const aWeekAgo = {};
+
+            const AfterDate = (date: Date) => Between(date, addYears(date, 100));
+            const BeforeDate = (date: Date) => Between(subYears(date, 100), date);
+
+            // // leter
+            //     return Event.find({
+            //     where: {
+            //         date: AfterDate(new Date()),
+            //     },
+            //     });
+            const results = await PersonImage.find({
+                where: { 
+                    timestamp: AfterDate(subDays(Date.now(), 7)),
+                },
+                relations: [
+                    "person",
+                    "image",
+                    "descriptor"
+                ]
+            });
+            return results;
+            
+        } catch (error) {
+            
         }
     }
 
