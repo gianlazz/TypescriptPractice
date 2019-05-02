@@ -10,6 +10,7 @@ import { PersonImage } from "../../../dal/entity/personImage";
 import { FaceRecognition } from "../../faceRecognition/faceRecognition";
 import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
+import { FfmpegCommand } from "fluent-ffmpeg";
 // import * as ffmpeg from "fluent-ffmpeg";
 const ffmpeg = require("fluent-ffmpeg");
 // import ffmpeg from "fluent-ffmpeg";
@@ -93,18 +94,23 @@ export class PersonImageResolver {
                         // console.log(bytesDownloaded);
                     });
                     res.on("end", () => {
+                        // ffmpeg(videoPath)
+                        // .on("end", () => {
+                        //   console.log("Screenshots taken");
+                        // })
+                        // .on("error", (err: any) => {
+                        //   console.error(err);
+                        // })
+                        // .screenshots({
+                        //   // Will take screenshots at 20%, 40%, 60% and 80% of the video
+                        //   count: 4,
+                        //   folder: __dirname
+                        // });
                         ffmpeg(videoPath)
-                        .on("end", () => {
-                          console.log("Screenshots taken");
-                        })
-                        .on("error", (err: any) => {
-                          console.error(err);
-                        })
-                        .screenshots({
-                          // Will take screenshots at 20%, 40%, 60% and 80% of the video
-                          count: 4,
-                          folder: __dirname
-                        });
+                        .output('screenshot.png')
+                        .noAudio()
+                        .seek('0:05')
+                        .run()
                     });
                 });
             // await this.faceService.recognizeVideo(url);
