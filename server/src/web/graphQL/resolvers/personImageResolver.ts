@@ -16,7 +16,7 @@ import { Writable } from "stream";
 var ffmpeg = require("fluent-ffmpeg");
 // import * as streamBuffers from "stream-buffers";
 import { WritableStreamBuffer, ReadableStreamBuffer } from "stream-buffers";
-import { spawn } from "ts-process-promises";
+import { spawn, exec } from "ts-process-promises";
 
 
 @Resolver()
@@ -128,7 +128,7 @@ export class PersonImageResolver {
                 //     ffmpeg(readableStreamBuffer).save("screenshot.png");
                 // })
  
-                await spawn('ffmpeg', ["-i", "http://justadudewhohacks.github.io/face-api.js/media/bbt.mp4", "-f", "image2", "-vframes", "1", "/data/img%03d.jpg"])
+                await exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg")
                     .on('process', (process: any) => console.log('Pid: ', process.pid))
                     .on('stdout', (line: any) => console.log('stdout: ', line))
                     .on('stderr', (line: any) => console.log('stderr: ', line))
