@@ -113,7 +113,8 @@ export class PersonImageResolver {
 
                 const writableStreamBuffer = new WritableStreamBuffer();
                 const readableStreamBuffer = new ReadableStreamBuffer();
-
+                const bufs: Uint8Array[] = [];
+                let buffer: any;
                 readableStreamBuffer.pipe(writableStreamBuffer);
 
                 const cmd: process.ChildProcess = process.exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -",
@@ -121,6 +122,7 @@ export class PersonImageResolver {
                             // console.log(stdout);
                             // console.log(error);
                             // console.log(stderr);
+                            bufs.push(stdout);
                         });
                 cmd.stdout.pipe(writableStreamBuffer);
 
@@ -131,18 +133,12 @@ export class PersonImageResolver {
                             console.log(stderr);
                         });
                 readableStreamBuffer.pipe( catimg.stdin );
-                cmd.stdout.pipe(catimg.stdin);
+                // cmd.stdout.pipe(catimg.stdin);
 
                 cmd.on("exit", () => {
                     console.log(`StreamBuffer size: ${writableStreamBuffer.size()}`);
-
+                    buffer = Buffer.concat(bufs);
                 });
-
-                // const cmd = await exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg")
-                //     .on('process', (process: any) => console.log('Pid: ', process.pid))
-                //     .on('stdout', (line: any) => console.log('stdout: ', line))
-                //     .on('stderr', (line: any) => console.log('stderr: ', line));
-                // const cmd = spawn('ffmpeg', ["-i", url, "-f", "image2", "-vframes", "1", "img%03d.jpg"])
 
                 // var stdout = "";
                 // var stderr = "";
