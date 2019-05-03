@@ -81,36 +81,62 @@ export class PersonImageResolver {
 
                 https.get(url, (res) => {
                     const videoPath = __dirname + "video.mp4";
+
                     const write = fs.createWriteStream(videoPath);
                     const len = parseInt(res.headers["content-length"], 10);
                     let cur = 0;
                     const total = len / 1048576; // 1048576 - bytes in  1Megabyte
                     console.log("File size: " + len);
                     res.pipe(write);
+                    let buf: any;
+                    const desiredChunks = 2;
+                    let index = 0;
+
+                    // ffmpeg commands
+                    // Takes one screenshot at
+                    // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vf fps=fps=1/120 img%03d.jpg
+
+                    // Intends to take screenshot every 10 frames but the output is not formated for nameing
+                    // ffmpeg -y -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -r 10 -f image2 imageOutput.jpg
+                    
+                    // Takes screenshot every 10 frames
+                    // ffmpeg -y -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -r 10 -f image2 img%03d.jpg
+
                     res.on("data", (chunk) => {
+                        index += 1;
                         cur += chunk.length;
+                        buf += chunk;
                         console.log("Downloading " + (100.0 * cur / len).toFixed(2) + "% "
                         + (cur / 1048576).toFixed(2) + " mb\r" + ".<br/> Total size: " + total.toFixed(2) + " mb");
-                        // console.log(bytesDownloaded);
+
+                        try {
+                            ffmpeg()
+                            .input(chunk)
+                            .output(__dirname + '/LocalScreenshot.png')
+                            .noAudio()
+                            .seek('0:00')
+                            .run()
+                        } catch (error) {
+                            console.log(error);
+                        }
+
+                        // if (index === 10) {
+                        //     res.destroy();
+                        //     console.log("Closed buffer stream download after first chunk");
+                        // }
                     });
+
                     res.on("end", () => {
-                        // ffmpeg(videoPath)
-                        // .on("end", () => {
-                        //   console.log("Screenshots taken");
-                        // })
-                        // .on("error", (err: any) => {
-                        //   console.error(err);
-                        // })
-                        // .screenshots({
-                        //   // Will take screenshots at 20%, 40%, 60% and 80% of the video
-                        //   count: 4,
-                        //   folder: __dirname
-                        // });
-                        ffmpeg(videoPath)
-                        .output('screenshot.png')
-                        .noAudio()
-                        .seek('0:05')
-                        .run()
+                        try {
+                            ffmpeg(videoPath)
+                            .output(__dirname + '/LocalScreenshot.png')
+                            .noAudio()
+                            .seek('0:00')
+                            .run()
+                        } catch (error) {
+                            console.log(error);
+                        }
+                        
                     });
                 });
             // await this.faceService.recognizeVideo(url);
