@@ -1,6 +1,10 @@
+import * as process from "child_process";
 import { addYears, subDays, subYears } from "date-fns";
 import * as fs from "fs";
 import * as https from "https";
+import { Writable } from "stream";
+import { ReadableStreamBuffer, WritableStreamBuffer } from "stream-buffers";
+// import { exec, spawn } from "ts-process-promises";
 import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Between } from "typeorm";
 import { Image } from "../../../dal/entity/image";
@@ -10,11 +14,6 @@ import { PersonImage } from "../../../dal/entity/personImage";
 import { FaceRecognition } from "../../faceRecognition/faceRecognition";
 import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
-import { Writable } from "stream";
-import { WritableStreamBuffer, ReadableStreamBuffer } from "stream-buffers";
-import { spawn, exec } from "ts-process-promises";
-import * as process from "child_process"
-
 
 @Resolver()
 export class PersonImageResolver {
@@ -110,34 +109,35 @@ export class PersonImageResolver {
                     console.log(chunk.length);
                     bufferArray.push(chunk);
                     next();
-                }
+                };
 
-                    const writableStreamBuffer = new WritableStreamBuffer();
-                    const readableStreamBuffer = new ReadableStreamBuffer();
+                const writableStreamBuffer = new WritableStreamBuffer();
+                const readableStreamBuffer = new ReadableStreamBuffer();
 
-                    readableStreamBuffer.pipe(writableStreamBuffer);
+                readableStreamBuffer.pipe(writableStreamBuffer);
 
+                const cmd: process.ChildProcess = process.exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -",
+                (error: any, stdout: any, stderr: any) => {
+                            // console.log(stdout);
+                            // console.log(error);
+                            // console.log(stderr);
+                        });
+                cmd.stdout.pipe(writableStreamBuffer);
 
-                let cmd: process.ChildProcess = process.exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -", 
+                const catimg: process.ChildProcess = process.exec("catimg -",
                 (error: any, stdout: any, stderr: any) => {
                             console.log(stdout);
                             console.log(error);
-                            console.log(stderr);      
+                            console.log(stderr);
                         });
-                cmd.stdout.pipe(writableStreamBuffer);
+                readableStreamBuffer.pipe( catimg.stdin );
+                cmd.stdout.pipe(catimg.stdin);
 
                 cmd.on("exit", () => {
                     console.log(`StreamBuffer size: ${writableStreamBuffer.size()}`);
 
-                    let catimg: process.ChildProcess = process.exec("catimg -", 
-                    (error: any, stdout: any, stderr: any) => {
-                                console.log(stdout);
-                                console.log(error);
-                                console.log(stderr);      
-                            });
-                    readableStreamBuffer.pipe( catimg.stdin );
                 });
- 
+
                 // const cmd = await exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg")
                 //     .on('process', (process: any) => console.log('Pid: ', process.pid))
                 //     .on('stdout', (line: any) => console.log('stdout: ', line))
@@ -157,7 +157,6 @@ export class PersonImageResolver {
                 //         console.error(stderr);
                 //     },
                 // });
-
 
             // await this.faceService.recognizeVideo(url);
         } catch (error) {
