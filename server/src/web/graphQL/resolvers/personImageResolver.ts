@@ -99,6 +99,9 @@ export class PersonImageResolver {
                 // Takes screenshot every 10 frames
                 // ffmpeg -y -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -r 10 -f image2 img%03d.jpg
 
+                // The following pipes the output from the ffmpeg stream screenshot to catimg
+                // catimg <(ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 pipe:1)
+
                 // const readStream = fs.createReadStream("file");
                 // const writeStream = fs.createWriteStream("file");
 
@@ -128,10 +131,11 @@ export class PersonImageResolver {
                 //     ffmpeg(readableStreamBuffer).save("screenshot.png");
                 // })
  
-                await exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg")
+                await exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -")
                     .on('process', (process: any) => console.log('Pid: ', process.pid))
                     .on('stdout', (line: any) => console.log('stdout: ', line))
                     .on('stderr', (line: any) => console.log('stderr: ', line))
+                // const cmd = spawn('ffmpeg', ["-i", url, "-f", "image2", "-vframes", "1", "img%03d.jpg"])
 
                 // https.get(url, (res) => {
                 //     const videoPath = __dirname + "video.mp4";
