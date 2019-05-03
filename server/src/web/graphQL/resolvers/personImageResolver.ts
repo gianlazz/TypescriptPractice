@@ -11,12 +11,9 @@ import { FaceRecognition } from "../../faceRecognition/faceRecognition";
 import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
 import { Writable } from "stream";
-// var ffmpeg = require("ffmpeg.js");
-// var ffmpeg = require("ffmpeg.js/ffmpeg-mp4.js");
-var ffmpeg = require("fluent-ffmpeg");
-// import * as streamBuffers from "stream-buffers";
 import { WritableStreamBuffer, ReadableStreamBuffer } from "stream-buffers";
 import { spawn, exec } from "ts-process-promises";
+import * as process from "child_process"
 
 
 @Resolver()
@@ -113,79 +110,28 @@ export class PersonImageResolver {
                     next();
                 }
 
+                    const writableStreamBuffer = new WritableStreamBuffer();
+                    const readableStreamBuffer = new ReadableStreamBuffer();
 
-                // https.get(url, (res) => {
-                //     const writableStreamBuffer = new WritableStreamBuffer();
-                //     const readableStreamBuffer = new ReadableStreamBuffer();
-                //     res.pipe(ws);
+                    readableStreamBuffer.pipe(writableStreamBuffer);
 
-                //     res.pipe(writableStreamBuffer);
-                //     writableStreamBuffer.pipe(readableStreamBuffer)
-                //     readableStreamBuffer.pipe(writableStreamBuffer);
 
-                //     // ffmpeg()
-                //     res.on("end", () => {
-                //         console.log(`Finished streaming. WritableStreamBuffer size: ${writableStreamBuffer.size()} ReadableStreamBuffer size: ${readableStreamBuffer.size()}`);
-                //     })
-
-                //     ffmpeg(readableStreamBuffer).save("screenshot.png");
-                // })
+                var cmd: process.ChildProcess = process.exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -", 
+                (error: any, stdout: any, stderr: any) => {
+                            console.log(stdout);
+                            console.log(error);
+                            console.log(stderr);      
+                        });
+                cmd.stdout.pipe(writableStreamBuffer);
+                cmd.on("exit", () => {
+                    console.log(`StreamBuffer size: ${writableStreamBuffer.size()}`)
+                })
  
-                await exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -")
-                    .on('process', (process: any) => console.log('Pid: ', process.pid))
-                    .on('stdout', (line: any) => console.log('stdout: ', line))
-                    .on('stderr', (line: any) => console.log('stderr: ', line))
+                // const cmd = await exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg")
+                //     .on('process', (process: any) => console.log('Pid: ', process.pid))
+                //     .on('stdout', (line: any) => console.log('stdout: ', line))
+                //     .on('stderr', (line: any) => console.log('stderr: ', line));
                 // const cmd = spawn('ffmpeg', ["-i", url, "-f", "image2", "-vframes", "1", "img%03d.jpg"])
-
-                // https.get(url, (res) => {
-                //     const videoPath = __dirname + "video.mp4";
-                //     const write = fs.createWriteStream(videoPath);
-                //     const len = parseInt(res.headers["content-length"], 10);
-                //     let cur = 0;
-                //     const total = len / 1048576; // 1048576 - bytes in  1Megabyte
-                //     console.log("File size: " + len);
-                //     res.pipe(write);
-                //     res.on("data", (chunk) => {
-                //         cur += chunk.length;
-                //         console.log("Downloading " + (100.0 * cur / len).toFixed(2) + "% "
-                //         + (cur / 1048576).toFixed(2) + " mb\r" + ".<br/> Total size: " + total.toFixed(2) + " mb");
-                //         // console.log(bytesDownloaded);
-                //     });
-                //     // res.on("end", () => {
-                //     //     ffmpeg(fs.createReadStream(videoPath))
-                //     //     .save("screenshot.png")
-                //     //     .on("end", () => {
-                //     //       console.log("Screenshots taken");
-                //     //     })
-                //     //     .on("error", (err: any) => {
-                //     //       console.error(err);
-                //     //     });
-                //     //     // .screenshots({
-                //     //     //   // Will take screenshots at 20%, 40%, 60% and 80% of the video
-                //     //     //   timestamps: [0],
-                //     //     //   folder: __dirname
-                //     //     // });
-                //     // });
-                //     res.on("end", () => {
-                //         ffmpeg(fs.createReadStream(videoPath))
-                //         .output("screenshot.png")
-                //         .noAudio()
-                //         .seek('0:01')
-                //         .on("end", () => {
-                //           console.log("Screenshots taken");
-                //         })
-                //         .on("error", (err: any, stdout: any, stderr: any) => {
-                //           console.error('An error occurred: ' + err.message, err, stderr);
-                //         })
-                //         .run();
-
-                //         // .screenshots({
-                //         //   // Will take screenshots at 20%, 40%, 60% and 80% of the video
-                //         //   timestamps: [0],
-                //         //   folder: __dirname
-                //         // });
-                //     })
-                // });
 
                 // var stdout = "";
                 // var stderr = "";
