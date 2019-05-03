@@ -98,6 +98,8 @@ export class PersonImageResolver {
 
                 // The following pipes the output from the ffmpeg stream screenshot to catimg
                 // catimg <(ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 pipe:1)
+                // Alternate
+                // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 - | catimg -
 
                 // const readStream = fs.createReadStream("file");
                 // const writeStream = fs.createWriteStream("file");
@@ -116,16 +118,25 @@ export class PersonImageResolver {
                     readableStreamBuffer.pipe(writableStreamBuffer);
 
 
-                var cmd: process.ChildProcess = process.exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -", 
+                let cmd: process.ChildProcess = process.exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -", 
                 (error: any, stdout: any, stderr: any) => {
                             console.log(stdout);
                             console.log(error);
                             console.log(stderr);      
                         });
                 cmd.stdout.pipe(writableStreamBuffer);
+
                 cmd.on("exit", () => {
-                    console.log(`StreamBuffer size: ${writableStreamBuffer.size()}`)
-                })
+                    console.log(`StreamBuffer size: ${writableStreamBuffer.size()}`);
+
+                    let catimg: process.ChildProcess = process.exec("catimg -", 
+                    (error: any, stdout: any, stderr: any) => {
+                                console.log(stdout);
+                                console.log(error);
+                                console.log(stderr);      
+                            });
+                    readableStreamBuffer.pipe( catimg.stdin );
+                });
  
                 // const cmd = await exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg")
                 //     .on('process', (process: any) => console.log('Pid: ', process.pid))
