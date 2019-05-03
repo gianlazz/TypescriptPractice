@@ -10,10 +10,8 @@ import { PersonImage } from "../../../dal/entity/personImage";
 import { FaceRecognition } from "../../faceRecognition/faceRecognition";
 import { InputImage } from "./inputTypes/inputImage";
 import { InputPerson } from "./inputTypes/InputPerson";
-import { FfmpegCommand } from "fluent-ffmpeg";
-// import * as ffmpeg from "fluent-ffmpeg";
-const ffmpeg = require("fluent-ffmpeg");
-// import ffmpeg from "fluent-ffmpeg";
+// var ffmpeg = require("ffmpeg.js");
+var ffmpeg = require("ffmpeg.js/ffmpeg-mp4.js");
 
 @Resolver()
 export class PersonImageResolver {
@@ -79,72 +77,37 @@ export class PersonImageResolver {
         try {
                 // request('https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4').pipe(fs.createWriteStream(__dirname + "video.mp4"));
 
-                https.get(url, (res) => {
-                    const videoPath = __dirname + "video.mp4";
+                // ffmpeg commands
+                // Takes screenshot for just the first frame
+                // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg
 
-                    const write = fs.createWriteStream(videoPath);
-                    const len = parseInt(res.headers["content-length"], 10);
-                    let cur = 0;
-                    const total = len / 1048576; // 1048576 - bytes in  1Megabyte
-                    console.log("File size: " + len);
-                    res.pipe(write);
-                    let buf: any;
-                    const desiredChunks = 2;
-                    let index = 0;
+                // Takes screenshot for the first 5 frames
+                // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 5 img%03d.jpg
 
-                    // ffmpeg commands
-                    // Takes screenshot for just the first frame
-                    // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg
+                // Takes one screenshot for every 120 frames
+                // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vf fps=fps=1/120 img%03d.jpg
 
-                    // Takes screenshot for the first 5 frames
-                    // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 5 img%03d.jpg
+                // Intends to take screenshot every 10 frames but the output is not formated for naming
+                // ffmpeg -y -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -r 10 -f image2 imageOutput.jpg
+                
+                // Takes screenshot every 10 frames
+                // ffmpeg -y -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -r 10 -f image2 img%03d.jpg
 
-                    // Takes one screenshot for every 120 frames
-                    // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vf fps=fps=1/120 img%03d.jpg
-
-                    // Intends to take screenshot every 10 frames but the output is not formated for nameing
-                    // ffmpeg -y -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -r 10 -f image2 imageOutput.jpg
-                    
-                    // Takes screenshot every 10 frames
-                    // ffmpeg -y -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -r 10 -f image2 img%03d.jpg
-
-                    res.on("data", (chunk) => {
-                        index += 1;
-                        cur += chunk.length;
-                        buf += chunk;
-                        console.log("Downloading " + (100.0 * cur / len).toFixed(2) + "% "
-                        + (cur / 1048576).toFixed(2) + " mb\r" + ".<br/> Total size: " + total.toFixed(2) + " mb");
-
-                        try {
-                            ffmpeg()
-                            .input(chunk)
-                            .output(__dirname + '/LocalScreenshot.png')
-                            .noAudio()
-                            .seek('0:00')
-                            .run()
-                        } catch (error) {
-                            console.log(error);
-                        }
-
-                        // if (index === 10) {
-                        //     res.destroy();
-                        //     console.log("Closed buffer stream download after first chunk");
-                        // }
-                    });
-
-                    res.on("end", () => {
-                        try {
-                            ffmpeg(videoPath)
-                            .output(__dirname + '/LocalScreenshot.png')
-                            .noAudio()
-                            .seek('0:00')
-                            .run()
-                        } catch (error) {
-                            console.log(error);
-                        }
-                        
-                    });
+                var stdout = "";
+                var stderr = "";
+                ffmpeg({
+                    mounts: [{type: "NODEFS", opts: {root: "."}, mountpoint: "/data"}],
+                    arguments: ["-i", "http://justadudewhohacks.github.io/face-api.js/media/bbt.mp4", "-f", "image2", "-vframes", "1", "/data/img%03d.jpg"],
+                    print: function(data: any) { stdout += data + "\n"; },
+                    printErr: function(data: any) { stderr += data + "\n"; },
+                    onExit: function(code: any) {
+                        console.log("Process exited with code " + code);
+                        console.log(stdout);
+                        console.error(stderr);
+                    },
                 });
+
+
             // await this.faceService.recognizeVideo(url);
         } catch (error) {
             console.error(error);
