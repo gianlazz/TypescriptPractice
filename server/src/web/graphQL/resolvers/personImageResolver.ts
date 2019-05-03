@@ -93,7 +93,13 @@ export class PersonImageResolver {
                     let index = 0;
 
                     // ffmpeg commands
-                    // Takes one screenshot at
+                    // Takes screenshot for just the first frame
+                    // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 img%03d.jpg
+
+                    // Takes screenshot for the first 5 frames
+                    // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 5 img%03d.jpg
+
+                    // Takes one screenshot for every 120 frames
                     // ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vf fps=fps=1/120 img%03d.jpg
 
                     // Intends to take screenshot every 10 frames but the output is not formated for nameing
