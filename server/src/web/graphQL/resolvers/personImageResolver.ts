@@ -113,8 +113,9 @@ export class PersonImageResolver {
 
                 const writableStreamBuffer = new WritableStreamBuffer();
                 const readableStreamBuffer = new ReadableStreamBuffer();
-                const bufs: Uint8Array[] = [];
-                let buffer: Buffer | false;
+                const bufs: Buffer[] = [];
+                let buffer: Buffer;
+                let bufferFromStream: Buffer | false;
                 readableStreamBuffer.pipe(writableStreamBuffer);
 
                 const cmd: process.ChildProcess = process.exec("ffmpeg -i https://justadudewhohacks.github.io/face-api.js/media/bbt.mp4 -f image2 -vframes 1 -",
@@ -140,7 +141,7 @@ export class PersonImageResolver {
                     console.log(`StreamBuffer size: ${writableStreamBuffer.size()}`);
                     buffer = Buffer.concat(bufs);
 
-                    buffer = writableStreamBuffer.getContents();
+                    bufferFromStream = writableStreamBuffer.getContents();
                 });
 
                 // var stdout = "";
