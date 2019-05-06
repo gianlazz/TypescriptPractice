@@ -1,4 +1,5 @@
 import { useContainer } from "class-validator";
+import cookieParser = require("cookie-parser");
 import cors = require("cors");
 import dotenv from "dotenv";
 import express from "express";
@@ -10,7 +11,6 @@ import { createLocalDevDbConnection } from "./deploymentConfigs/createLocalDevDb
 import { createHerokuDbConnection } from "./deploymentConfigs/herokuDeployment";
 import * as graphqlApi from "./web/graphQL/graphqlApi";
 import * as sessionAuth from "./web/middleware/sessionAuth";
-import cookieParser = require("cookie-parser");
 
 useContainer(Container);
 
