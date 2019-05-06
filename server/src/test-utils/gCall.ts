@@ -1,6 +1,7 @@
 import { graphql, GraphQLSchema } from "graphql";
 import Maybe from "graphql/tsutils/Maybe";
 import { configuredSchema } from "../web/graphQL/schemaBuilder";
+import { IMyContext } from "../web/graphQL/context.interface";
 
 interface IOptions {
     source: string;
@@ -20,6 +21,9 @@ export const gCall = async ({ source, variableValues }: IOptions) => {
     return graphql({
         schema,
         source,
-        variableValues
+        variableValues,
+        contextValue: (): IMyContext => {
+            
+        }
     });
 };

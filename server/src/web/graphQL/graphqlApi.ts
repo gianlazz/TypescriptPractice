@@ -21,6 +21,15 @@ export const register = async ( app: express.Application ) => {
           };
           return context as any;
         },
+        // context: ({ req, res }): IMyContext => {
+        //   let myContext: IMyContext = {
+        //     req,
+        //     res,
+        //     requestCookies: req.cookies,
+        //     responseCookie: res.cookie
+        //   };
+        //   return myContext;
+        // },
         // context: ({ req, res }: any) => ({ req, res })
     });
 
