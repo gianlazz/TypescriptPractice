@@ -5,6 +5,7 @@ import { GuitarResolver } from "./resolvers/guitarResolver";
 import { HelloResolver } from "./resolvers/helloResolver";
 import { PersonImageResolver } from "./resolvers/personImageResolver";
 import { PersonsFaceResolver } from "./resolvers/personsFaceResolver";
+import { AuthenticationResolver } from "./resolvers/authenticationResolver";
 
 export const configuredSchema = async (): Promise<GraphQLSchema> => {
     return await buildSchema({
@@ -13,6 +14,7 @@ export const configuredSchema = async (): Promise<GraphQLSchema> => {
           GuitarResolver,
           PersonsFaceResolver,
           PersonImageResolver,
+          AuthenticationResolver
         ],
         container: Container
       });
