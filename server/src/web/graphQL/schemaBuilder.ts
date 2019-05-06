@@ -1,12 +1,12 @@
 import { GraphQLSchema } from "graphql";
 import { buildSchema } from "type-graphql";
 import Container from "typedi";
+import { customAuthChecker } from "./customAuthChecker";
+import { AuthenticationResolver } from "./resolvers/authenticationResolver";
 import { GuitarResolver } from "./resolvers/guitarResolver";
 import { HelloResolver } from "./resolvers/helloResolver";
 import { PersonImageResolver } from "./resolvers/personImageResolver";
 import { PersonsFaceResolver } from "./resolvers/personsFaceResolver";
-import { AuthenticationResolver } from "./resolvers/authenticationResolver";
-import { customAuthChecker } from "./customAuthChecker";
 
 export const configuredSchema = async (): Promise<GraphQLSchema> => {
     return await buildSchema({

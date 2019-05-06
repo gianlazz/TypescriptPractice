@@ -1,26 +1,26 @@
-import { ObjectType, Field, ID } from "type-graphql";
-import { Entity, BaseEntity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, JoinColumn } from "typeorm";
-import { User } from "./user";
+import { Field, ID, ObjectType } from "type-graphql";
+import { BaseEntity, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import { Location } from "./location";
+import { User } from "./user";
 
 @ObjectType()
 @Entity()
 export class UserLocation extends BaseEntity {
 
-    @Field(type => ID)
+    @Field((type) => ID)
     @PrimaryColumn()
     public userId: number;
 
-    @Field(type => ID)
+    @Field((type) => ID)
     @PrimaryColumn()
     public locationId: number;
 
-    @Field(type => User)
+    @Field((type) => User)
     @ManyToOne(() => User, (user) => user.locationsConnection, { primary: true })
     @JoinColumn()
     public user: User;
 
-    @Field(type => Location)
+    @Field((type) => Location)
     @ManyToOne(() => Location, (location) => location.usersConnection, { primary: true })
     @JoinColumn()
     public location: Location;

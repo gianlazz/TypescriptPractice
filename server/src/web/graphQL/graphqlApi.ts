@@ -1,7 +1,8 @@
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
+import jwt from "express-jwt";
+import { IMyContext } from "./context.interface";
 import { configuredSchema } from "./schemaBuilder";
-import * as jwt from "express-jwt";
 
 export const register = async ( app: express.Application ) => {
 
@@ -12,13 +13,15 @@ export const register = async ( app: express.Application ) => {
 
     const apolloServer = new ApolloServer({
         schema,
-        context: ({ req }) => {
-            const context = {
-              req,
-              user: req.user, // `req.user` comes from `express-jwt`
-            };
-            return context;
-          },
+        context: ({ req, res, user }: IMyContext): IMyContext => {
+          const context = {
+            req,
+            res,
+            // user: user, // `req.user` comes from `express-jwt`
+          };
+          return context as any;
+        },
+        // context: ({ req, res }: any) => ({ req, res })
     });
 
     apolloServer.applyMiddleware({ app });

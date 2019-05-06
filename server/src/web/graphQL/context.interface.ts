@@ -1,5 +1,8 @@
+import { Request, Response } from "express";
 import { User } from "../../dal/entity/user";
 
-export interface Context {
+export interface IMyContext {
+  req: Request;
+  res: Response;
   user?: User;
 }

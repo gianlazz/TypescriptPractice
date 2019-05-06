@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from "typeorm";
 import { Image } from "./image";
+import { Location } from "./location";
 import { Person } from "./person";
 import { PersonDescriptor } from "./personDescriptor";
-import { Location } from "./location";
 
 @ObjectType()
 @Entity()
@@ -21,8 +21,8 @@ export class PersonImage extends BaseEntity {
     @Column()
     public personDescriptorId: number;
 
-    @Field(type => ID, { nullable: true })
-    @Column() locationId: number;
+    @Field((type) => ID, { nullable: true })
+    @Column() public locationId: number;
 
     @Field({ nullable: true })
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
@@ -43,7 +43,7 @@ export class PersonImage extends BaseEntity {
     @JoinColumn()
     public personDescriptor: PersonDescriptor;
 
-    @Field(type => Location)
+    @Field((type) => Location)
     @OneToOne(() => Location, (location) => location.personImageConnection)
     @JoinColumn()
     public location: Location;

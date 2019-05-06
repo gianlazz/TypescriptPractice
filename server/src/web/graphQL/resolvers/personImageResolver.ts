@@ -135,7 +135,6 @@ export class PersonImageResolver {
                         });
                 readableStreamBuffer.pipe( catimg.stdin );
                 // cmd.stdout.pipe(catimg.stdin);
-                
 
                 cmd.on("exit", () => {
                     console.log(`StreamBuffer size: ${writableStreamBuffer.size()}`);
