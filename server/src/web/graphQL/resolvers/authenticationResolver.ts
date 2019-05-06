@@ -12,7 +12,7 @@ export class AuthenticationResolver {
 
     @Query(() => User, { nullable: true })
     public async me(@Ctx() ctx: IMyContext): Promise<User> {
-        if (!ctx.req.session!.userId) {
+        if (!ctx.req.cookies["access-token"]) {
             return null;
         }
         const accessToken = ctx.req.cookies["access-token"];
@@ -59,7 +59,7 @@ export class AuthenticationResolver {
         @Arg("data") { username, email, password }: RegisterInput,
         @Ctx() ctx: IMyContext
         ): Promise<boolean> {
-        const existingUser = await User.find({ where: { email }});
+        const existingUser = await User.findOne({ where: { email }});
         if (existingUser) {
             return false;
         }

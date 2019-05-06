@@ -31,6 +31,7 @@
   "dependencies": {
     "@okta/oidc-middleware": "^1.0.2",
     "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.1",
     "@types/express-jwt": "0.0.42",
     "@types/fluent-ffmpeg": "^2.1.9",
     "@types/stream-buffers": "^3.0.3",
@@ -40,6 +41,7 @@
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "canvas": "^2.4.1",
+    "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "date-fns": "^1.30.1",
     "dotenv": "^7.0.0",

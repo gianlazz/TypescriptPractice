@@ -10,12 +10,15 @@ import { createLocalDevDbConnection } from "./deploymentConfigs/createLocalDevDb
 import { createHerokuDbConnection } from "./deploymentConfigs/herokuDeployment";
 import * as graphqlApi from "./web/graphQL/graphqlApi";
 import * as sessionAuth from "./web/middleware/sessionAuth";
+import cookieParser = require("cookie-parser");
 
 useContainer(Container);
 
 const app = express();
 // Configure Express to parse incoming JSON data
 app.use( express.json() );
+
+app.use(cookieParser());
 
 // Configure Express to allow Cross Origin Scripting so server and client can communicate during dev
 app.use(cors());
