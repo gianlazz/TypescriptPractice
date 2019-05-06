@@ -43,14 +43,11 @@ export class AuthenticationResolver {
         return true;
     }
 
-    @Authorized()
     @Mutation(() => Boolean)
     public async logout(
-        @Arg("email") email: string,
-        @Arg("password") password: string,
         @Ctx() ctx: IMyContext
     ): Promise<boolean> {
-        ctx.res.cookie("access-token", null);
+        ctx.res.cookie("access-token", "", { expires: new Date(Date.now())});
         return true;
     }
 
