@@ -3,6 +3,7 @@ import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryCol
 import { Image } from "./image";
 import { Person } from "./person";
 import { PersonDescriptor } from "./personDescriptor";
+import { Location } from "./location";
 
 @ObjectType()
 @Entity()
@@ -19,6 +20,9 @@ export class PersonImage extends BaseEntity {
     @Field((type) => ID, { nullable: true })
     @Column()
     public personDescriptorId: number;
+
+    @Field(type => ID, { nullable: true })
+    @Column() locationId: number;
 
     @Field({ nullable: true })
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
@@ -38,5 +42,10 @@ export class PersonImage extends BaseEntity {
     @OneToOne(() => PersonDescriptor, (personDescriptor) => personDescriptor.personImageConnection)
     @JoinColumn()
     public personDescriptor: PersonDescriptor;
+
+    @Field(type => Location)
+    @OneToOne(() => Location, (location) => location.personImageConnection)
+    @JoinColumn()
+    public location: Location;
 
 }

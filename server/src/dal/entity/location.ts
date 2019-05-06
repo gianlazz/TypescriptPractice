@@ -1,6 +1,7 @@
 import { ObjectType, Field, ID } from "type-graphql";
-import { Entity, PrimaryColumn, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany } from "typeorm";
+import { Entity, PrimaryColumn, PrimaryGeneratedColumn, Column, BaseEntity, OneToMany, OneToOne } from "typeorm";
 import { UserLocation } from "./userLocation";
+import { PersonImage } from "./personImage";
 
 @ObjectType()
 @Entity()
@@ -28,5 +29,8 @@ export class Location extends BaseEntity {
 
     @OneToMany(type => UserLocation, (userLocation) => userLocation.location)
     public usersConnection: UserLocation[];
+
+    @OneToOne(type => PersonImage, (personImage) => personImage.location)
+    public personImageConnection: Location;
 
 }
