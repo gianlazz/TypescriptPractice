@@ -1,9 +1,11 @@
 import * as bcrypt from "bcryptjs";
-import { sign } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../../../dal/entity/user";
 import { IMyContext } from "../context.interface";
 import { RegisterInput } from "./inputTypes/inputUser";
+
+export const ACCESS_TOKEN_SECRET: string = "secret";
 
 @Resolver()
 export class AuthenticationResolver {
@@ -13,11 +15,12 @@ export class AuthenticationResolver {
         if (!ctx.req.session!.userId) {
             return null;
         }
-
-        return User.findOne(ctx.req.session!.userId);
+        const accessToken = ctx.req.cookies["access-token"];
+        const data = verify(accessToken, ACCESS_TOKEN_SECRET) as any;
+        return await User.findOne({ where: { id: data.userId}});
     }
 
-    @Mutation()
+    @Mutation(() => Boolean)
     public async login(
         @Arg("email") email: string,
         @Arg("password") password: string,
@@ -35,13 +38,13 @@ export class AuthenticationResolver {
             return false;
         }
 
-        const accessToken = sign({ userId: user.id}, "secret");
+        const accessToken = sign({ userId: user.id}, ACCESS_TOKEN_SECRET);
         ctx.res.cookie("access-token", accessToken);
         return true;
     }
 
     @Authorized()
-    @Mutation()
+    @Mutation(() => Boolean)
     public async logout(
         @Arg("email") email: string,
         @Arg("password") password: string,
@@ -51,7 +54,7 @@ export class AuthenticationResolver {
         return true;
     }
 
-    @Mutation()
+    @Mutation(() => Boolean)
     public async register(
         @Arg("data") { username, email, password }: RegisterInput,
         @Ctx() ctx: IMyContext
@@ -68,7 +71,7 @@ export class AuthenticationResolver {
             password: hashedPassword
         }).save();
 
-        const accessToken = sign({ userId: user.id}, "secret");
+        const accessToken = sign({ userId: user.id}, ACCESS_TOKEN_SECRET);
         ctx.res.cookie("access-token", accessToken);
 
         return true;
