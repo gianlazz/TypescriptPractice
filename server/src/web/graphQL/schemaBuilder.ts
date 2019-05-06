@@ -6,6 +6,7 @@ import { HelloResolver } from "./resolvers/helloResolver";
 import { PersonImageResolver } from "./resolvers/personImageResolver";
 import { PersonsFaceResolver } from "./resolvers/personsFaceResolver";
 import { AuthenticationResolver } from "./resolvers/authenticationResolver";
+import { customAuthChecker } from "./customAuthChecker";
 
 export const configuredSchema = async (): Promise<GraphQLSchema> => {
     return await buildSchema({
@@ -16,6 +17,7 @@ export const configuredSchema = async (): Promise<GraphQLSchema> => {
           PersonImageResolver,
           AuthenticationResolver
         ],
-        container: Container
+        container: Container,
+        authChecker: customAuthChecker
       });
 };

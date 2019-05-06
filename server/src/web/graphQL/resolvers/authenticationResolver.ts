@@ -1,4 +1,4 @@
-import { Resolver, Mutation } from "type-graphql";
+import { Resolver, Mutation, Authorized } from "type-graphql";
 
 @Resolver()
 export class AuthenticationResolver {
@@ -8,14 +8,20 @@ export class AuthenticationResolver {
 
     }
 
+    @Authorized()
     @Mutation(() => Boolean)
     public async logout() {
 
     }
 
     @Mutation(() => Boolean)
-    public async register() {
+    public async registerWithInvite() {
 
     }
-    
+
+    @Mutation(() => Boolean)
+    public async sendInvite() {
+        
+    }
+
 }
