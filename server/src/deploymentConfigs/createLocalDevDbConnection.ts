@@ -10,6 +10,7 @@ export function createLocalDevDbConnection() {
             database: "postgres",
             logging: true,
             migrationsRun: true,
+            // synchronize: true,
             dropSchema: true,
             entities: [
                 __dirname + "/../dal/entity/**/*.*"

@@ -22,7 +22,8 @@ export class PersonImage extends BaseEntity {
     public personDescriptorId: number;
 
     @Field((type) => ID, { nullable: true })
-    @Column() public locationId: number;
+    @Column({ nullable: true })
+    public locationId: number;
 
     @Field({ nullable: true })
     @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
@@ -44,7 +45,7 @@ export class PersonImage extends BaseEntity {
     public personDescriptor: PersonDescriptor;
 
     @Field((type) => Location)
-    @OneToOne(() => Location, (location) => location.personImageConnection)
+    @OneToOne(() => Location, (location) => location.personImageConnection, { nullable: true})
     @JoinColumn()
     public location: Location;
 
