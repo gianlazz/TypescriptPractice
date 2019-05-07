@@ -1,10 +1,10 @@
 import { async } from "q";
 import { Connection } from "typeorm";
 import { gCall } from "../test-utils/gCall";
+import { registerOrLogin } from "../test-utils/registerOrLogin";
+import { contextSetup } from "../test-utils/setupGraphQLContext";
 import { testConn } from "../test-utils/testConn";
 import { IMyContext } from "../web/graphQL/context.interface";
-import { contextSetup } from "../test-utils/setupGraphQLContext";
-import { registerOrLogin } from "../test-utils/registerOrLogin";
 
 let conn: Connection;
 let ctx: IMyContext;

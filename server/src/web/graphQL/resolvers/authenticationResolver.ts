@@ -1,12 +1,10 @@
 import * as bcrypt from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Invite } from "../../../dal/entity/invite";
 import { User } from "../../../dal/entity/user";
 import { IMyContext } from "../context.interface";
 import { RegisterInput } from "./inputTypes/inputUser";
-import { Invite } from "../../../dal/entity/invite";
-
-process.env.ACCESS_TOKEN_SECRET
 
 @Resolver()
 export class AuthenticationResolver {
@@ -75,10 +73,10 @@ export class AuthenticationResolver {
         return true;
     }
 
-    @Mutation()
+    @Mutation(() => Boolean)
     public async registerWithInvite(
         @Arg("data") { username, email, password }: RegisterInput,
-        @Ctx() ctx: IMyContext        
+        @Ctx() ctx: IMyContext
     ): Promise<boolean> {
         try {
             return await this.register({ username, email, password }, ctx);
@@ -91,10 +89,10 @@ export class AuthenticationResolver {
     @Authorized()
     @Mutation(() => Invite)
     public async newInvite(
-        @Arg("email") email: string 
+        @Arg("email") email: string
     ): Promise<Invite> {
         try {
-            let invite = await Invite.create({
+            const invite = await Invite.create({
                 email
             }).save();
             return invite;

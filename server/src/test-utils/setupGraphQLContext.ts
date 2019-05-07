@@ -1,7 +1,7 @@
 import { IMyContext } from "../web/graphQL/context.interface";
 
 export const contextSetup = (): IMyContext => {
-    let cookies: {[key: string]: any} = [];
+    const cookies: {[key: string]: any} = [];
     const myContext = {
         req: {
             cookies
@@ -13,4 +13,4 @@ export const contextSetup = (): IMyContext => {
         } as any,
     };
     return myContext;
-  }
+  };

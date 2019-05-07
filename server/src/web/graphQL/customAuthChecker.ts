@@ -1,7 +1,7 @@
-import { AuthChecker } from "type-graphql";
-import { IMyContext } from "./context.interface";
 import { verify } from "jsonwebtoken";
+import { AuthChecker } from "type-graphql";
 import { User } from "../../dal/entity/user";
+import { IMyContext } from "./context.interface";
 
 export const customAuthChecker: AuthChecker<IMyContext> = async (
     { root, args, context, info },

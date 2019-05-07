@@ -1,4 +1,4 @@
-import { Arg, Float, Int, Mutation, Query, Resolver, Authorized } from "type-graphql";
+import { Arg, Authorized, Float, Int, Mutation, Query, Resolver } from "type-graphql";
 import { PersonsFace } from "../../../dal/entity/personsFace";
 
 @Resolver()

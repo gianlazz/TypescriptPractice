@@ -1,9 +1,9 @@
 import { verify } from "jsonwebtoken";
-import { Arg, Authorized, Ctx, Mutation, Resolver, Int } from "type-graphql";
+import { Arg, Authorized, Ctx, Int, Mutation, Resolver } from "type-graphql";
 import { Location } from "../../../dal/entity/location";
+import { User } from "../../../dal/entity/user";
 import { UserLocation } from "../../../dal/entity/userLocation";
 import { IMyContext } from "../context.interface";
-import { User } from "../../../dal/entity/user";
 
 @Resolver()
 export class UserLocationResolver {
@@ -44,13 +44,13 @@ export class UserLocationResolver {
         try {
             const userToBeAdded = await User.findOne({ where: { id: userId } });
             if (!userToBeAdded) {
-                throw "User not found.";
+                throw new Error("User not found.");
             }
             let userLocation = await UserLocation.findOne({ where: { userId, locationId }});
             if (!userLocation) {
-                throw "User already in that location.";
+                throw new Error("User already in that location.");
             }
-            
+
             userLocation = await UserLocation.create({
                 userId,
                 locationId

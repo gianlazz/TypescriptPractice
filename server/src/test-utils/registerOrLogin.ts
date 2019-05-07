@@ -10,13 +10,13 @@ export const registerOrLogin = async (contextValue: any) => {
         })
     }
     `;
-    const response = await gCall({ source: mutation, contextValue: contextValue });
+    const response = await gCall({ source: mutation, contextValue });
     if (response.data.register !== true) {
         const loginMutation = `
         mutation {
             login(password: "Password0", email: "gianlazzarini@gmail.com")
         }
         `;
-        await gCall({ source: loginMutation, contextValue: contextValue });
+        await gCall({ source: loginMutation, contextValue });
     }
-}
+};
