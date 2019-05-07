@@ -1,9 +1,10 @@
-import { Arg, Float, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Float, Int, Mutation, Query, Resolver, Authorized } from "type-graphql";
 import { PersonsFace } from "../../../dal/entity/personsFace";
 
 @Resolver()
 export class PersonsFaceResolver {
 
+    @Authorized()
     @Query((type) => [PersonsFace])
     public async recognizedFaces(): Promise<PersonsFace[]> {
         try {
@@ -15,6 +16,7 @@ export class PersonsFaceResolver {
         }
     }
 
+    @Authorized()
     @Mutation((type) => Int)
     public async registerPersonsFace(
         @Arg("name", { nullable: true }) name?: string,
@@ -33,6 +35,7 @@ export class PersonsFaceResolver {
         }
     }
 
+    @Authorized()
     @Mutation((type) => Int)
     public async deleteRegisteredPersonsFaceByName(
         @Arg("name", { nullable: false }) name: string,

@@ -4,8 +4,7 @@ import * as fs from "fs";
 import * as https from "https";
 import { Writable } from "stream";
 import { ReadableStreamBuffer, WritableStreamBuffer } from "stream-buffers";
-// import { exec, spawn } from "ts-process-promises";
-import { Arg, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Int, Mutation, Query, Resolver, Authorized } from "type-graphql";
 import { Between } from "typeorm";
 import { Image } from "../../../dal/entity/image";
 import { Person } from "../../../dal/entity/person";
@@ -24,6 +23,7 @@ export class PersonImageResolver {
         this.faceService = faceService;
     }
 
+    @Authorized()
     @Query((type) => [Person])
     public async getAllPersons(): Promise<Person[]> {
         try {
@@ -33,6 +33,7 @@ export class PersonImageResolver {
         }
     }
 
+    @Authorized()
     @Query((type) => [Image])
     public async getAllImages(): Promise<Image[]> {
         try {
@@ -42,6 +43,7 @@ export class PersonImageResolver {
         }
     }
 
+    @Authorized()
     @Query((type) => [PersonImage])
     public async personImageThisWeek(): Promise<PersonImage[]> {
         try {
@@ -74,6 +76,7 @@ export class PersonImageResolver {
         }
     }
 
+    @Authorized()
     @Mutation((type) => Boolean)
     public async watchNewStream(@Arg("url") url: string): Promise<boolean> {
         try {
@@ -164,6 +167,7 @@ export class PersonImageResolver {
         return false;
     }
 
+    @Authorized()
     @Mutation((type) => Boolean)
     public async renamePerson(@Arg("personId") personId: number, @Arg("newName") newName: string): Promise<boolean> {
         try {
@@ -180,6 +184,7 @@ export class PersonImageResolver {
         }
     }
 
+    @Authorized()
     @Mutation((type) => Int)
     public async newPerson(@Arg("inputPerson") inputPerson: InputPerson): Promise<number> {
         try {
@@ -218,6 +223,7 @@ export class PersonImageResolver {
         return 0;
     }
 
+    @Authorized()
     @Mutation((type) => Int)
     public async newImage(@Arg("inputImage") inputImage: InputImage): Promise<number> {
         try {
