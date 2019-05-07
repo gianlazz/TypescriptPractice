@@ -1,29 +1,31 @@
-import { Resolver, Authorized, Mutation, Ctx, Arg } from "type-graphql";
-import { Location } from "../../../dal/entity/location";
-import { IMyContext } from "../context.interface";
 import { verify } from "jsonwebtoken";
-import { ACCESS_TOKEN_SECRET } from "./authenticationResolver";
-import { loadFaceDetectionModel } from "face-api.js";
+import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+import { Location } from "../../../dal/entity/location";
 import { UserLocation } from "../../../dal/entity/userLocation";
+import { IMyContext } from "../context.interface";
 
 @Resolver()
 export class UserLocationResolver {
 
     @Authorized()
-    @Mutation()
+    @Mutation(() => UserLocation)
     public async addNewUserLocation(
         @Arg("locationName") locationName: string,
         @Ctx() ctx: IMyContext
     ): Promise<UserLocation> {
         try {
             const accessToken = ctx.req.cookies["access-token"];
-            const data = verify(accessToken, ACCESS_TOKEN_SECRET) as any;
+            const data = verify(accessToken, process.env.ACCESS_TOKEN_SECRET) as any;
 
             const location = await Location.create({ name: locationName }).save();
-            const userLocation = await UserLocation.create({
+            let userLocation = await UserLocation.create({
                 userId: data.userId,
-                locationId: location.id
+                locationId: location.id,
             }).save();
+            userLocation = await UserLocation.findOne({
+                where: { locationId: location.id, userId: data.userId },
+                relations: ["location", "user"]
+            });
 
             return userLocation;
         } catch (error) {

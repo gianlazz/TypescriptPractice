@@ -5,7 +5,7 @@ import { User } from "../../../dal/entity/user";
 import { IMyContext } from "../context.interface";
 import { RegisterInput } from "./inputTypes/inputUser";
 
-export const ACCESS_TOKEN_SECRET: string = process.env.ACCESS_TOKEN_SECRET;
+process.env.ACCESS_TOKEN_SECRET
 
 @Resolver()
 export class AuthenticationResolver {
@@ -16,7 +16,7 @@ export class AuthenticationResolver {
             return null;
         }
         const accessToken = ctx.req.cookies["access-token"];
-        const data = verify(accessToken, ACCESS_TOKEN_SECRET) as any;
+        const data = verify(accessToken, process.env.ACCESS_TOKEN_SECRET) as any;
         return await User.findOne({ where: { id: data.userId}});
     }
 
@@ -38,7 +38,7 @@ export class AuthenticationResolver {
             return false;
         }
 
-        const accessToken = sign({ userId: user.id}, ACCESS_TOKEN_SECRET);
+        const accessToken = sign({ userId: user.id}, process.env.ACCESS_TOKEN_SECRET);
         ctx.res.cookie("access-token", accessToken);
         return true;
     }
@@ -68,7 +68,7 @@ export class AuthenticationResolver {
             password: hashedPassword
         }).save();
 
-        const accessToken = sign({ userId: user.id}, ACCESS_TOKEN_SECRET);
+        const accessToken = sign({ userId: user.id}, process.env.ACCESS_TOKEN_SECRET);
         ctx.res.cookie("access-token", accessToken);
 
         return true;
