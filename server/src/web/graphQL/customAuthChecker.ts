@@ -2,8 +2,9 @@ import { AuthChecker } from "type-graphql";
 import { IMyContext } from "./context.interface";
 import { verify } from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET } from "./resolvers/authenticationResolver";
+import { User } from "../../dal/entity/user";
 
-export const customAuthChecker: AuthChecker<IMyContext> = (
+export const customAuthChecker: AuthChecker<IMyContext> = async (
     { root, args, context, info },
     roles,
   ) => {
@@ -21,7 +22,12 @@ export const customAuthChecker: AuthChecker<IMyContext> = (
     const accessToken = context.req.cookies["access-token"];
     const data = verify(accessToken, ACCESS_TOKEN_SECRET) as any;
     if (data.userId) {
-      return true;
+      const user =  await User.findOne({ where: { id: data.userId}});
+      if (user) {
+        return true;
+      } else {
+        return false;
+      }
     }
 
     return false; // or false if access is denied
