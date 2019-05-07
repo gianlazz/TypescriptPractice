@@ -12,6 +12,22 @@ afterAll(async () => {
     await conn.close();
 });
 
+let contextSetup = (): IMyContext => {
+  let cookies: {[key: string]: any} = [];
+  const myContext = {
+      req: {
+          cookies
+      } as any,
+      res: {
+          cookie(cookieName: string, cookie: any) {
+              cookies[cookieName] = cookie;
+          }
+      } as any,
+  };
+  return myContext;
+}
+const ctx = contextSetup();
+
 describe("AuthenticationResolver", () => {
     it("register mutation should return true and store jwt cookie.", async () => {
         // Arrange
@@ -24,22 +40,8 @@ describe("AuthenticationResolver", () => {
             })
           }
         `;
-        let context = (): IMyContext => {
-          let cookies: {[key: string]: any} = [];
-          const myContext = {
-              req: {
-                  cookies
-              } as any,
-              res: {
-                  cookie(cookieName: string, cookie: any) {
-                      cookies[cookieName] = cookie;
-                  }
-              } as any,
-          };
-          return myContext;
-      }
         // Act
-        const response = await gCall({ source: mutation, contextValue: context });
+        const response = await gCall({ source: mutation, contextValue: ctx });
         // Assert
         expect(response).toMatchObject({
             data: {
@@ -56,7 +58,7 @@ describe("AuthenticationResolver", () => {
           }
         `;
         // Act
-        const response = await gCall({ source: mutation });
+        const response = await gCall({ source: mutation, contextValue: ctx });
         // Assert
         expect(response).toMatchObject({
             data: {
@@ -73,7 +75,7 @@ describe("AuthenticationResolver", () => {
           }
         `;
         // Act
-        const response = await gCall({ source: mutation });
+        const response = await gCall({ source: mutation, contextValue: ctx });
         // Assert
         expect(response).toMatchObject({
             data: {
@@ -94,7 +96,7 @@ describe("AuthenticationResolver", () => {
           }
         `;
         // Act
-        const response = await gCall({ source: query });
+        const response = await gCall({ source: query, contextValue: ctx });
         // Assert
         expect(response).toMatchObject({
             data: {

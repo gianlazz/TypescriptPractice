@@ -56,6 +56,7 @@ export class AuthenticationResolver {
         @Arg("data") { username, email, password }: RegisterInput,
         @Ctx() ctx: IMyContext
         ): Promise<boolean> {
+            console.log(JSON.stringify(ctx));
         const existingUser = await User.findOne({ where: { email }});
         if (existingUser) {
             return false;
