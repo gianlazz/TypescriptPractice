@@ -1,8 +1,9 @@
 import { verify } from "jsonwebtoken";
-import { Arg, Authorized, Ctx, Mutation, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Mutation, Resolver, Int } from "type-graphql";
 import { Location } from "../../../dal/entity/location";
 import { UserLocation } from "../../../dal/entity/userLocation";
 import { IMyContext } from "../context.interface";
+import { User } from "../../../dal/entity/user";
 
 @Resolver()
 export class UserLocationResolver {
@@ -24,6 +25,38 @@ export class UserLocationResolver {
             }).save();
             userLocation = await UserLocation.findOne({
                 where: { locationId: location.id, userId: data.userId },
+                relations: ["location", "user"]
+            });
+
+            return userLocation;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    @Authorized()
+    @Mutation(() => UserLocation)
+    public async addNewUserToLocation(
+        @Arg("userId", () => Int) userId: number,
+        @Arg("locationId", () => Int) locationId: number,
+        @Ctx() ctx: IMyContext
+    ): Promise<UserLocation> {
+        try {
+            const userToBeAdded = await User.findOne({ where: { id: userId } });
+            if (!userToBeAdded) {
+                throw "User not found.";
+            }
+            let userLocation = await UserLocation.findOne({ where: { userId, locationId }});
+            if (!userLocation) {
+                throw "User already in that location.";
+            }
+            
+            userLocation = await UserLocation.create({
+                userId,
+                locationId
+            }).save();
+            userLocation = await UserLocation.findOne({
+                where: { locationId, userId },
                 relations: ["location", "user"]
             });
 
