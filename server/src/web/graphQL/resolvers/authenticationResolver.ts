@@ -4,6 +4,7 @@ import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { User } from "../../../dal/entity/user";
 import { IMyContext } from "../context.interface";
 import { RegisterInput } from "./inputTypes/inputUser";
+import { Invite } from "../../../dal/entity/invite";
 
 process.env.ACCESS_TOKEN_SECRET
 
@@ -74,15 +75,32 @@ export class AuthenticationResolver {
         return true;
     }
 
-    // @Mutation()
-    // public async registerWithInvite(): Promise<boolean> {
+    @Mutation()
+    public async registerWithInvite(
+        @Arg("data") { username, email, password }: RegisterInput,
+        @Ctx() ctx: IMyContext        
+    ): Promise<boolean> {
+        try {
+            return await this.register({ username, email, password }, ctx);
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    }
 
-    //     return false;
-    // }
-
-    // @Mutation()
-    // public async sendInvite() {
-
-    // }
+    @Authorized()
+    @Mutation(() => Invite)
+    public async newInvite(
+        @Arg("email") email: string 
+    ): Promise<Invite> {
+        try {
+            let invite = await Invite.create({
+                email
+            }).save();
+            return invite;
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
 }
