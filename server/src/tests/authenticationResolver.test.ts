@@ -2,53 +2,43 @@ import { Connection } from "typeorm";
 import { gCall } from "../test-utils/gCall";
 import { testConn } from "../test-utils/testConn";
 import { IMyContext } from "../web/graphQL/context.interface";
+import { contextSetup } from "../test-utils/setupGraphQLContext";
+import { registerOrLogin } from "../test-utils/registerOrLogin";
 
 let conn: Connection;
+let ctx: IMyContext;
 beforeAll(async () => {
     conn = await testConn();
     jest.setTimeout(30000);
+
+    ctx = contextSetup();
+    await registerOrLogin(ctx);
 });
 afterAll(async () => {
     await conn.close();
 });
 
-let contextSetup = (): IMyContext => {
-  let cookies: {[key: string]: any} = [];
-  const myContext = {
-      req: {
-          cookies
-      } as any,
-      res: {
-          cookie(cookieName: string, cookie: any) {
-              cookies[cookieName] = cookie;
-          }
-      } as any,
-  };
-  return myContext;
-}
-const ctx = contextSetup();
-
 describe("AuthenticationResolver", () => {
-    it("register mutation should return true and store jwt cookie.", async () => {
-        // Arrange
-        const mutation = `
-        mutation {
-            register(data: {
-              username: "glazzarini",
-              email: "gianlazzarini@gmail.com",
-              password: "Password0"
-            })
-          }
-        `;
-        // Act
-        const response = await gCall({ source: mutation, contextValue: ctx });
-        // Assert
-        expect(response).toMatchObject({
-            data: {
-              register: true
-            }
-          });
-    });
+    // it("register mutation should return true and store jwt cookie.", async () => {
+    //     // Arrange
+    //     const mutation = `
+    //     mutation {
+    //         register(data: {
+    //           username: "glazzarini",
+    //           email: "gianlazzarini@gmail.com",
+    //           password: "Password0"
+    //         })
+    //       }
+    //     `;
+    //     // Act
+    //     const response = await gCall({ source: mutation, contextValue: ctx });
+    //     // Assert
+    //     expect(response).toMatchObject({
+    //         data: {
+    //           register: true
+    //         }
+    //       });
+    // });
 
     it("logout mutation should return true and delete the jwt cookie.", async () => {
         // Arrange

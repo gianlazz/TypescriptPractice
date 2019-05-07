@@ -2,10 +2,17 @@ import { async } from "q";
 import { Connection } from "typeorm";
 import { gCall } from "../test-utils/gCall";
 import { testConn } from "../test-utils/testConn";
+import { IMyContext } from "../web/graphQL/context.interface";
+import { registerOrLogin } from "../test-utils/registerOrLogin";
+import { contextSetup } from "../test-utils/setupGraphQLContext";
 
 let conn: Connection;
+let ctx: IMyContext;
 beforeAll(async () => {
     conn = await testConn();
+
+    ctx = contextSetup();
+    await registerOrLogin(ctx);
 });
 afterAll(async () => {
     await conn.close();
@@ -22,7 +29,7 @@ describe("PersonsFace Resolver", () => {
             )
           }`;
         // Act
-        const response = await gCall({ source: mutation });
+        const response = await gCall({ source: mutation, contextValue: ctx });
         // Assert
         expect(response).toMatchObject({
             data: {
@@ -42,7 +49,7 @@ describe("PersonsFace Resolver", () => {
             }
           }`;
         // Act
-        const response = await gCall({ source: query });
+        const response = await gCall({ source: query, contextValue: ctx });
         // Assert
         expect(response).toMatchObject({
             data: {
@@ -65,7 +72,7 @@ describe("PersonsFace Resolver", () => {
                 deleteRegisteredPersonsFaceByName(name: "Gian")
               }`;
             // Act
-            const response = await gCall({ source: mutation });
+            const response = await gCall({ source: mutation, contextValue: ctx });
             // Assert
             expect(response).toMatchObject({
                 data: {

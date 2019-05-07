@@ -2,11 +2,18 @@ import { async } from "q";
 import { Connection } from "typeorm";
 import { gCall } from "../test-utils/gCall";
 import { testConn } from "../test-utils/testConn";
+import { IMyContext } from "../web/graphQL/context.interface";
+import { contextSetup } from "../test-utils/setupGraphQLContext";
+import { registerOrLogin } from "../test-utils/registerOrLogin";
 
 let conn: Connection;
+let ctx: IMyContext;
 beforeAll(async () => {
     conn = await testConn();
     jest.setTimeout(30000);
+
+    ctx = contextSetup();
+    await registerOrLogin(ctx);
 });
 afterAll(async () => {
     await conn.close();
@@ -24,8 +31,8 @@ describe("PersonImageResolver", () => {
         }
         `;
         // Act
-        const response1 = await gCall({ source: mutation });
-        const response2 = await gCall({ source: mutation });
+        const response1 = await gCall({ source: mutation, contextValue: ctx });
+        const response2 = await gCall({ source: mutation, contextValue: ctx });
         // Assert
         expect(response1).toMatchObject({
           data: {
@@ -56,7 +63,7 @@ describe("PersonImageResolver", () => {
         }
         `;
         // Act
-        const response = await gCall({ source: query });
+        const response = await gCall({ source: query, contextValue: ctx });
         // Assert
         expect(response).toMatchObject({
           data: {
@@ -105,7 +112,7 @@ describe("PersonImageResolver", () => {
       }
       `;
       // Act
-      const response = await gCall({ source: query });
+      const response = await gCall({ source: query, contextValue: ctx });
       // Assert
       expect(response).toMatchObject({
         data: {
@@ -151,7 +158,7 @@ describe("PersonImageResolver", () => {
     }
     `;
     // Act
-    const result = await gCall({ source: mutation });
+    const result = await gCall({ source: mutation, contextValue: ctx });
     // Assert
     expect(result).toMatchObject({
       data: {
@@ -177,7 +184,7 @@ describe("PersonImageResolver", () => {
     }
     `;
     // Act
-    const result = await gCall({ source: query });
+    const result = await gCall({ source: query, contextValue: ctx });
     // Assert
     expect(result).toMatchObject({
       data: {
@@ -220,7 +227,7 @@ describe("PersonImageResolver", () => {
     }
     `;
     // Act
-    const result = await gCall({ source: mutation });
+    const result = await gCall({ source: mutation, contextValue: ctx });
     // Assert
     expect(result).toMatchObject({
       data: {
