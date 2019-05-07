@@ -1,6 +1,7 @@
 import { Connection } from "typeorm";
 import { gCall } from "../test-utils/gCall";
 import { testConn } from "../test-utils/testConn";
+import { IMyContext } from "../web/graphQL/context.interface";
 
 let conn: Connection;
 beforeAll(async () => {
@@ -23,8 +24,22 @@ describe("AuthenticationResolver", () => {
             })
           }
         `;
+        let context = (): IMyContext => {
+          let cookies: {[key: string]: any} = [];
+          const myContext = {
+              req: {
+                  cookies
+              } as any,
+              res: {
+                  cookie(cookieName: string, cookie: any) {
+                      cookies[cookieName] = cookie;
+                  }
+              } as any,
+          };
+          return myContext;
+      }
         // Act
-        const response = await gCall({ source: mutation });
+        const response = await gCall({ source: mutation, contextValue: context });
         // Assert
         expect(response).toMatchObject({
             data: {

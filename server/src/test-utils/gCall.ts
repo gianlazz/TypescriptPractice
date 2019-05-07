@@ -8,11 +8,12 @@ interface IOptions {
     variableValues?: Maybe<{
         [key: string]: any;
     }>;
+    contextValue?: any
 }
 
 let schema: GraphQLSchema;
 
-export const gCall = async ({ source, variableValues }: IOptions) => {
+export const gCall = async ({ source, variableValues, contextValue }: IOptions) => {
     // Check if schema already exists
     if (!schema) {
         schema = await configuredSchema();
@@ -22,8 +23,6 @@ export const gCall = async ({ source, variableValues }: IOptions) => {
         schema,
         source,
         variableValues,
-        contextValue: (): IMyContext => {
-            
-        }
+        contextValue: contextValue
     });
 };

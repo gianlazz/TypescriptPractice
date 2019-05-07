@@ -13,23 +13,13 @@ export const register = async ( app: express.Application ) => {
 
     const apolloServer = new ApolloServer({
         schema,
-        context: ({ req, res, user }: IMyContext): IMyContext => {
+        context: ({ req, res }: IMyContext): IMyContext => {
           const context = {
             req,
             res,
-            // user: user, // `req.user` comes from `express-jwt`
           };
           return context as any;
         },
-        // context: ({ req, res }): IMyContext => {
-        //   let myContext: IMyContext = {
-        //     req,
-        //     res,
-        //     requestCookies: req.cookies,
-        //     responseCookie: res.cookie
-        //   };
-        //   return myContext;
-        // },
         // context: ({ req, res }: any) => ({ req, res })
     });
 
