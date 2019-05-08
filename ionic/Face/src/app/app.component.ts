@@ -21,6 +21,14 @@ export class AppComponent {
       icon: 'list'
     },
     {
+      title: 'timeline',
+      url: '/timeline'
+    },
+    {
+      title: 'people',
+      url: '/people'
+    },
+    {
       title: 'Login',
       url: '/login',
       icon: 'lock'
@@ -28,7 +36,6 @@ export class AppComponent {
     {
       title: 'Register',
       url: 'register',
-      icon: ''
     }
   ];
 
