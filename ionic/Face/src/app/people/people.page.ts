@@ -37,6 +37,7 @@ export class PeoplePage implements OnInit {
     }).subscribe(({data}) => {
       this.persons = data['getAllPersons'];
       console.log(JSON.stringify(this.persons));
+      console.log(this.persons[0].images[0].image);
     });
   }
 
