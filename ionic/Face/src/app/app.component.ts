@@ -24,6 +24,11 @@ export class AppComponent {
       title: 'Login',
       url: '/login',
       icon: 'lock'
+    },
+    {
+      title: 'Register',
+      url: 'register',
+      icon: ''
     }
   ];
 
