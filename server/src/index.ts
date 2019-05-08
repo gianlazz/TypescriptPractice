@@ -21,7 +21,29 @@ app.use( express.json() );
 app.use(cookieParser());
 
 // Configure Express to allow Cross Origin Scripting so server and client can communicate during dev
-app.use(cors());
+const allowedOrigins = [
+    'capacitor://localhost',
+    'ionic://localhost',
+    'http://localhost',
+    'http://localhost:8080',
+    'http://localhost:8100'
+  ];
+  
+// Reflect the origin if it's in the allowed list or not defined (cURL, Postman, etc.)
+// const corsOptions = {
+//   origin: (origin: any, callback: any) => {
+//     if (allowedOrigins.includes(origin) || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error('Origin not allowed by CORS'));
+//     }
+//   }
+// }
+const corsOptions = {
+    origin: 'http://localhost:8100',
+    credentials: true
+}
+// app.use(cors());
 
 // initialize configuration
 if (process.env.DEPLOYMENT === "Heroku") {
@@ -53,7 +75,7 @@ app.use("/models", express.static( path.join( __dirname, "/web/models" ) ) );
 // sessionAuth.register( app );
 
 // Register GraphQL setup middleware
-graphqlApi.register( app );
+graphqlApi.register( app, corsOptions );
 
 // start the Express server
 app.listen( port, () => {

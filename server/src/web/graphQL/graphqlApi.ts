@@ -1,10 +1,10 @@
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, CorsOptions } from "apollo-server-express";
 import express from "express";
 import jwt from "express-jwt";
 import { IMyContext } from "./context.interface";
 import { configuredSchema } from "./schemaBuilder";
 
-export const register = async ( app: express.Application ) => {
+export const register = async ( app: express.Application, cors: CorsOptions ) => {
 
     // Authorization
     const oidc = app.locals.oidc;
@@ -23,5 +23,5 @@ export const register = async ( app: express.Application ) => {
         // context: ({ req, res }: any) => ({ req, res })
     });
 
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors });
 };
