@@ -18,7 +18,8 @@ const routes: Routes = [
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'timeline', loadChildren: './timeline/timeline.module#TimelinePageModule' },
-  { path: 'people', loadChildren: './people/people.module#PeoplePageModule' }
+  { path: 'people', loadChildren: './people/people.module#PeoplePageModule' },
+  { path: 'person', loadChildren: './person/person.module#PersonPageModule' }
 ];
 
 @NgModule({
