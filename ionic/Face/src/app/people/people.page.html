@@ -10,10 +10,6 @@
 <ion-content>
     <ion-list>
         <ion-item *ngFor ="let person of persons" >
-            <!-- <div class="user">
-              {{person.name}}{{person.images[0].image}}
-            </div> -->
-
             <ion-card>
                 <ion-img src="{{person.images[0].image}}"></ion-img>
                 <ion-card-header>
@@ -22,6 +18,7 @@
                 </ion-card-header>
               
                 <ion-card-content>
+                    <ion-button fill="outline" slot="end" href="/person">Details</ion-button>
                 </ion-card-content>
               </ion-card>
 
