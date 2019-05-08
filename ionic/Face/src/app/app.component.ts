@@ -21,11 +21,11 @@ export class AppComponent {
       icon: 'list'
     },
     {
-      title: 'timeline',
+      title: 'Timeline',
       url: '/timeline'
     },
     {
-      title: 'people',
+      title: 'People',
       url: '/people'
     },
     {

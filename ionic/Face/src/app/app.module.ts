@@ -36,8 +36,11 @@ import { HttpClientModule } from '@angular/common/http';
 export class AppModule { 
   constructor(apollo: Apollo, httpLink: HttpLink) {
     apollo.create({
-      link: httpLink.create({ uri: 'http://localhost:8080/graphql' }),
-      cache: new InMemoryCache()
+      link: httpLink.create({ 
+        uri: 'http://localhost:8080/graphql',
+        withCredentials: true
+      }),
+      cache: new InMemoryCache(),
     })
   }
 }

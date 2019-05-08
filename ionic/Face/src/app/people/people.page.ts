@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Apollo } from 'apollo-angular';
+import gql from 'graphql-tag';
 
 @Component({
   selector: 'app-people',
@@ -7,9 +9,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PeoplePage implements OnInit {
 
-  constructor() { }
+  private apollo: Apollo;
+  private persons: [] = [];
+
+  constructor(apollo: Apollo) {
+    this.apollo = apollo;
+  }
 
   ngOnInit() {
+    this.apollo.query({
+      query: gql`
+        query {
+          getAllPersons {
+            id
+            name
+            images {
+              id
+              image
+              personDescriptors {
+                id
+                descriptor
+              }
+            }
+          }
+        }
+      `
+    }).subscribe(({data}) => {
+      this.persons = data['getAllPersons'];
+      console.log(JSON.stringify(this.persons));
+    });
   }
 
 }
