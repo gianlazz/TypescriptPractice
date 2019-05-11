@@ -96,7 +96,7 @@
         {
             "label": "Npm Install All Projects",
             "type": "shell",
-            "command": "cd googleAssistant/functions && npm install && cd .. && cd client && npm install && cd .. && cd server && npm install",
+            "command": "cd googleAssistant/functions && npm install && cd ${workspaceRoot} && cd client && npm install && cd .. && cd server && npm install && cd ../ionic/Face && npm install",
             "options": {
                 "cwd": "${workspaceRoot}"
             },

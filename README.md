@@ -16,9 +16,29 @@ Training weights for face-api.js
 1. Install Postgresql
     - brew install postgresql
     - brew services start postgresql
+    - [Create user with password](https://www.codementor.io/engineerapart/getting-started-with-postgresql-on-mac-osx-are8jcopb)
+        - psql postgres
+        - \du
+        - CREATE ROLE test WITH LOGIN PASSWORD 'Password123';
+        - ALTER ROLE test CREATEDB;
+        - \du
+        - exit
     - createdb -U test postgres
-2. Run `npm install` in both server and client dirs
-3. cd into client dir and run `npm run serve` which will launch both the server and client
+    - createdb -U test postgres-test
+2. Run `npm install` in server/ googleAssistant/function /ionic/Face & /client
+3. Modify the server/.env
+    - cd server/
+    - touch .env
+    - copy over and modify values in the .env.sample
+4. Launch server and it will also run the db migrations
+    - F5
+5. Launch ionic front end
+    - cd ionic/face
+    - ionic serve
+    - Or for mobile:
+    - ionic cordova prepare
+    - ionic serve --devapp
+
 
 - Add an ormconfig.json to the server based on ormconfig.sample.json
 - Add a .env file to the server based on .env.sample

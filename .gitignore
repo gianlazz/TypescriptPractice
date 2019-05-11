@@ -156,3 +156,5 @@ Thumbs.db
 # models/**/*
 # images/**/*
 !.keep
+ionic/Face/resources/*
+ionic/Face/config.xml

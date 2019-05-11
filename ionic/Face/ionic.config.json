@@ -1,6 +1,8 @@
 {
   "name": "Face",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular",
   "id": "1f8484fc"
 }
