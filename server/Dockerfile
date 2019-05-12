@@ -1,6 +1,6 @@
-FROM node:8.11-alpine
+FROM node:8.11-stretch
 
-RUN apk update
+RUN apt-get update
 
 ENV NODE_ENV production
 ENV PORT 80
@@ -11,10 +11,13 @@ WORKDIR /usr/src/node-app
 
 COPY package.json package.json
 
+# Python is needed for node-canvas
+
+
 RUN npm install
 
 COPY . .
 
-CMD ["npm", "run buildForDistribution"]
+CMD ["npm", "run build"]
 
 CMD ["npm", "start"]
