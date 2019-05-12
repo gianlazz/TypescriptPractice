@@ -13,6 +13,8 @@ export const register = async ( app: express.Application, cors: CorsOptions ) =>
 
     const apolloServer = new ApolloServer({
         schema,
+        playground: true,
+        // playground: process.env.NODE_ENV !== "production",
         context: ({ req, res }: IMyContext): IMyContext => {
           const context = {
             req,

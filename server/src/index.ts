@@ -7,6 +7,7 @@ import path from "path";
 import "reflect-metadata";
 import { Container } from "typedi";
 import { createConnection } from "typeorm";
+import { createDockerDbConnection } from "./deploymentConfigs/createDockerDbConnection";
 import { createLocalDevDbConnection } from "./deploymentConfigs/createLocalDevDbConnection";
 import { createHerokuDbConnection } from "./deploymentConfigs/herokuDeployment";
 import * as graphqlApi from "./web/graphQL/graphqlApi";
@@ -48,10 +49,17 @@ const corsOptions = {
 // initialize configuration
 if (process.env.DEPLOYMENT === "Heroku") {
 // Typeorm connection
+    console.log("Connecting to heroku db.");
     createHerokuDbConnection()
     .then((connection) => console.log("Connected to heroku Postgres with TypeORM."))
     .catch((error) => console.log(error));
+} else if (process.env.NODE_ENV === "production") {
+    console.log("Connecting to docker db.");
+    createDockerDbConnection()
+    .then((connection) => console.log("Connected to heroku Postgres with TypeORM."))
+    .catch((error) => console.log(error));
 } else {
+    console.log("Connecting to local db.");
     dotenv.config();
 // Typeorm connection
     createLocalDevDbConnection()
