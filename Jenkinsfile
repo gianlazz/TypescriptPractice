@@ -1,5 +1,10 @@
 
 pipeline {
+  agent {
+    docker {
+      image 'tiangolo/docker-with-compose'
+    }
+  }
   stages {
     stage('Docker-compose build') {
       steps {
