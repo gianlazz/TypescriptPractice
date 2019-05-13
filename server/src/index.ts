@@ -53,10 +53,10 @@ if (process.env.DEPLOYMENT === "Heroku") {
     createHerokuDbConnection()
     .then((connection) => console.log("Connected to heroku Postgres with TypeORM."))
     .catch((error) => console.log(error));
-} else if (process.env.NODE_ENV === "production") {
+} else if (process.env.NODE_ENV === "docker") {
     console.log("Connecting to docker db.");
     createDockerDbConnection()
-    .then((connection) => console.log("Connected to heroku Postgres with TypeORM."))
+    .then((connection) => console.log("Connected to docker Postgres with TypeORM."))
     .catch((error) => console.log(error));
 } else {
     console.log("Connecting to local db.");

@@ -2,7 +2,7 @@ FROM node:8.11-stretch
 
 RUN apt-get update
 
-ENV NODE_ENV production
+ENV NODE_ENV docker
 ENV PORT 80
 
 EXPOSE 80

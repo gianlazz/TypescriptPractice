@@ -108,7 +108,25 @@
             "script": "test",
             "path": "server/",
             "problemMatcher": []
-        }
+        },
+        {
+            "label": "Docker Compose Up",
+            "type": "shell",
+            "command": "docker-compose up",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Docker Purge All",
+            "type": "shell",
+            "command": "docker kill $(docker ps -q) && docker rm $(docker ps -a -q) && docker rmi $(docker images -q)",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "problemMatcher": []
+        },
     ],
     "inputs": [
         {
