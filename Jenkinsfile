@@ -1,11 +1,5 @@
 
 pipeline {
-  agent {
-    docker {
-      image 'gianlazzarini/lazztech_cicd_build'
-    }
-
-  }
   stages {
     stage('Docker-compose build') {
       steps {
