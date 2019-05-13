@@ -2,7 +2,7 @@
 pipeline {
   agent {
     docker {
-      image 'docker/compose'
+      image 'tiangolo/docker-with-compose'
     }
   }
   stages {
