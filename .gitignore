@@ -158,5 +158,4 @@ Thumbs.db
 !.keep
 ionic/Face/resources/*
 ionic/Face/config.xml
-docker-compose.yml
 server/.DS_Store
