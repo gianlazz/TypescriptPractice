@@ -11,7 +11,7 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:Password123@db:5432/postgres
       - PORT=80
-      - DEPLOYMENT=Docker 
+      - NODE_ENV=docker
   db:
     image: postgres
     environment:

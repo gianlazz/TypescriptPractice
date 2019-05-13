@@ -45,7 +45,7 @@ const corsOptions = {
     credentials: true
 };
 // app.use(cors());
-
+console.log("NODE_ENV: " + process.env.NODE_ENV);
 // initialize configuration
 if (process.env.DEPLOYMENT === "Heroku") {
 // Typeorm connection
