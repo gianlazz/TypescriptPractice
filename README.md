@@ -59,6 +59,25 @@ If you're having issues you can clear out the images:
 - Add an ormconfig.json to the server based on ormconfig.sample.json
 - Add a .env file to the server based on .env.sample
 
+# CI-CD Jenkins
+In a fresh cloud server with docker installed run the following.
+
+- docker run -d -p 80:8080 --volume jenkin_data:/var/jenkins_home jenkinsci/blueocean:latest
+- docker ps
+- docker logs -f ID_OF_THE_NEW_JENKINS_CONTAINER
+
+Look for the setup code below the following:
+```
+*************************************************************
+*************************************************************
+*************************************************************
+
+Jenkins initial setup is required. An admin user has been created and a password generated.
+Please use the following password to proceed to installation:
+```
+
+# Deployment
+
 # VSCode Automated Tasks & Debugging
 A number of build tasks have been automated in .vscode/tasks.json by opening this repo in VSCode you'll have access to them by typing cmd + shift + p then typing in Run Task and hitting enter.
 
