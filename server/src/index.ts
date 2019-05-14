@@ -12,6 +12,7 @@ import { createLocalDevDbConnection } from "./deploymentConfigs/createLocalDevDb
 import { createHerokuDbConnection } from "./deploymentConfigs/herokuDeployment";
 import * as graphqlApi from "./web/graphQL/graphqlApi";
 import * as sessionAuth from "./web/middleware/sessionAuth";
+import { envVariablesConfigured } from "./deploymentConfigs/envChecker";
 
 useContainer(Container);
 
@@ -65,6 +66,9 @@ if (process.env.DEPLOYMENT === "Heroku") {
     createLocalDevDbConnection()
     .then((connection) => console.log("Connected to default ormconfig.json database with TypeORM."))
     .catch((error) => console.log(error));
+}
+if (!envVariablesConfigured()) {
+    throw("Missing required environment variables!");
 }
 
 // port is now available to the Node.js runtime

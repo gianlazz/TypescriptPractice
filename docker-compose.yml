@@ -12,6 +12,7 @@ services:
       - DATABASE_URL=postgres://postgres:Password123@db:5432/postgres
       - PORT=80
       - NODE_ENV=docker
+      - ACCESS_TOKEN_SECRET=SecretForToken
   db:
     image: postgres
     environment:
