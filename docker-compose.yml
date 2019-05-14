@@ -13,6 +13,7 @@ services:
       - PORT=80
       - NODE_ENV=docker
       - ACCESS_TOKEN_SECRET=SecretForToken
+      - MODELS_PATH=/dist/models/
   db:
     image: postgres
     environment:
