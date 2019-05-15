@@ -20,23 +20,19 @@ export class PersonPage implements OnInit {
     console.log(this.id);
     this.apollo.query({
       query: gql`
-        query {
-          getAllPersons {
+      query {
+        getPerson(id: ${this.id}) {
+          id
+          name
+          images {
             id
-            name
-            images {
-              id
-              image
-              personDescriptors {
-                id
-                descriptor
-              }
-            }
+            image
           }
         }
+      }
       `
     }).subscribe(({data}) => {
-      this.person = data['getAllPersons'];
+      this.person = data['getPerson'];
       console.log(JSON.stringify(this.person));
       console.log(this.person[0].images[0].image);
     });``
