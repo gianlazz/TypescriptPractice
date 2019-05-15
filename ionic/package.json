@@ -34,7 +34,8 @@
     "graphql-tag": "^2.10.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.29"
+    "zone.js": "~0.8.29",
+    "face-api.js": "^0.19.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.13.8",
