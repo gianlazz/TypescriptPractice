@@ -34,6 +34,16 @@ export class PersonImageResolver {
     }
 
     @Authorized()
+    @Query((type) => Person)
+    public async getPerson(@Arg("id", () => Int) id: number): Promise<Person> {
+        try {
+            return await Person.findOne({ where: { id: id }});
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    @Authorized()
     @Query((type) => [Image])
     public async getAllImages(): Promise<Image[]> {
         try {
