@@ -9,6 +9,21 @@
 
 <ion-content>
   <ion-list>
+      <ion-item>
+        <ion-card>
+            <ion-img src="{{person.images[0].image}}"></ion-img>
+            <ion-card-header>
+              <ion-card-subtitle>Details</ion-card-subtitle>
+              <ion-card-title>Name: {{person.name}}</ion-card-title>
+            </ion-card-header>
+          
+            <ion-card-content>
+
+            </ion-card-content>
+          </ion-card>
+      </ion-item>
+
+      
       <ion-item *ngFor ="let image of person.images" >
           <ion-card>
               <ion-img src="{{image.image}}"></ion-img>
