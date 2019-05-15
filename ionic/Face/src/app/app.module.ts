@@ -13,6 +13,7 @@ import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpClientModule } from '@angular/common/http';
+import { SERVER_URL } from 'src/environments/environment';
 
 
 @NgModule({
@@ -37,7 +38,7 @@ export class AppModule {
   constructor(apollo: Apollo, httpLink: HttpLink) {
     apollo.create({
       link: httpLink.create({ 
-        uri: 'http://localhost:8080/graphql',
+        uri: SERVER_URL,
         withCredentials: true
       }),
       cache: new InMemoryCache(),
