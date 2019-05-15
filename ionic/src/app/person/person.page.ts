@@ -27,6 +27,7 @@ export class PersonPage implements OnInit {
           images {
             id
             image
+            savedAtTimestamp
           }
         }
       }
