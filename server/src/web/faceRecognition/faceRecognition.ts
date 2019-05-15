@@ -195,11 +195,11 @@ export class FaceRecognition {
   }
 
   private async loadModels(): Promise<boolean> {
-    await faceDetectionNet.loadFromDisk(process.cwd() + process.env.MODELS_PATH);
+    await faceDetectionNet.loadFromDisk(process.cwd() + "/models/");
     // await faceapi.nets.faceLandmark68Net.loadFromDisk(__dirname + "/../../../../models/");
-    await faceapi.nets.faceRecognitionNet.loadFromDisk(process.cwd() + process.env.MODELS_PATH);
-    await faceapi.nets.faceLandmark68TinyNet.loadFromDisk(process.cwd() + process.env.MODELS_PATH);
-    await faceapi.nets.tinyFaceDetector.loadFromDisk(process.cwd() + process.env.MODELS_PATH);
+    await faceapi.nets.faceRecognitionNet.loadFromDisk(process.cwd() + "/models/");
+    await faceapi.nets.faceLandmark68TinyNet.loadFromDisk(process.cwd() + "/models/");
+    await faceapi.nets.tinyFaceDetector.loadFromDisk(process.cwd() + "/models/");
     return true;
   }
 
