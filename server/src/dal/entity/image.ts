@@ -16,6 +16,14 @@ export class Image extends BaseEntity {
     @Column({ nullable: true })
     public image: string;
 
+    @Field((type) => String, { nullable: true })
+    public async savedAtTimestamp(): Promise<string> {
+        const personImage = await PersonImage.findOne({
+            where: { imageId: this.id }
+        });
+        return personImage.timestamp;
+    }
+
     @OneToMany((type) => PersonImage, (personImage) => personImage.image)
     public personsConnection: PersonImage[];
 
