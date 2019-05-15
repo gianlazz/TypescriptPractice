@@ -64,6 +64,7 @@ export class PersonPage implements OnInit {
       } else {
         console.log("Rename failed.");
       }
+      this.renaming = false;
     });
   }
 

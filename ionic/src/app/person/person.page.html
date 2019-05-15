@@ -13,8 +13,8 @@
         <ion-card>
             <ion-img src="{{person.images[0].image}}"></ion-img>
             <ion-card-header>
-              <ion-card-subtitle>First Seen: {{person.images[0].image.savedAtTimestamp | date: 'yyy-MM-dd'}}</ion-card-subtitle>
-              <ion-card-title>Name: {{person.name}}</ion-card-title>
+              <ion-card-subtitle>First Seen: {{person.images[0].savedAtTimestamp | date: 'yyy-MM-dd'}}</ion-card-subtitle>
+              <ion-card-title>{{person.name}}</ion-card-title>
             </ion-card-header>
           
             <ion-card-content>
