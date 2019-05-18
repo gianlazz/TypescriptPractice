@@ -59,7 +59,9 @@ If you're having issues you can clear out the images:
 - Add an ormconfig.json to the server based on ormconfig.sample.json
 - Add a .env file to the server based on .env.sample
 
-# Configure Ionic To Appflow Deployment
+# Deploy Ionic Natively to Android
+
+# Configure Ionic To Appflow Deployment for live udpates
 - Add user permissions for global npm installs
     - sudo chown -R $(whoami) ~/.npm*
     - sudo chown -R $USER /usr/local/lib/node_modules
@@ -82,6 +84,8 @@ If you're having issues you can clear out the images:
         --variable CHANNEL_NAME="Master" \
         --variable UPDATE_METHOD="background"
         ```
+    - Commit
+    - Push
 
 # CI-CD Jenkins
 In a fresh cloud server with docker installed run the following.
