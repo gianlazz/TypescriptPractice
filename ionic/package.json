@@ -29,13 +29,14 @@
     "apollo-angular-link-http": "^1.6.0",
     "apollo-cache-inmemory": "^1.5.1",
     "apollo-client": "^2.5.1",
+    "cordova-plugin-ionic": "5.3.0",
     "core-js": "^2.5.4",
+    "face-api.js": "^0.19.0",
     "graphql": "^14.3.0",
     "graphql-tag": "^2.10.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.29",
-    "face-api.js": "^0.19.0"
+    "zone.js": "~0.8.29"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.13.8",
@@ -63,5 +64,14 @@
     "tslint": "~5.16.0",
     "typescript": "~3.1.6"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-ionic": {
+        "APP_ID": "1f8484fc",
+        "CHANNEL_NAME": "Master",
+        "UPDATE_METHOD": "background"
+      }
+    }
+  }
 }

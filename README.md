@@ -59,6 +59,30 @@ If you're having issues you can clear out the images:
 - Add an ormconfig.json to the server based on ormconfig.sample.json
 - Add a .env file to the server based on .env.sample
 
+# Configure Ionic To Appflow Deployment
+- Add user permissions for global npm installs
+    - sudo chown -R $(whoami) ~/.npm*
+    - sudo chown -R $USER /usr/local/lib/node_modules
+- Install cordova package globally
+    - npm i -g cordova
+- Prepare Cordova dependencies
+    - ionic cordova platform add android
+    - ionic integrations enable cordova --add
+
+- https://dashboard.ionicframework.com/
+    - Select your app
+    - Deploy
+        - Channels
+        - Click Install Instructions
+        - Run the command
+        Example
+        ```
+        cordova plugin add cordova-plugin-ionic --save \
+        --variable APP_ID="YourAppId" \
+        --variable CHANNEL_NAME="Master" \
+        --variable UPDATE_METHOD="background"
+        ```
+
 # CI-CD Jenkins
 In a fresh cloud server with docker installed run the following.
 
