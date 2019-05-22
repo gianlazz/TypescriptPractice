@@ -14,6 +14,7 @@ import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpClientModule } from '@angular/common/http';
 import { SERVER_URL } from 'src/environments/environment';
+import { IonicStorageModule } from '@ionic/storage';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { SERVER_URL } from 'src/environments/environment';
     HttpClientModule,
     ApolloModule,
     HttpLinkModule,
+    IonicStorageModule.forRoot()
   ],
   providers: [
     StatusBar,
