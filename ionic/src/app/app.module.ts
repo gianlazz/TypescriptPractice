@@ -9,7 +9,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
-import { ApolloBoostModule, ApolloBoost } from "apollo-angular-boost";
 import { ApolloModule, Apollo } from 'apollo-angular';
 import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -29,7 +28,6 @@ import { setContext } from "apollo-link-context";
     AppRoutingModule,
     HttpClientModule,
     ApolloModule,
-    ApolloBoostModule,
     HttpLinkModule,
     IonicStorageModule.forRoot()
   ],
@@ -41,20 +39,20 @@ import { setContext } from "apollo-link-context";
   bootstrap: [AppComponent]
 })
 export class AppModule { 
-  constructor(boost: ApolloBoost, apollo: Apollo, httpLink: HttpLink) {
+  constructor(apollo: Apollo, httpLink: HttpLink) {
 
-    boost.create({
-      uri: SERVER_URL,
-      request: async operation => {
-        operation.setContext({
-          headers: {
-            Authorization: localStorage.getItem('token')
-          }
-        })
-      }
-    })
+    // boost.create({
+    //   uri: SERVER_URL,
+    //   request: async operation => {
+    //     operation.setContext({
+    //       headers: {
+    //         Authorization: localStorage.getItem('token')
+    //       }
+    //     })
+    //   }
+    // });
 
-    const http = httpLink.create({ 
+    const apolloLink = httpLink.create({ 
       uri: SERVER_URL,
       withCredentials: true
     });
@@ -69,13 +67,16 @@ export class AppModule {
         return {};
       } else {
         return {
-          headers: headers.append('Authorization', `Bearer ${token}`)
+          headers: {
+            ...headers,
+            Authorization: headers.append('Authorization', `Bearer ${token}`)
+          }
         };
       }
     });
 
     apollo.create({
-      link: auth.concat(http),
+      link: auth.concat(apolloLink),
       cache: new InMemoryCache(),
     })
   }

@@ -21,28 +21,28 @@ export class AuthenticationResolver {
         return await User.findOne({ where: { id: data.userId}});
     }
 
-    @Mutation(() => Boolean)
+    @Mutation(() => String)
     public async login(
         @Arg("email") email: string,
         @Arg("password") password: string,
         @Ctx() ctx: IMyContext
-    ): Promise<boolean> {
+    ): Promise<string> {
         const user = await User.findOne({ where: { email } });
 
         if (!user) {
-            return false;
+            return null;
         }
 
         const valid = await bcrypt.compare(password, user.password);
 
         if (!valid) {
-            return false;
+            return null;
         }
 
         const accessToken = sign({ userId: user.id}, process.env.ACCESS_TOKEN_SECRET);
-        // ctx.res.cookie("access-token", accessToken);
         ctx.res.set('Authorization', accessToken);
-        return true;
+
+        return accessToken;
     }
 
     @Mutation(() => Boolean)
@@ -53,14 +53,14 @@ export class AuthenticationResolver {
         return true;
     }
 
-    @Mutation(() => Boolean)
+    @Mutation(() => String)
     public async register(
         @Arg("data") { username, email, password }: RegisterInput,
         @Ctx() ctx: IMyContext
-        ): Promise<boolean> {
+        ): Promise<string> {
         const existingUser = await User.findOne({ where: { email }});
         if (existingUser) {
-            return false;
+            return null;
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -71,22 +71,21 @@ export class AuthenticationResolver {
         }).save();
 
         const accessToken = sign({ userId: user.id}, process.env.ACCESS_TOKEN_SECRET);
-        // ctx.res.cookie("access-token", accessToken);
         ctx.res.set('Authorization', accessToken);
 
-        return true;
+        return accessToken;
     }
 
-    @Mutation(() => Boolean)
+    @Mutation(() => String)
     public async registerWithInvite(
         @Arg("data") { username, email, password }: RegisterInput,
         @Ctx() ctx: IMyContext
-    ): Promise<boolean> {
+    ): Promise<string> {
         try {
             return await this.register({ username, email, password }, ctx);
         } catch (error) {
             console.error(error);
-            return false;
+            return null;
         }
     }
 

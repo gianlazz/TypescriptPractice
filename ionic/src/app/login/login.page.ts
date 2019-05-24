@@ -9,9 +9,6 @@ import { Storage } from '@ionic/storage';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-@Injectable({
-  providedIn: 'root'
-})
 export class LoginPage implements OnInit {
 
   private apollo: Apollo;
@@ -32,17 +29,16 @@ export class LoginPage implements OnInit {
           login(password: "${this.password}", email: "${this.email}")
         }
       `
-    }).subscribe(async ({res, Authorization}) => {
-      console.log(Authorization);
-      const token = res.get('Authorization');
-      const isCompleted = await this.storage.set('token', token);
-      await this.router.navigateByUrl('/');
+    }).subscribe(async (res) => {
+      console.log(res);
+      const token = res.data.login;
 
-
-      if (res.data.login !== true) {
-        console.log("Login failure");
-      } else if (res.data.login === true) {
+      if (token) {
         console.log("Login successful.");
+        await this.storage.set('token', token);
+        await this.router.navigateByUrl('/');
+      } else {
+        console.log("Login failure");
       }
     });
 

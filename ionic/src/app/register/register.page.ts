@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +16,7 @@ export class RegisterPage implements OnInit {
   private email: string = "";
   private password: string = "";
 
-  constructor(apollo: Apollo) {
+  constructor(apollo: Apollo, private storage: Storage, private router: Router) {
     this.apollo = apollo;
   }
 
@@ -32,10 +34,15 @@ export class RegisterPage implements OnInit {
           })
         }
       `
-    }).subscribe(res => {
-      if (res.data.register !== true) {
+    }).subscribe(async res => {
+      console.log(res);
+      const token = res.data.register;
+
+      if (token) {
         console.log("Registration failure");
-      } else if (res.data.register === true) {
+        await this.storage.set('token', token);
+        await this.router.navigateByUrl('/');
+      } else {
         console.log("Registration successful.");
       }
     });
