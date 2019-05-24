@@ -3,6 +3,7 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -11,42 +12,26 @@ import { Storage } from '@ionic/storage';
 })
 export class RegisterPage implements OnInit {
 
-  private apollo: Apollo;
   username: string = "";
   email: string = "";
   password: string = "";
 
-  constructor(apollo: Apollo, private storage: Storage, private router: Router) {
-    this.apollo = apollo;
-  }
+  constructor(
+    private apollo: Apollo, 
+    private storage: Storage, 
+    private router: Router,
+    private auth: AuthService
+    ) { }
 
   ngOnInit() {
   }
 
   async register() {
-    this.apollo.mutate({
-      mutation: gql`
-        mutation {
-          register(data: {
-            username: "${this.username}",
-            email: "${this.email}",
-            password: "${this.password}"
-          })
-        }
-      `
-    }).subscribe(async res => {
-      console.log(res);
-      const token = res.data.register;
+    const result = await this.auth.register(this.username, this.email, this.password);
 
-      if (token) {
-        console.log("Registration failure");
-        await this.storage.set('token', token);
-        await this.router.navigateByUrl('/');
-      } else {
-        console.log("Registration successful.");
-      }
-    });
-
-}
+    if (result) {
+      await this.router.navigateByUrl('/');
+    }
+  }
 
 }

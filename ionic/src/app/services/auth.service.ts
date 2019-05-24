@@ -44,7 +44,7 @@ export class AuthService {
     delete this.token;
   }
 
-  async register(username: string, email: string, password: string) {
+  async register(username: string, email: string, password: string): Promise<string> {
     const result = await this.apollo.mutate({
       mutation: gql`
         mutation {
@@ -59,6 +59,7 @@ export class AuthService {
 
     console.log(result);
     this.token = result.data.register;
+    return this.token;
   }
 
   async user(): Promise<any> {
