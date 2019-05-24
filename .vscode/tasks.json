@@ -137,6 +137,15 @@
             "problemMatcher": []
         },
         {
+            "label": "Deploy",
+            "type": "shell",
+            "command": "ssh root@104.248.70.206 && echo ${input:ServerPassword} && cd TypescriptPractice/ && git pull && docker-compose pull && docker-compose down && docker-compose up -d",
+            "options": {
+                "cwd": "${workspaceRoot}"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "SSH Into Digital Ocean",
             "type": "shell",
             "command": "ssh root@104.248.70.206",
@@ -150,6 +159,12 @@
         {
             "id": "MigrationName",
             "description": "Enter Typeorm Migration Name",
+            "default": "",
+            "type": "promptString"
+        },
+        {
+            "id": "ServerPassword",
+            "description": "Enter Digital Ocean SSH Password",
             "default": "",
             "type": "promptString"
         }
