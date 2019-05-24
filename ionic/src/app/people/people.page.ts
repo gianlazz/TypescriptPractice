@@ -10,7 +10,7 @@ import gql from 'graphql-tag';
 export class PeoplePage implements OnInit {
 
   private apollo: Apollo;
-  private persons: [] = [];
+  persons: [] = [];
 
   constructor(apollo: Apollo) {
     this.apollo = apollo;

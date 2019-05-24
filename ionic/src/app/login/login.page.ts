@@ -12,8 +12,8 @@ import { Storage } from '@ionic/storage';
 export class LoginPage implements OnInit {
 
   private apollo: Apollo;
-  private email: string = "";
-  private password: string = "";
+  email: string = "";
+  password: string = "";
 
   constructor(apollo: Apollo, private storage: Storage, private router: Router) {
     this.apollo = apollo;

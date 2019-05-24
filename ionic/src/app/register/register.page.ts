@@ -12,9 +12,9 @@ import { Storage } from '@ionic/storage';
 export class RegisterPage implements OnInit {
 
   private apollo: Apollo;
-  private username: string = "";
-  private email: string = "";
-  private password: string = "";
+  username: string = "";
+  email: string = "";
+  password: string = "";
 
   constructor(apollo: Apollo, private storage: Storage, private router: Router) {
     this.apollo = apollo;

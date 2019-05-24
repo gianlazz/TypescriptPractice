@@ -11,10 +11,10 @@ import * as faceapi from 'face-api.js';
 })
 export class PersonPage implements OnInit {
 
-  private id: number;
-  private person: any;
-  private renaming: boolean;
-  private newName: string;
+  id: number;
+  person: any;
+  renaming: boolean;
+  newName: string;
 
   constructor(private route: ActivatedRoute, private apollo: Apollo) {
     this.renaming = false;
