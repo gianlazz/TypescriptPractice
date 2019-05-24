@@ -17,6 +17,8 @@ import { SERVER_URL } from 'src/environments/environment';
 import { IonicStorageModule } from '@ionic/storage';
 
 import { setContext } from "apollo-link-context";
+import { Storage } from '@ionic/storage';
+
 
 
 @NgModule({
@@ -39,18 +41,7 @@ import { setContext } from "apollo-link-context";
   bootstrap: [AppComponent]
 })
 export class AppModule { 
-  constructor(apollo: Apollo, httpLink: HttpLink) {
-
-    // boost.create({
-    //   uri: SERVER_URL,
-    //   request: async operation => {
-    //     operation.setContext({
-    //       headers: {
-    //         Authorization: localStorage.getItem('token')
-    //       }
-    //     })
-    //   }
-    // });
+  constructor(apollo: Apollo, httpLink: HttpLink, storage: Storage) {
 
     const apolloLink = httpLink.create({ 
       uri: SERVER_URL,
@@ -58,11 +49,7 @@ export class AppModule {
     });
 
     const auth = setContext((_, { headers }) => {
-      // get the authentication token from local storage if it exists
-      const token = localStorage.getItem('token');
-      // return the headers to the context so httpLink can read them
-      // in this example we assume headers property exists
-      // and it is an instance of HttpHeaders
+      const token = storage.get('token');
       if (!token) {
         return {};
       } else {
