@@ -1,15 +1,18 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { TutorialGuard } from './guards/tutorial.guard';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [TutorialGuard]
   },
   {
     path: 'home',
-    loadChildren: './home/home.module#HomePageModule'
+    loadChildren: './home/home.module#HomePageModule',
+    canActivate: [TutorialGuard]
   },
   {
     path: 'list',
@@ -19,7 +22,8 @@ const routes: Routes = [
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'timeline', loadChildren: './timeline/timeline.module#TimelinePageModule' },
   { path: 'people', loadChildren: './people/people.module#PeoplePageModule' },
-  { path: 'person', loadChildren: './person/person.module#PersonPageModule' }
+  { path: 'person', loadChildren: './person/person.module#PersonPageModule' },
+  { path: 'intro', loadChildren: './intro/intro.module#IntroPageModule' }
 ];
 
 @NgModule({

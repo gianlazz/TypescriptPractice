@@ -18,7 +18,9 @@ export const customAuthChecker: AuthChecker<IMyContext> = async (
       console.error("Custom Auth Checker didn't find an access-token.");
       return false;
     }
-    const accessToken = context.req.cookies["access-token"];
+    // const accessToken = context.req.cookies["access-token"];
+    const accessToken = context.req.get('Authorization');
+
     const data = verify(accessToken, process.env.ACCESS_TOKEN_SECRET) as any;
     if (data.userId) {
       const user =  await User.findOne({ where: { id: data.userId}});
