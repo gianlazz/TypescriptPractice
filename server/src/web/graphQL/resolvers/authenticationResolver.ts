@@ -14,7 +14,9 @@ export class AuthenticationResolver {
         if (!ctx.req.cookies["access-token"]) {
             return null;
         }
-        const accessToken = ctx.req.cookies["access-token"];
+        // const accessToken = ctx.req.cookies["access-token"];
+        const accessToken = ctx.req.get('Authorization');
+
         const data = verify(accessToken, process.env.ACCESS_TOKEN_SECRET) as any;
         return await User.findOne({ where: { id: data.userId}});
     }
@@ -38,7 +40,8 @@ export class AuthenticationResolver {
         }
 
         const accessToken = sign({ userId: user.id}, process.env.ACCESS_TOKEN_SECRET);
-        ctx.res.cookie("access-token", accessToken);
+        // ctx.res.cookie("access-token", accessToken);
+        ctx.res.set('Authorization', accessToken);
         return true;
     }
 
@@ -68,7 +71,8 @@ export class AuthenticationResolver {
         }).save();
 
         const accessToken = sign({ userId: user.id}, process.env.ACCESS_TOKEN_SECRET);
-        ctx.res.cookie("access-token", accessToken);
+        // ctx.res.cookie("access-token", accessToken);
+        ctx.res.set('Authorization', accessToken);
 
         return true;
     }
