@@ -56,7 +56,7 @@ export class AppModule {
         return {
           headers: {
             ...headers,
-            Authorization: headers.append('Authorization', `Bearer ${token}`)
+            Authorization: token
           }
         };
       }
