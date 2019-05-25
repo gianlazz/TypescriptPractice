@@ -17,8 +17,6 @@ export class RegisterPage implements OnInit {
   password: string = "";
 
   constructor(
-    private apollo: Apollo, 
-    private storage: Storage, 
     private router: Router,
     private auth: AuthService
     ) { }

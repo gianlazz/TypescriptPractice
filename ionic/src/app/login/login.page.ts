@@ -1,9 +1,10 @@
-import { Component, OnInit, Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
-import gql from 'graphql-tag';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Storage } from '@ionic/storage';
 import { AuthService } from '../services/auth.service';
+import { ModalController, NavController } from '@ionic/angular';
+import { AlertService } from '../services/alert.service';
+import { RegisterPage } from '../register/register.page';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -16,20 +17,33 @@ export class LoginPage implements OnInit {
   password: string = "";
 
   constructor(
-    private apollo: Apollo, 
-    private storage: Storage, 
-    private router: Router,
-    private auth: AuthService
+    private modalController: ModalController,
+    private authService: AuthService,
+    private navCtrl: NavController,
+    private alertService: AlertService
     ) { }
 
   ngOnInit() {
   }
 
-  async login() {
-    const result = await this.auth.login(this.email, this.password);
+  dismissLogin() {
+    this.modalController.dismiss();
+  }
 
+  async registerModal() {
+    this.dismissLogin();
+    const registerModal = await this.modalController.create({
+      component: RegisterPage
+    });
+    return await registerModal.present();
+  }
+
+  async login(form: NgForm) {
+    const result = await this.authService.login(form.value.email, form.value.password)
     if (result) {
-      await this.router.navigateByUrl('/');
+      this.alertService.presentToast("Logged In");
+      this.dismissLogin();
+      this.navCtrl.navigateRoot('/');
     }
   }
 

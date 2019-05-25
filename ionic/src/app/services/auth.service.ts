@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { AnySoaRecord } from 'dns';
 
 @Injectable({
   providedIn: 'root'
@@ -82,7 +82,7 @@ export class AuthService {
 
   async getToken(): Promise<string> {
     try {
-      this.token = await this.storage.getItem('token')
+      this.token = await this.storage.get('token')
 
       if(this.token != null) {
         this.isLoggedIn=true;
