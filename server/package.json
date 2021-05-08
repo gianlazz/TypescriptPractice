@@ -65,7 +65,7 @@
     "ts-process-promises": "^1.0.2",
     "type-graphql": "^0.17.1",
     "typedi": "^0.8.0",
-    "typeorm": "^0.2.16",
+    "typeorm": "^0.2.25",
     "uuid": "^3.3.2",
     "vue": "^2.6.10",
     "youtube-stream-url": "^1.0.1"
